@@ -9,8 +9,8 @@ public class FirestoreContext
 
     public FirestoreContext(IConfiguration configuration)
     {
-        string pathToServiceAccountKey = configuration["Firebase:ServiceAccountKey"];
-        string projectId = configuration["Firebase:ProjectId"];
+        string pathToServiceAccountKey = configuration["Firebase:ServiceAccountKey"]!;
+        string projectId = configuration["Firebase:ProjectId"]!;
 
         FirebaseApp app = FirebaseApp.DefaultInstance;
 

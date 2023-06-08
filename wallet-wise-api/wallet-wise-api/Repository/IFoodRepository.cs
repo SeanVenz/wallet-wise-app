@@ -2,6 +2,8 @@
 {
     public interface IFoodRepository
     {
-        Task<string> CreateFood(Food food);
+        public Task<string> CreateFood(Food food, IFormFile file);
+        public Task<IEnumerable<Food>> GetAllFoods();
+        public Task<Food?> GetFood(string documentId);
     }
 }
