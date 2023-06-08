@@ -53,7 +53,7 @@ app.Run();
 void ConfigureServices(IServiceCollection services)
 {
     services.AddControllers();
-
+    services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     services.AddSingleton<FirestoreContext>();
     services.AddScoped<IFoodService, FoodService>();
     services.AddScoped<IFoodRepository, FoodRepository>();

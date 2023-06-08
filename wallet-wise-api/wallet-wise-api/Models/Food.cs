@@ -11,4 +11,6 @@ public class Food
     public bool isAvailable { get; set; }
     [FirestoreProperty]
     public int Price { get; set; }
+    [FirestoreProperty]
+    public string? ImageUrl { get; set; }
 }
