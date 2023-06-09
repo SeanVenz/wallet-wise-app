@@ -16,7 +16,7 @@ namespace wallet_wise_api.Service
 
         public async Task<FoodDto?> CreateFood(FoodCreationDto foodDto)
         {
-            if(foodDto == null) 
+            if (foodDto == null)
             {
                 return null;
             }

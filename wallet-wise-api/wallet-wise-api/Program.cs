@@ -1,10 +1,4 @@
-using FirebaseAdmin;
-using Google.Apis.Auth.OAuth2;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using System.IO;
 using System.Reflection;
 using wallet_wise_api.Repository;
 using wallet_wise_api.Service;

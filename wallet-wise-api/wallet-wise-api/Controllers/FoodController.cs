@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using wallet_wise_api.Service;
 
-[Route("api/[controller]")]
+[Route("api/controller")]
 [ApiController]
 public class FoodController : ControllerBase
 {
@@ -22,13 +22,13 @@ public class FoodController : ControllerBase
     /// <remarks>
     /// Sample request:
     /// 
-    ///      POST api/Food
+    ///      POST api/Foods
     ///     {
     ///         "FoodType": "Snacks",
     ///         "Name": "Ngohiong"
     ///         "isAvailable" : "true"
     ///         "Price": "25"
-    ///         "File": "cooperation.png"
+    ///         "File": "ngohiong.png"
     ///     }
     ///
     /// </remarks>
@@ -62,12 +62,42 @@ public class FoodController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(500, ex.Message);
+            return StatusCode(500, "Something went wrong");
         }
     }
 
-
-    [HttpGet]
+    /// <summary>
+    /// Gets All Foods
+    /// </summary>
+    /// <returns>List of Foods</returns>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///     GET api/foods
+    ///     {
+    ///         "FoodType": "Snacks",
+    ///         "Name": "Ngohiong"
+    ///         "isAvailable" : "true"
+    ///         "Price": "25"
+    ///         "File": "cooperation.png"
+    ///     },
+    ///     {
+    ///         "FoodType": "Main Dish",
+    ///         "Name": "Siomai"
+    ///         "isAvailable" : "true"
+    ///         "Price": "10"
+    ///         "File": "siomai.png"      
+    ///     }
+    /// 
+    /// </remarks>
+    /// <response code="200">Successfully retrieved Foods</response>
+    /// <response code="204">No Content</response>
+    /// <response code="500">Internal server error</response>
+    [HttpGet(Name = "GetAllFoods")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(FoodDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status204NoContent)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> GetAllFoods()
     {
         try

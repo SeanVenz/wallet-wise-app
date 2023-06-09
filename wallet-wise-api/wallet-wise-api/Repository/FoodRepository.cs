@@ -1,6 +1,5 @@
 ﻿using Google.Cloud.Firestore;
 using Google.Cloud.Storage.V1;
-using System.IO;
 using Microsoft.AspNetCore.StaticFiles;
 
 namespace wallet_wise_api.Repository
