@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using wallet_wise_api.Dto;
 using wallet_wise_api.Repository;
 
 namespace wallet_wise_api.Service
@@ -15,14 +14,14 @@ namespace wallet_wise_api.Service
             _mapper = mapper;
         }
 
-        public async Task<FoodDto?> CreateFood(FoodCreationDto foodDto, IFormFile file)
+        public async Task<FoodDto?> CreateFood(FoodCreationDto foodDto)
         {
-            if(foodDto == null || file == null) 
+            if (foodDto == null)
             {
                 return null;
             }
             var foodModel = _mapper.Map<Food>(foodDto);
-            var documentId = await _repository.CreateFood(foodModel, file);
+            var documentId = await _repository.CreateFood(foodModel);
             var createdFood = await _repository.GetFood(documentId);
 
             return _mapper.Map<FoodDto>(createdFood);

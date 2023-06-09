@@ -13,4 +13,5 @@ public class Food
     public int Price { get; set; }
     [FirestoreProperty]
     public string? ImageUrl { get; set; }
+    public IFormFile? File { get; set; }
 }
