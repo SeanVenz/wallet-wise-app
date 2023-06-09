@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using wallet_wise_api.Dto;
 using wallet_wise_api.Service;
 
 [Route("api/[controller]")]
@@ -15,25 +14,58 @@ public class FoodController : ControllerBase
         _logger = logger;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> Create([FromForm] FoodFormModelDto foodFormModel)
+    /// <summary>
+    /// Creates Food
+    /// </summary>
+    /// <param name="foodFormModel">Food Details</param>
+    /// <returns>Newly created Food</returns>
+    /// <remarks>
+    /// Sample request:
+    /// 
+    ///      POST api/Food
+    ///     {
+    ///         "FoodType": "Snacks",
+    ///         "Name": "Ngohiong"
+    ///         "isAvailable" : "true"
+    ///         "Price": "25"
+    ///         "File": "cooperation.png"
+    ///     }
+    ///
+    /// </remarks>
+    /// <response code="201">Successfully created a Food</response>
+    /// <response code="400">Food details are invalid</response>
+    /// <response code="500">Internal server error</response>
+    [HttpPost(Name = "CreateFood")]
+    [Consumes("multipart/form-data")]
+    [Produces("application/json")]
+    [ProducesResponseType(typeof(FoodCreationDto), StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Create([FromForm] FoodCreationDto foodFormModel)
     {
         try
         {
-            var documentId = await _service.CreateFood(foodFormModel.Food!, foodFormModel.File!);
+            if (foodFormModel == null)
+            {
+                return BadRequest("Invalid input");
+            }
 
-            if(documentId == null)
+            var documentId = await _service.CreateFood(foodFormModel);
+
+            if (documentId == null)
             {
                 return BadRequest("Recheck input");
             }
+
             return Ok(documentId);
         }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(500, "Something went wrong");
+            return StatusCode(500, ex.Message);
         }
     }
+
 
     [HttpGet]
     public async Task<IActionResult> GetAllFoods()

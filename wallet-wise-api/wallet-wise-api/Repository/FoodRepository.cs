@@ -21,29 +21,44 @@ namespace wallet_wise_api.Repository
             _foodDocument = _foodCollection.Document();
         }
 
-        public async Task<string> CreateFood(Food food, IFormFile file)
+        public async Task<string> CreateFood(Food foodDto)
         {
             // Get the extension of the file
-            var extension = Path.GetExtension(file.FileName);
+            var extension = Path.GetExtension(foodDto.File!.FileName);
 
+            //create unique identifier for the image
             var imageId = Guid.NewGuid().ToString() + extension;
+
+            // the folder in the firebase
             var objectName = $"foodImages/{imageId}";
 
-            // Get the MIME type of the file
+            // check type of the uploaded file 
             var provider = new FileExtensionContentTypeProvider();
-            if (!provider.TryGetContentType(file.FileName, out var contentType))
+            if (!provider.TryGetContentType(foodDto.File!.FileName, out var contentType))
             {
+                //default type
                 contentType = "application/octet-stream";
             }
 
+            //copy the contents of the uploaded file
             using (var memoryStream = new MemoryStream())
             {
-                await file.CopyToAsync(memoryStream);
+                await foodDto.File.CopyToAsync(memoryStream);
+                //upload the contents to bucket
                 await _storageClient.UploadObjectAsync(bucketName, objectName, contentType, memoryStream);
             }
 
-            // You can adjust the URL depending on the region of your bucket
-            food.ImageUrl = $"https://storage.googleapis.com/{bucketName}/{objectName}";
+            //modify public url based on bucket and its name
+            var imageUrl = $"https://storage.googleapis.com/{bucketName}/{objectName}";
+
+            var food = new Food
+            {
+                FoodType = foodDto.FoodType,
+                Name = foodDto.Name,
+                isAvailable = foodDto.isAvailable,
+                Price = foodDto.Price,
+                ImageUrl = imageUrl
+            };
 
             _foodDocument = await _foodCollection.AddAsync(food);
             return _foodDocument.Id;
@@ -70,38 +85,7 @@ namespace wallet_wise_api.Repository
                 return foodData;
             }
 
-            return null; // Or throw an exception if the document is not found
+            return null;
         }
-
-
-        //if filename is retained
-        //public async Task<string> CreateFood(Food food, IFormFile file)
-        //{
-        //    // Get the cleaned filename 
-        //    var filename = Path.GetFileName(file.FileName);
-
-        //    var objectName = $"foodImages/{filename}";
-
-        //    // Get the MIME type of the file
-        //    var provider = new FileExtensionContentTypeProvider();
-        //    if (!provider.TryGetContentType(file.FileName, out var contentType))
-        //    {
-        //        contentType = "application/octet-stream";
-        //    }
-
-        //    using (var memoryStream = new MemoryStream())
-        //    {
-        //        await file.CopyToAsync(memoryStream);
-        //        await _storageClient.UploadObjectAsync(bucketName, objectName, contentType, memoryStream);
-        //    }
-
-        //    // You can adjust the URL depending on the region of your bucket
-        //    food.ImageUrl = $"https://storage.googleapis.com/{bucketName}/{objectName}";
-
-        //    _foodDocument = await _foodCollection.AddAsync(food);
-        //    return _foodDocument.Id;
-        //}
-
-
     }
 }

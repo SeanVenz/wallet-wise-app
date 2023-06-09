@@ -3,7 +3,9 @@ using Google.Apis.Auth.OAuth2;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.OpenApi.Models;
 using System.IO;
+using System.Reflection;
 using wallet_wise_api.Repository;
 using wallet_wise_api.Service;
 
@@ -14,7 +16,25 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(options =>
+{
+    // Add header documentation in swagger 
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Version = "v1",
+        Title = "Wallet Wise API",
+        Description = "Food Services for CIT-U Students",
+        Contact = new OpenApiContact
+        {
+            Name = "WalletWise",
+            Url = new Uri("https://github.com/SeanVenz/wallet-wise-app")
+        },
+    }); ;
+    // Feed generated xml api docs to swagger
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    options.IncludeXmlComments(xmlPath);
+});
 
 // Retrieve the IWebHostEnvironment service from the builder's Services collection
 var env = builder.Services.BuildServiceProvider().GetRequiredService<IWebHostEnvironment>();
