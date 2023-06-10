@@ -47,7 +47,7 @@ namespace wallet_wise_api_tests.Controllers
         }
 
         [Fact]
-        public async Task GetAlLFoods_Exception_ReturnsServerError()
+        public async Task GetAlLFoods_Exception_ThrowsException()
         {
             //Arrange
             _mockFoodService.Setup(service => service.GetAllFoods())
@@ -57,6 +57,56 @@ namespace wallet_wise_api_tests.Controllers
             var result = await _controller.GetAllFoods();
 
             //Act
+            Assert.IsType<ObjectResult>(result);
+            Assert.Equal(500, ((ObjectResult)result).StatusCode);
+        }
+
+        [Fact]
+        public async Task CreateFood_CreatesFood_ReturnsCreatedFood()
+        {
+            //Arrange
+            var food = new FoodCreationDto();
+
+            _mockFoodService.Setup(service => service.CreateFood(food))
+                .ReturnsAsync(new FoodDto());
+
+            //Act
+            var result = await _controller.CreateFood(food);
+
+            //Assert
+            Assert.IsType<OkObjectResult>(result);
+        }
+
+        [Fact]
+        public async Task CreateFood_CannotCreate_ReturnsBadRequest()
+        {
+            //Arrange
+            var food = new FoodCreationDto();
+
+            _mockFoodService.Setup(service => service.CreateFood(food))
+                .ReturnsAsync((FoodDto?)null);
+
+            //Act
+            var result = await _controller.CreateFood(food);
+
+            //Assert
+            Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal(400, ((ObjectResult)result).StatusCode);
+        }
+
+        [Fact]
+        public async Task CreateFood_CannotCreate_ThrowsException()
+        {
+            //Arrange
+            var food = new FoodCreationDto();
+
+            _mockFoodService.Setup(service => service.CreateFood(food))
+                .Throws(new Exception());
+
+            //Act
+            var result = await _controller.CreateFood(food);
+
+            //Assert
             Assert.IsType<ObjectResult>(result);
             Assert.Equal(500, ((ObjectResult)result).StatusCode);
         }

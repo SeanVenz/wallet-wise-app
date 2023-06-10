@@ -41,7 +41,7 @@ public class FoodController : ControllerBase
     [ProducesResponseType(typeof(FoodCreationDto), StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create([FromForm] FoodCreationDto foodFormModel)
+    public async Task<IActionResult> CreateFood([FromForm] FoodCreationDto foodFormModel)
     {
         try
         {
@@ -79,14 +79,14 @@ public class FoodController : ControllerBase
     ///         "Name": "Ngohiong"
     ///         "isAvailable" : "true"
     ///         "Price": "25"
-    ///         "File": "cooperation.png"
+    ///         "Link": "<firebase-link/>"
     ///     },
     ///     {
     ///         "FoodType": "Main Dish",
     ///         "Name": "Siomai"
     ///         "isAvailable" : "true"
     ///         "Price": "10"
-    ///         "File": "siomai.png"      
+    ///         "Link": "<firebase-link/>"      
     ///     }
     /// 
     /// </remarks>
