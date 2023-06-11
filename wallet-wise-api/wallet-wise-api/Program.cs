@@ -50,7 +50,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-// Add CORS middleware to allow requests from any origin
+app.UseRouting();
+
+// Add CORS middleware
 app.UseCors(builder =>
 {
     builder.AllowAnyOrigin()
