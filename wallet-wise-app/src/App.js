@@ -1,91 +1,74 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { createFood, getAllFoods } from './service/FoodService';
 
 const App = () => {
-  const [foodType, setFoodType] = useState('');
-  const [name, setName] = useState('');
-  const [isAvailable, setIsAvailable] = useState(false);
-  const [price, setPrice] = useState(0);
-  const [imageFile, setImageFile] = useState(null);
+  const [foods, setFoods] = useState([]);
+  const [newFood, setNewFood] = useState({
+    foodType: '',
+    name: '',
+    isAvailable: false,
+    price: 0,
+    file: null,
+  });
 
-  const handleFormSubmit = async (event) => {
-    event.preventDefault();
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await getAllFoods();
+      setFoods(data);
+    };
 
-    try {
-      const formData = new FormData();
-      formData.append('foodType', foodType);
-      formData.append('name', name);
-      formData.append('isAvailable', isAvailable);
-      formData.append('price', price);
+    fetchData();
+  }, []);
 
-      await axios.post('https://localhost:7273/api/Food', formData, imageFile, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-
-      // Food item created successfully
-      alert('Food item created!');
-    } catch (error) {
-      console.error(error.message);
-      // Handle error here
-    }
+  const handleInputChange = (event) => {
+    setNewFood({
+      ...newFood,
+      [event.target.name]: event.target.value,
+    });
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setImageFile(file);
+  const handleCheckboxChange = (event) => {
+    setNewFood({
+      ...newFood,
+      isAvailable: event.target.checked,
+    });
+  };
+
+  const handleFileChange = (event) => {
+    setNewFood({
+      ...newFood,
+      file: event.target.files[0],
+    });
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    await createFood(newFood);
+    setNewFood({ foodType: '', name: '', isAvailable: false, price: 0, file: null });
+    const data = await getAllFoods();
+    setFoods(data);
   };
 
   return (
     <div>
-      <h2>Create Food Item</h2>
-      <form onSubmit={handleFormSubmit}>
-        <div>
-          <label htmlFor="foodType">Food Type:</label>
-          <input
-            type="text"
-            id="foodType"
-            value={foodType}
-            onChange={(e) => setFoodType(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="name">Name:</label>
-          <input
-            type="text"
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="isAvailable">Is Available:</label>
-          <input
-            type="checkbox"
-            id="isAvailable"
-            checked={isAvailable}
-            onChange={(e) => setIsAvailable(e.target.checked)}
-          />
-        </div>
-        <div>
-          <label htmlFor="price">Price:</label>
-          <input
-            type="number"
-            id="price"
-            value={price}
-            onChange={(e) => setPrice(Number(e.target.value))}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="image">Image:</label>
-          <input type="file" id="image" onChange={handleImageChange} required />
-        </div>
-        <button type="submit">Create</button>
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="foodType" onChange={handleInputChange} />
+        <input type="text" name="name" onChange={handleInputChange} />
+        <input type="checkbox" name="isAvailable" onChange={handleCheckboxChange} />
+        <input type="number" name="price" onChange={handleInputChange} />
+        <input type="file" name="file" onChange={handleFileChange} />
+        <button type="submit">Add food</button>
       </form>
+      <ul>
+        {foods.map((food) => (
+          <li key={food.id}>
+            <h2>{food.name}</h2>
+            <p>{food.foodType}</p>
+            <p>{food.price}</p>
+            <img src={food.imageUrl} alt={food.name} />
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

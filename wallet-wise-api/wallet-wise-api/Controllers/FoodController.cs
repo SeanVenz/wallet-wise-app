@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using wallet_wise_api.Service;
 
-[Route("api/controller")]
+[Route("api/foods")]
 [ApiController]
 public class FoodController : ControllerBase
 {

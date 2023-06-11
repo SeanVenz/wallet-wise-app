@@ -1,4 +1,5 @@
-﻿using Google.Cloud.Firestore;
+﻿using Google.Apis.Storage.v1.Data;
+using Google.Cloud.Firestore;
 using Google.Cloud.Storage.V1;
 using Microsoft.AspNetCore.StaticFiles;
 
@@ -46,6 +47,12 @@ namespace wallet_wise_api.Repository
                 //upload the contents to bucket
                 await _storageClient.UploadObjectAsync(bucketName, objectName, contentType, memoryStream);
             }
+
+            // Make the uploaded object publicly accessible
+            var storageObject = await _storageClient.GetObjectAsync(bucketName, objectName);
+            storageObject.Acl = storageObject.Acl ?? new List<ObjectAccessControl>();
+            storageObject.Acl.Add(new ObjectAccessControl { Entity = "allUsers", Role = "READER" });
+            await _storageClient.UpdateObjectAsync(storageObject);
 
             //modify public url based on bucket and its name
             food.ImageUrl = $"https://storage.googleapis.com/{bucketName}/{objectName}";
