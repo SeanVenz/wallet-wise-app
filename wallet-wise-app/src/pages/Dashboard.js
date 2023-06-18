@@ -11,11 +11,16 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
+      // Fetch full name from the user profile
+      if (auth.currentUser.displayName) {
+        setFullName(auth.currentUser.displayName);
+      }
+
+      // Fetch ID number from Firestore
       const userDocRef = doc(db, 'users', auth.currentUser.uid);
       const docSnap = await getDoc(userDocRef);
   
       if (docSnap.exists()) {
-        setFullName(docSnap.data().fullName);
         setIdNumber(docSnap.data().idNumber);
       } else {
         console.log("No such document!");
