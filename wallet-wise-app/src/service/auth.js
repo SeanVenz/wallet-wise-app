@@ -1,10 +1,19 @@
-import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from 'firebase/auth';
+import { auth, db } from '../firebase';  // Import Firestore database
+import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 
-const signUp = async (email, password) => {
+const signUp = async (email, password, fullName, idNumber) => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-  console.log('Signed up user:', userCredential.user);  // Log the user object
-  return userCredential.user;
+  const user = userCredential.user;
+  
+  // Update the user's profile with the full name
+  await updateProfile(user, { displayName: fullName });
+  
+  // Store the ID number in Firestore
+  const userDocRef = doc(db, 'users', user.uid);
+  await setDoc(userDocRef, { idNumber });
+  
+  return user;
 };
 
 const sendVerificationEmail = async (user) => {
