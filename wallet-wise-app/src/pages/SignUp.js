@@ -7,12 +7,12 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const userCredential = await authService.signUp(email, password);
-      await authService.sendVerificationEmail(userCredential.user);
+      const user = await authService.signUp(email, password);
+      await authService.sendVerificationEmail(user);
       navigate("/verify-email");
     } catch (err) {
       setError(err.message);
