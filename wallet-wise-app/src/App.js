@@ -1,76 +1,83 @@
-import React, { useEffect, useState } from 'react';
-import { createFood, getAllFoods } from './service/FoodService';
+import { Routes, Route, BrowserRouter as Router, Navigate } from "react-router-dom"; // Rename BrowserRouter to Router
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "./firebase";
+import authService from "./service/auth";
 
-const App = () => {
-  const [foods, setFoods] = useState([]);
-  const [newFood, setNewFood] = useState({
-    foodType: '',
-    name: '',
-    isAvailable: false,
-    price: 0,
-    file: null,
-  });
+import Landing from "./pages/Landing";
+import Login from "./pages/LogIn";
+import SignUp from "./pages/SignUp";
+import Dashboard from "./pages/Dashboard";
+import Admin from "./pages/Admin";
+import VerifyEmail from "./pages/VerifyEmail";
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const data = await getAllFoods();
-      setFoods(data);
-    };
+function App() {
+  const [user, loading, error] = useAuthState(auth);
 
-    fetchData();
-  }, []);
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
-  const handleInputChange = (event) => {
-    setNewFood({
-      ...newFood,
-      [event.target.name]: event.target.value,
-    });
-  };
-
-  const handleCheckboxChange = (event) => {
-    setNewFood({
-      ...newFood,
-      isAvailable: event.target.checked,
-    });
-  };
-
-  const handleFileChange = (event) => {
-    setNewFood({
-      ...newFood,
-      file: event.target.files[0],
-    });
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    await createFood(newFood);
-    setNewFood({ foodType: '', name: '', isAvailable: false, price: 0, file: null });
-    const data = await getAllFoods();
-    setFoods(data);
-  };
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="foodType" onChange={handleInputChange} />
-        <input type="text" name="name" onChange={handleInputChange} />
-        <input type="checkbox" name="isAvailable" onChange={handleCheckboxChange} />
-        <input type="number" name="price" onChange={handleInputChange} />
-        <input type="file" name="file" onChange={handleFileChange} />
-        <button type="submit">Add food</button>
-      </form>
-      <ul>
-        {foods.map((food) => (
-          <li key={food.id}>
-            <h2>{food.name}</h2>
-            <p>{food.foodType}</p>
-            <p>{food.price}</p>
-            <img src={food.imageUrl} alt={food.name} />
-          </li>
-        ))}
-      </ul>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route
+          path="/login"
+          element={
+            user && user.emailVerified ? (
+              <Navigate to="/dashboard" />
+            ) : (
+              <Login />
+            )
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            user && user.emailVerified ? (
+              <Navigate to="/login" />
+            ) : (
+              <SignUp />
+            )
+          }
+        />
+        <Route
+          path="/verify-email"
+          element={
+            user && !user.emailVerified ? (
+              <VerifyEmail />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            user && user.emailVerified && authService.isAdmin(user) ? (
+              <Admin />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            user && user.emailVerified ? (
+              <Dashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+      </Routes>
+    </Router>
   );
-};
+}
 
 export default App;
