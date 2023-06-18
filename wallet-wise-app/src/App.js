@@ -1,4 +1,9 @@
-import { Routes, Route, BrowserRouter as Router, Navigate } from "react-router-dom"; // Rename BrowserRouter to Router
+import {
+  Routes,
+  Route,
+  BrowserRouter as Router,
+  Navigate,
+} from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
 import authService from "./service/auth";
@@ -9,6 +14,7 @@ import SignUp from "./pages/SignUp";
 import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import VerifyEmail from "./pages/VerifyEmail";
+import ForgotPassword from "./pages/ForgotPassword";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -35,14 +41,11 @@ function App() {
             )
           }
         />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route
           path="/signup"
           element={
-            user && user.emailVerified ? (
-              <Navigate to="/login" />
-            ) : (
-              <SignUp />
-            )
+            user && user.emailVerified ? <Navigate to="/login" /> : <SignUp />
           }
         />
         <Route

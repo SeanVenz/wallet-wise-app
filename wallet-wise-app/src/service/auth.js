@@ -1,5 +1,5 @@
 import { auth } from '../firebase';
-import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailAndPassword, sendPasswordResetEmail, signOut, onAuthStateChanged } from 'firebase/auth';
 
 const signUp = async (email, password) => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
@@ -36,6 +36,10 @@ const isAdmin = (user) => {
   return false;
 };
 
+const sendResetPasswordEmail = async (email) => {
+  return await sendPasswordResetEmail(auth, email);
+};
+
 const observeAuthChanges = (callback) => {
   return onAuthStateChanged(auth, callback);
 };
@@ -46,6 +50,7 @@ const authService = {
   logIn,
   logOut,
   getCurrentUser,
+  sendResetPasswordEmail,
   isAdmin,
   observeAuthChanges,
 };

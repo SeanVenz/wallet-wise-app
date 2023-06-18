@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../service/auth";
+import { Link } from 'react-router-dom';
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -45,6 +46,7 @@ const LogIn = () => {
         {error && <p>{error}</p>}
         <button type="submit">Log in</button>
       </form>
+      <Link to="/forgot-password">Forgot password?</Link>
     </div>
   );
 };
