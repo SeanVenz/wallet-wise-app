@@ -3,12 +3,16 @@ import { createUserWithEmailAndPassword, sendEmailVerification, signInWithEmailA
 
 const signUp = async (email, password) => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  console.log('Signed up user:', userCredential.user);  // Log the user object
   return userCredential.user;
 };
 
 const sendVerificationEmail = async (user) => {
   if (user) {
+    console.log('Sending verification email to:', user.email);  // Log the email being sent to
     await sendEmailVerification(user);
+  } else {
+    console.log('No user provided to sendVerificationEmail');  // Log if no user is provided
   }
 };
 
