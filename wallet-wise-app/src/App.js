@@ -15,6 +15,7 @@ import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
+import Vendor from "./pages/Vendor"; // Import the Vendor component
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -73,6 +74,16 @@ function App() {
           element={
             user && user.emailVerified ? (
               <Dashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
+          path="/vendor"
+          element={
+            user && user.emailVerified ? (
+              <Vendor />
             ) : (
               <Navigate to="/login" />
             )
