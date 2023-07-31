@@ -65,7 +65,6 @@ const Dashboard = () => {
             Availability: {food.isAvailable ? "Available" : "Not Available"}
           </p>
           <p>Price: {food.price}</p>
-          <p>Price: {food.price}</p>
           <img src={food.imageUrl} alt= {food.name}></img>
         </div>
       ))}
