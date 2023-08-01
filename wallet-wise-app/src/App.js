@@ -3,6 +3,7 @@ import {
   Route,
   BrowserRouter as Router,
   Navigate,
+  Outlet, // Import Outlet
 } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
@@ -15,7 +16,12 @@ import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
-import Vendor from "./pages/Vendor"; // Import the Vendor component
+import Vendor from "./pages/Vendor";
+import Student from "./pages/Student/Student";
+import StudentSidebar from "./pages/Student/StudentSidebar";
+import StudentMarket from "./pages/Student/Market";
+import StudentProfile from "./pages/Student/Profile";
+import StudentDelivery from "./pages/Student/StudentDelivery";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -69,27 +75,52 @@ function App() {
             )
           }
         />
-        <Route
-          path="/dashboard"
-          element={
-            user && user.emailVerified ? (
-              <Dashboard />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
+        <Route path="/student">
+          <Route
+            index={true}
+            element={
+              <>
+                <StudentSidebar />
+                <Student />
+              </>
+            }
+          />
+          <Route
+            path="market"
+            element={
+              <>
+                <StudentSidebar />
+                <StudentMarket />
+              </>
+            }
+          />
+          <Route
+            path="profile"
+            element={
+              <>
+                <StudentSidebar />
+                <StudentProfile />
+              </>
+            }
+          />
+          <Route
+            path="delivery"
+            element={
+              <>
+                <StudentSidebar />
+                <StudentDelivery />
+              </>
+            }
+          />
+        </Route>
         <Route
           path="/vendor"
           element={
-            user && user.emailVerified ? (
-              <Vendor />
-            ) : (
-              <Navigate to="/login" />
-            )
+            user && user.emailVerified ? <Vendor /> : <Navigate to="/login" />
           }
         />
       </Routes>
+      <Outlet />
     </Router>
   );
 }
