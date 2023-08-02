@@ -12,7 +12,6 @@ import authService from "./service/auth";
 import Landing from "./pages/Landing";
 import Login from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
-import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -22,6 +21,7 @@ import StudentSidebar from "./pages/Student/StudentSidebar";
 import StudentMarket from "./pages/Student/Market";
 import StudentProfile from "./pages/Student/Profile";
 import StudentDelivery from "./pages/Student/StudentDelivery";
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -66,6 +66,16 @@ function App() {
           }
         />
         <Route
+          path="/dashboard"
+          element={
+            user && !user.emailVerified ? (
+              <Dashboard />
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
           path="/admin"
           element={
             user && user.emailVerified && authService.isAdmin(user) ? (
@@ -75,44 +85,20 @@ function App() {
             )
           }
         />
-        <Route path="/student">
-          <Route
-            index={true}
-            element={
-              <>
-                <StudentSidebar />
-                <Student />
-              </>
-            }
-          />
-          <Route
-            path="market"
-            element={
-              <>
-                <StudentSidebar />
-                <StudentMarket />
-              </>
-            }
-          />
-          <Route
-            path="profile"
-            element={
-              <>
-                <StudentSidebar />
-                <StudentProfile />
-              </>
-            }
-          />
-          <Route
-            path="delivery"
-            element={
-              <>
-                <StudentSidebar />
-                <StudentDelivery />
-              </>
-            }
-          />
-        </Route>
+        <Route
+          path="/student/*"
+          element={
+            <>
+              <StudentSidebar />
+              <Routes>
+                <Route index={true} element={<Student />} />
+                <Route path="market" element={<StudentMarket />} />
+                <Route path="profile" element={<StudentProfile />} />
+                <Route path="delivery" element={<StudentDelivery />} />
+              </Routes>
+            </>
+          }
+        />
         <Route
           path="/vendor"
           element={

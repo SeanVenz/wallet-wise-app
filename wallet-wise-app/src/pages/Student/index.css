@@ -1,0 +1,33 @@
+.student-side {
+  width: 100%;
+  height: 200px;
+}
+
+.student-side-ul {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  justify-content: center;
+}
+
+.student-side-li {
+  padding: 0;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  font-size: 3rem;
+  margin: 20px 0px 20px 0px;
+}
+
+.student-side-category {
+  padding: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
