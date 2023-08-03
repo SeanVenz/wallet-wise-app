@@ -24,6 +24,7 @@ const StudentMarket = () => {
 
   return (
     <div className="market-parent">
+      {/* FILTER BAR BUDGET AND SHOP */}
       <div className="market-filter">
         <div className="budget-filter">
           <div className="php-logo">
@@ -31,6 +32,14 @@ const StudentMarket = () => {
           </div>
           BUDGET:
           <input type="number" className="custom-input" defaultValue={0} />
+        </div>
+        <div className="shop-filter">
+          SHOP:
+          <input
+            type="text"
+            className="custom-input-shop"
+            defaultValue={"School Canteen"}
+          />
         </div>
       </div>
       {/* {foods.map((food, index) => (
@@ -45,6 +54,9 @@ const StudentMarket = () => {
           <img src={food.imageUrl} alt={food.name}></img>
         </div>
       ))} */}
+
+      {/* FILTER BAR FOOD TYPE */}
+      <div className="food-filter"></div>
     </div>
   );
 };

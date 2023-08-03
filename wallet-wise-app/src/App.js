@@ -68,7 +68,7 @@ function App() {
         <Route
           path="/dashboard"
           element={
-            user && !user.emailVerified ? (
+            user && user.emailVerified ? (
               <Dashboard />
             ) : (
               <Navigate to="/login" />
@@ -88,7 +88,7 @@ function App() {
         <Route
           path="/student/*"
           element={
-            <>
+            <div style={{ display: "flex" }}>
               <StudentSidebar />
               <Routes>
                 <Route index={true} element={<Student />} />
@@ -96,7 +96,7 @@ function App() {
                 <Route path="profile" element={<StudentProfile />} />
                 <Route path="delivery" element={<StudentDelivery />} />
               </Routes>
-            </>
+            </div>
           }
         />
         <Route

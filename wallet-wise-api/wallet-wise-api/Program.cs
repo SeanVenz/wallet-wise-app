@@ -40,7 +40,6 @@ System.Environment.SetEnvironmentVariable("GOOGLE_APPLICATION_CREDENTIALS", keyF
 ConfigureServices(builder.Services);
 
 var app = builder.Build();
-var cors = require('cors');
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -48,7 +47,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.use(cors());
+
 app.UseHttpsRedirection();
 
 app.UseRouting();

@@ -8,7 +8,6 @@ const StudentSidebar = () => {
   return (
     <div
       style={{
-        position: "fixed",
         top: 0,
         left: 0,
         height: "100vh",
@@ -17,6 +16,8 @@ const StudentSidebar = () => {
         alignItems: "center",
         display: "flex",
         flexDirection: "column",
+        position: "sticky",
+        zIndex: "1",
       }}
     >
       <img
