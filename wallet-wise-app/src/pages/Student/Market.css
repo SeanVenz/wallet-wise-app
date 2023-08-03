@@ -103,10 +103,10 @@
 }
 
 .food-filter {
-  background-color: orange;
-  padding: 20px;
   width: 90%;
-  height: 200px;
+  padding: 10px;
+  margin-top: 50px;
+  height: auto;
   border-radius: 20px;
   bottom: 0;
   display: flex;
@@ -115,4 +115,13 @@
   position: flex;
   top: 0;
   z-index: 1;
+}
+
+.foods {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* Add this line */
+  row-gap: 30px;
+  justify-items: center; /* This will center the items horizontally */
+  width: 100%;
+  align-items: start;
 }

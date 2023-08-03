@@ -4,7 +4,7 @@ import cart from "../../images/cart.png";
 import map from "../../images/location.png";
 
 export const FoodCard = (props) => {
-  const { img, name, price, availability } = props;
+  const { img, name, price } = props;
 
   return (
     <div className="card">
@@ -15,7 +15,7 @@ export const FoodCard = (props) => {
           <strong>₱{parseFloat(price).toFixed(2)}</strong>
         </h4>
       </div>
-      <h1>{availability}</h1>
+      {/* <h1>{availability}</h1> */}
       <div className="bottom">
         <img src={cart} alt="cart" />
         <img src={map} alt="map" />
