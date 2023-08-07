@@ -111,7 +111,7 @@ function App() {
           path="/vendor"
           element={
             <div style={{ display: "flex" }}>
-              {/* <VendorSidebar /> */}
+              <VendorSidebar />
               <Vendor />
             </div>
           }
