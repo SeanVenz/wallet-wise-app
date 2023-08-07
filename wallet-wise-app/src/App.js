@@ -22,6 +22,7 @@ import StudentMarket from "./pages/Student/Market";
 import StudentProfile from "./pages/Student/Profile";
 import StudentDelivery from "./pages/Student/StudentDelivery";
 import Dashboard from "./pages/Dashboard";
+import VendorSidebar from "./pages/Vendor/VendorSidebar";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -99,10 +100,20 @@ function App() {
             </div>
           }
         />
-        <Route
+
+        {/* <Route
           path="/vendor"
           element={
             user && user.emailVerified ? <Vendor /> : <Navigate to="/login" />
+          }
+        /> */}
+        <Route
+          path="/vendor"
+          element={
+            <div style={{ display: "flex" }}>
+              {/* <VendorSidebar /> */}
+              <Vendor />
+            </div>
           }
         />
       </Routes>
