@@ -4,7 +4,7 @@ import Logo from "../../images/logo.png";
 
 import "./index.css";
 
-const StudentSidebar = () => {
+const VendorSidebar = () => {
   return (
     <div
       style={{
@@ -31,7 +31,7 @@ const StudentSidebar = () => {
       <ul className="student-side-ul">
         <li className="student-side-li">
           <NavLink
-            to="/student/market"
+            to="/vendor"
             activeStyle={{
               fontWeight: "bold",
               backgroundColor: "white", // Background color on click
@@ -46,36 +46,10 @@ const StudentSidebar = () => {
             <div className="student-side-category">Market</div>
           </NavLink>
         </li>
-        <li className="student-side-li">
-          <NavLink
-            to="/student/delivery"
-            activeStyle={{
-              fontWeight: "bold",
-              backgroundColor: "white", // Background color on click
-              color: "black", // Text color on click
-            }}
-            style={{ textDecoration: "none", color: "black", width: "100%" }}
-          >
-            <div className="student-side-category">Delivery</div>
-          </NavLink>
-        </li>
-        <li className="student-side-li">
-          <NavLink
-            to="/student/profile"
-            activeStyle={{
-              fontWeight: "bold",
-              backgroundColor: "white", // Background color on click
-              color: "black", // Text color on click
-            }}
-            style={{ textDecoration: "none", color: "black", width: "100%" }}
-          >
-            <div className="student-side-category">Profile</div>
-          </NavLink>
-        </li>
       </ul>
       <Outlet />
     </div>
   );
 };
 
-export default StudentSidebar;
+export default VendorSidebar;
