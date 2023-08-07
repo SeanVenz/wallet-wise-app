@@ -3,6 +3,7 @@
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  width: 100%;
 }
 
 .title {
@@ -75,7 +76,7 @@ Button {
 }
 
 .modal-title-centered {
-  width: 100%;
+  width: 50%;
   text-align: center;
   font-size: 2rem;
 }
@@ -91,7 +92,7 @@ Button {
   flex-direction: column;
   align-items: flex-start;
   margin-bottom: 1rem;
-  width: 100%;
+  width: 50%;
 }
 
 .modal-form .input-group label {
