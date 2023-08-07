@@ -33,104 +33,116 @@ function Vendor() {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-
-    // Handle the special case for file input
-    const file = type === "file" ? files[0] : null;
-
-    setFoodData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? e.target.checked : value,
-      File: file,
-    }));
+    const { name, value, type, checked } = e.target;
+  
+    if (type === "file") {
+      // Handle file input
+      setFoodData((prevData) => ({
+        ...prevData,
+        File: e.target.files[0], // Store the selected file
+      }));
+    } else if (type === "checkbox") {
+      setFoodData((prevData) => ({
+        ...prevData,
+        [name]: checked,
+      }));
+    } else {
+      setFoodData((prevData) => ({
+        ...prevData,
+        [name]: value,
+      }));
+    }
   };
+
+  
 
   const foodss = [
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      foods: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Burger",
-      foodType: "Kakanin",
-      price: 8.49,
-      isAvailable: true,
-      imageUrl: "https://example.com/burger.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Sushi",
-      foodType: "Kakanin",
-      price: 18.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/sushi.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
   ];
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -140,13 +152,18 @@ function Vendor() {
       const createdFood = await createFood(foodData);
       console.log("Food created successfully:", createdFood);
 
+      // You may want to update the foods list here if needed
+      // Fetch the updated list of foods again
+      const updatedFoods = await getAllFoods();
+      setFoods(updatedFoods);
+
       setCreatedFood(createdFood);
       setSuccessMessage("Food successfully created!");
-      setShowModal(false);
     } catch (error) {
       console.error("Error creating food:", error);
     }
   };
+  
 
   const handleNewFoodClick = () => {
     setShowModal(true);
@@ -181,7 +198,7 @@ function Vendor() {
             </tr>
           </thead>
           <tbody>
-            {foodss.map((food) => (
+            {foods.map((food) => (
               <tr key={food.id}>
                 <td>{food.name}</td>
                 <td>{food.price}</td>
