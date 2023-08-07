@@ -34,88 +34,88 @@ const StudentMarket = () => {
   //sample data
   const foodss = [
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      foods: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Pizza",
-      foodType: "Italian",
-      price: 12.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/pizza.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Burger",
-      foodType: "Kakanin",
-      price: 8.49,
-      isAvailable: true,
-      imageUrl: "https://example.com/burger.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
     {
-      name: "Sushi",
-      foodType: "Kakanin",
-      price: 18.99,
-      isAvailable: true,
-      imageUrl: "https://example.com/sushi.jpg",
+      name: foods.name,
+      foodType: foods.foodType,
+      price: foods.price,
+      isAvailable: foods.isAvailable,
+      imageUrl: foods.imageUrl,
     },
   ];
 
@@ -162,16 +162,16 @@ const StudentMarket = () => {
           </div>
         ))} */}
       <div className="foods">
-        {foodss
+        {foods && foods
           .filter(
             (food) =>
               food.foodType === selectedFoodType || selectedFoodType === ""
           )
           .filter((food) => food.price <= maxPrice)
           .filter((food) => food.isAvailable === true)
-          .map((food) => (
+          .map((food, index) => (
             <FoodCard
-              key={1}
+              key={index}
               name={food.name}
               img={food.imageUrl}
               price={food.price}
