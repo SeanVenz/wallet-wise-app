@@ -36,11 +36,11 @@ function Vendor() {
     const { name, value, type, files } = e.target;
 
     // Handle the special case for file input
-    const file = type === 'file' ? files[0] : null;
+    const file = type === "file" ? files[0] : null;
 
     setFoodData((prevData) => ({
       ...prevData,
-      [name]: type === 'checkbox' ? e.target.checked : value,
+      [name]: type === "checkbox" ? e.target.checked : value,
       File: file,
     }));
   };
@@ -63,7 +63,6 @@ function Vendor() {
       console.error("Error creating food:", error);
     }
   };
-
 
   const handleNewFoodClick = () => {
     setShowModal(true);
@@ -114,13 +113,13 @@ function Vendor() {
       <div className="my-button">
         <Button onClick={handleNewFoodClick}>ADD FOOD</Button>
       </div>
-      <Modal show={showModal} className="add-food-modal">                               
-        <Modal.Header closeButton>
+      <Modal show={showModal} className="add-food-modal">
+        <Modal.Header>
           <Modal.Title className="modal-title-centered">Add Food</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="modal-form">
-          <div className="input-group input-food-type">
+            <div className="input-group input-food-type">
               <label>
                 Type of Food:
                 <select

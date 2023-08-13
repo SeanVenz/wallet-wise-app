@@ -9,7 +9,7 @@ export const FoodCard = (props) => {
   return (
     <div className="card">
       <div className="top">
-        <img src={img} alt="Food"></img>
+        <img src={img} alt="Food" className="image"></img>
         <h3>{name}</h3>
         <h4>
           <strong>₱{parseFloat(price).toFixed(2)}</strong>

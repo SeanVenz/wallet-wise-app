@@ -29,96 +29,6 @@ const StudentMarket = () => {
     fetchFoods();
   }, []);
 
-  console.log("TEST", foods);
-
-  //sample data
-  const foodss = [
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      foods: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-  ];
-
   return (
     <div className="market-parent">
       {/* FILTER BAR BUDGET AND SHOP */}
@@ -148,35 +58,23 @@ const StudentMarket = () => {
           />
         </div>
       </div>
-      {/* {foods &&
-        foods.map((food, index) => (
-          <div id={index}>
-            Test
-            <h3>Food Type: {food.foodType}</h3>
-            <p>Food Name: {food.name}</p>
-            <p>
-              Availability: {food.isAvailable ? "Available" : "Not Available"}
-            </p>
-            <p>Price: {food.price}</p>
-            <img src={food.imageUrl} alt={food.name}></img>
-          </div>
-        ))} */}
       <div className="foods">
-        {foods && foods
-          .filter(
-            (food) =>
-              food.foodType === selectedFoodType || selectedFoodType === ""
-          )
-          .filter((food) => food.price <= maxPrice)
-          .filter((food) => food.isAvailable === true)
-          .map((food, index) => (
-            <FoodCard
-              key={index}
-              name={food.name}
-              img={food.imageUrl}
-              price={food.price}
-            />
-          ))}
+        {foods &&
+          foods
+            .filter(
+              (food) =>
+                food.foodType === selectedFoodType || selectedFoodType === ""
+            )
+            .filter((food) => food.price <= maxPrice)
+            .filter((food) => food.isAvailable === true)
+            .map((food, index) => (
+              <FoodCard
+                key={index}
+                name={food.name}
+                img={food.imageUrl}
+                price={food.price}
+              />
+            ))}
       </div>
       {/* FILTER BAR FOOD TYPE */}
       <div className="food-filter">

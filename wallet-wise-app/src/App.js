@@ -108,11 +108,13 @@ function App() {
           }
         /> */}
         <Route
-          path="/vendor"
+          path="/vendor/*"
           element={
             <div style={{ display: "flex" }}>
               <VendorSidebar />
-              <Vendor />
+              <Routes>
+                <Route index={true} element={<Vendor />} />
+              </Routes>
             </div>
           }
         />

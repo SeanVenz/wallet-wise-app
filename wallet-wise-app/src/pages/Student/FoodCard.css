@@ -1,6 +1,6 @@
 .card {
-  width: 350px;
-  height: 100%;
+  width: 400px;
+  height: 400px;
   background: rgb(255, 255, 255);
   box-shadow: rgba(40, 40, 40, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
@@ -11,6 +11,11 @@
   border-radius: 20px;
   padding: 10px;
   margin-top: 20px;
+}
+
+.image {
+  width: auto;
+  height: 200px;
 }
 
 .top {
