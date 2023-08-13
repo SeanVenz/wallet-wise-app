@@ -33,116 +33,17 @@ function Vendor() {
   }, []);
 
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-  
-    if (type === "file") {
-      // Handle file input
-      setFoodData((prevData) => ({
-        ...prevData,
-        File: e.target.files[0], // Store the selected file
-      }));
-    } else if (type === "checkbox") {
-      setFoodData((prevData) => ({
-        ...prevData,
-        [name]: checked,
-      }));
-    } else {
-      setFoodData((prevData) => ({
-        ...prevData,
-        [name]: value,
-      }));
-    }
+    const { name, value, type, files } = e.target;
+
+    // Handle the special case for file input
+    const file = type === 'file' ? files[0] : null;
+
+    setFoodData((prevData) => ({
+      ...prevData,
+      [name]: type === 'checkbox' ? e.target.checked : value,
+      File: file,
+    }));
   };
-
-  
-
-  const foodss = [
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      foods: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-    {
-      name: foods.name,
-      foodType: foods.foodType,
-      price: foods.price,
-      isAvailable: foods.isAvailable,
-      imageUrl: foods.imageUrl,
-    },
-  ];
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -152,7 +53,6 @@ function Vendor() {
       const createdFood = await createFood(foodData);
       console.log("Food created successfully:", createdFood);
 
-      // You may want to update the foods list here if needed
       // Fetch the updated list of foods again
       const updatedFoods = await getAllFoods();
       setFoods(updatedFoods);
@@ -163,7 +63,7 @@ function Vendor() {
       console.error("Error creating food:", error);
     }
   };
-  
+
 
   const handleNewFoodClick = () => {
     setShowModal(true);
@@ -214,15 +114,31 @@ function Vendor() {
       <div className="my-button">
         <Button onClick={handleNewFoodClick}>ADD FOOD</Button>
       </div>
-      <Modal show={showModal} className="add-food-modal">
+      <Modal show={showModal} className="add-food-modal">                               
         <Modal.Header closeButton>
           <Modal.Title className="modal-title-centered">Add Food</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <form className="modal-form">
+          <div className="input-group input-food-type">
+              <label>
+                Type of Food:
+                <select
+                  name="FoodType"
+                  value={foodData.FoodType}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="">Select option ...</option>
+                  <option value="Main Dish">Main Dish</option>
+                  <option value="Kakanin">Kakanin</option>
+                  <option value="Snacks">Snacks</option>
+                  <option value="Drinks">Drinks</option>
+                </select>
+              </label>
+            </div>
             <div className="input-group input-name">
               <label>
-                {" "}
                 Food Name:
                 <input
                   type="text"
@@ -235,7 +151,6 @@ function Vendor() {
             </div>
             <div className="input-group input-price">
               <label>
-                {" "}
                 Price:
                 <input
                   type="text"
@@ -252,37 +167,20 @@ function Vendor() {
                 <input
                   type="checkbox"
                   name="isAvailable"
-                  value={foodData.isAvailable}
+                  checked={foodData.isAvailable}
                   onChange={handleChange}
-                  required
                 />
               </label>
             </div>
             <div className="input-group input-img">
               <label>
-                {" "}
-                Image
+                Image:
                 <input
                   type="file"
-                  accept="image/*"
                   name="File"
-                  value={foodData.File}
                   onChange={handleChange}
                   required
                 />
-              </label>
-            </div>
-            <div className="input-group input-food-type">
-              <label>
-                {" "}
-                Type of Food:
-                <select onChange={handleChange}>
-                  <option value="">Select option ...</option>
-                  <option value="Main Dish">Main Dish</option>
-                  <option value="Kakanin">Kakanin</option>
-                  <option value="Snacks">Snacks</option>
-                  <option value="Drinks">Drinks</option>
-                </select>
               </label>
             </div>
           </form>
