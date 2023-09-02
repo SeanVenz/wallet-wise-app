@@ -8,21 +8,21 @@ import {
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
 import authService from "./service/auth";
-
-import Landing from "./pages/Landing";
-import Login from "./pages/LogIn";
-import SignUp from "./pages/SignUp";
-import Admin from "./pages/Admin";
-import VerifyEmail from "./pages/VerifyEmail";
-import ForgotPassword from "./pages/ForgotPassword";
-import Vendor from "./pages/Vendor";
+import Landing from "./pages/Landing/Landing";
+import Login from "./pages/Login/LogIn";
+import SignUp from "./pages/SignUp/SignUp";
+import Admin from "./pages/Admin/Admin";
+import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import Vendor from "./pages/Vendor/Vendor";
 import Student from "./pages/Student/Student";
 import StudentSidebar from "./pages/Student/StudentSidebar";
-import StudentMarket from "./pages/Student/Market";
+import StudentMarket from "./pages/Market/Market";
 import StudentProfile from "./pages/Student/Profile";
 import StudentDelivery from "./pages/Student/StudentDelivery";
 import Dashboard from "./pages/Dashboard";
 import VendorSidebar from "./pages/Vendor/VendorSidebar";
+import Cart from "./pages/Cart/Cart";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -96,6 +96,7 @@ function App() {
                 <Route path="market" element={<StudentMarket />} />
                 <Route path="profile" element={<StudentProfile />} />
                 <Route path="delivery" element={<StudentDelivery />} />
+                <Route path="cart" element={<Cart />} />
               </Routes>
             </div>
           }

@@ -72,6 +72,19 @@ const StudentSidebar = () => {
             <div className="student-side-category">Profile</div>
           </NavLink>
         </li>
+        <li className="student-side-li">
+          <NavLink
+            to="/student/cart"
+            activeStyle={{
+              fontWeight: "bold",
+              backgroundColor: "white", // Background color on click
+              color: "black", // Text color on click
+            }}
+            style={{ textDecoration: "none", color: "black", width: "100%" }}
+          >
+            <div className="student-side-category">Cart</div>
+          </NavLink>
+        </li>
       </ul>
       <Outlet />
     </div>
