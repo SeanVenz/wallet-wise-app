@@ -58,14 +58,14 @@ const Dashboard = () => {
       <button onClick={handleLogOut}>Log Out</button>
       <h2>Available Foods:</h2>
       {foods.map((food, index) => (
-        <div id = {index}>
+        <div id={index}>
           <h3>Food Type: {food.foodType}</h3>
           <p>Food Name: {food.name}</p>
           <p>
             Availability: {food.isAvailable ? "Available" : "Not Available"}
           </p>
           <p>Price: {food.price}</p>
-          <img src={food.imageUrl} alt= {food.name}></img>
+          <img src={food.imageUrl} alt={food.name}></img>
         </div>
       ))}
     </div>

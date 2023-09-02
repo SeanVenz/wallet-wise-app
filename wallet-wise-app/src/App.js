@@ -3,6 +3,7 @@ import {
   Route,
   BrowserRouter as Router,
   Navigate,
+  Outlet, // Import Outlet
 } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./firebase";
@@ -11,11 +12,17 @@ import authService from "./service/auth";
 import Landing from "./pages/Landing";
 import Login from "./pages/LogIn";
 import SignUp from "./pages/SignUp";
-import Dashboard from "./pages/Dashboard";
 import Admin from "./pages/Admin";
 import VerifyEmail from "./pages/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword";
-import Vendor from "./pages/Vendor"; // Import the Vendor component
+import Vendor from "./pages/Vendor";
+import Student from "./pages/Student/Student";
+import StudentSidebar from "./pages/Student/StudentSidebar";
+import StudentMarket from "./pages/Student/Market";
+import StudentProfile from "./pages/Student/Profile";
+import StudentDelivery from "./pages/Student/StudentDelivery";
+import Dashboard from "./pages/Dashboard";
+import VendorSidebar from "./pages/Vendor/VendorSidebar";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -60,16 +67,6 @@ function App() {
           }
         />
         <Route
-          path="/admin"
-          element={
-            user && user.emailVerified && authService.isAdmin(user) ? (
-              <Admin />
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
           path="/dashboard"
           element={
             user && user.emailVerified ? (
@@ -80,16 +77,49 @@ function App() {
           }
         />
         <Route
-          path="/vendor"
+          path="/admin"
           element={
-            user && user.emailVerified ? (
-              <Vendor />
+            user && user.emailVerified && authService.isAdmin(user) ? (
+              <Admin />
             ) : (
               <Navigate to="/login" />
             )
           }
         />
+        <Route
+          path="/student/*"
+          element={
+            <div style={{ display: "flex" }}>
+              <StudentSidebar />
+              <Routes>
+                <Route index={true} element={<Student />} />
+                <Route path="market" element={<StudentMarket />} />
+                <Route path="profile" element={<StudentProfile />} />
+                <Route path="delivery" element={<StudentDelivery />} />
+              </Routes>
+            </div>
+          }
+        />
+
+        {/* <Route
+          path="/vendor"
+          element={
+            user && user.emailVerified ? <Vendor /> : <Navigate to="/login" />
+          }
+        /> */}
+        <Route
+          path="/vendor/*"
+          element={
+            <div style={{ display: "flex" }}>
+              <VendorSidebar />
+              <Routes>
+                <Route index={true} element={<Vendor />} />
+              </Routes>
+            </div>
+          }
+        />
       </Routes>
+      <Outlet />
     </Router>
   );
 }
