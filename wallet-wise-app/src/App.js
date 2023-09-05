@@ -6,7 +6,7 @@ import {
   Outlet, // Import Outlet
 } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { auth } from "./firebase";
+import { auth } from "./utils/firebase";
 import authService from "./service/auth";
 import Landing from "./pages/Landing/Landing";
 import Login from "./pages/Login/LogIn";

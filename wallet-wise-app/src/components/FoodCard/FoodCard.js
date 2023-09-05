@@ -1,26 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import "./FoodCard.css";
 import cart from "../../images/cart.png";
 import map from "../../images/location.png";
-import CartConfirmationModal from "../ConfirmationModal/CartConfirmationModal";
 
 export const FoodCard = (props) => {
-  const { img, name, price, onAddToCart } = props;
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const openModal = () => {
-    setIsModalOpen(true);
-  };
-
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  const handleAddToCart = () => {
-    onAddToCart({ name, imageUrl: img, price }); // Pass food details to addToCart function
-    console.log("Adding to cart from FoodCard:", { name, imageUrl: img, price }); // Add this line for debugging
-    closeModal(); // Close the modal
-  };
+  const { img, name, price } = props;
 
   return (
     <div>
@@ -37,15 +21,10 @@ export const FoodCard = (props) => {
           </h4>
         </div>
         <div className="bottom">
-          <img src={cart} alt="cart" onClick={openModal} />
+          <img src={cart} alt="cart" />
           <img src={map} alt="map" />
         </div>
       </div>
-      <CartConfirmationModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onAddToCart={handleAddToCart}
-      />
     </div>
   );
 };

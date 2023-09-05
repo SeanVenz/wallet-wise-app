@@ -4,18 +4,29 @@ import PHP from "../../images/php.png";
 import "./Market.css";
 import { FoodNav } from "../../components/FoodNav/FoodNav";
 import { FoodCard } from "../../components/FoodCard/FoodCard";
-import CartConfirmationModal from "../../components/ConfirmationModal/CartConfirmationModal";
-import Cart from "../Cart/Cart";
+import { auth } from "../../utils/firebase";
 
 const StudentMarket = () => {
   const [foods, setFoods] = useState([]);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_SAFE_INTEGER);
   const [selectedFoodType, setSelectedFoodType] = useState("");
-  const [cart, setCart] = useState([]); // State to manage cart items
-  const [selectedFood, setSelectedFood] = useState(null); // State to store the selected food item
-  const [isModalOpen, setIsModalOpen] = useState(false); // State to manage modal visibility
+  const [currentUser, setCurrentUser] = useState(null);
 
-  console.log(cart);
+  useEffect(() => {
+    // Listen for authentication state changes using Firebase's onAuthStateChanged
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // If a user is logged in, set the currentUser state
+        setCurrentUser(user);
+      } else {
+        // If no user is logged in, set currentUser to null
+        setCurrentUser(null);
+      }
+    });
+  
+    // Cleanup the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     console.log(selectedFoodType);
@@ -36,40 +47,8 @@ const StudentMarket = () => {
     fetchFoods();
   }, []);
 
-  // Function to add a food item to the cart
-  const addToCart = (food) => {
-    setSelectedFood(food); // Store the selected food
-    setIsModalOpen(true); // Open the confirmation modal
-    console.log("Adding to cart:", food);
-  };
-
-  // Function to close the modal
-  const closeModal = () => {
-    setIsModalOpen(false);
-  };
-
-  // Function to confirm adding the food to the cart
-  const confirmAddToCart = () => {
-    if (selectedFood) {
-      // Create a new item object with details from the selected food
-      const newItem = {
-        name: selectedFood.name,
-        img: selectedFood.imageUrl,
-        price: selectedFood.price,
-      };
-
-      // Update the cart state with the new item
-      setCart((prevCart) => [...prevCart, newItem]);
-
-      // Close the modal
-      console.log("Item added to cart:", newItem); 
-      closeModal();
-    }
-  };
-
   return (
     <div className="market-parent">
-      {/* FILTER BAR BUDGET AND SHOP */}
       <div className="market-filter">
         <div className="budget-filter">
           <div className="php-logo">
@@ -111,20 +90,12 @@ const StudentMarket = () => {
                 name={food.name}
                 img={food.imageUrl}
                 price={food.price}
-                onAddToCart={() => addToCart(food)} // Add to cart function
               />
             ))}
       </div>
-      {/* FILTER BAR FOOD TYPE */}
       <div className="food-filter">
         <FoodNav setSelectedFoodType={setSelectedFoodType} />
       </div>
-      {cart.length > 0 && <Cart cartItems={cart} />}
-      <CartConfirmationModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onAddToCart={confirmAddToCart}
-      />
     </div>
   );
 };

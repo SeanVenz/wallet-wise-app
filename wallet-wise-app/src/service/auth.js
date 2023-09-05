@@ -1,4 +1,4 @@
-import { auth, db } from '../firebase';  // Import Firestore database
+import { auth, db } from '../utils/firebase';  // Import Firestore database
 import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 

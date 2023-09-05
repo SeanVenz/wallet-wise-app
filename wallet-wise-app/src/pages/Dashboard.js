@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../firebase";
+import { auth } from "../utils/firebase";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../utils/firebase";
 import { getAllFoods } from "../service/FoodService";
 
 const Dashboard = () => {
