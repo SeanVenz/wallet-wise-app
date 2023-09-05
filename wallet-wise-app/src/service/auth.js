@@ -38,13 +38,6 @@ const getCurrentUser = () => {
   return auth.currentUser;
 };
 
-const isAdmin = (user) => {
-  if (user) {
-    return user.email === 'admin@example.com';
-  }
-  return false;
-};
-
 const sendResetPasswordEmail = async (email) => {
   return await sendPasswordResetEmail(auth, email);
 };
@@ -60,7 +53,6 @@ const authService = {
   logOut,
   getCurrentUser,
   sendResetPasswordEmail,
-  isAdmin,
   observeAuthChanges,
 };
 

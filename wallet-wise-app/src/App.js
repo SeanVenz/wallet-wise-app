@@ -43,7 +43,7 @@ function App() {
           path="/login"
           element={
             user && user.emailVerified ? (
-              <Navigate to="/dashboard" />
+              <Navigate to="/student" />
             ) : (
               <Login />
             )
@@ -79,7 +79,7 @@ function App() {
         <Route
           path="/admin"
           element={
-            user && user.emailVerified && authService.isAdmin(user) ? (
+            user && user.emailVerified ? (
               <Admin />
             ) : (
               <Navigate to="/login" />
@@ -89,6 +89,7 @@ function App() {
         <Route
           path="/student/*"
           element={
+            user && user.emailVerified ? (
             <div style={{ display: "flex" }}>
               <StudentSidebar />
               <Routes>
@@ -99,24 +100,24 @@ function App() {
                 <Route path="cart" element={<Cart />} />
               </Routes>
             </div>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
-
-        {/* <Route
-          path="/vendor"
-          element={
-            user && user.emailVerified ? <Vendor /> : <Navigate to="/login" />
-          }
-        /> */}
         <Route
           path="/vendor/*"
           element={
+            user && user.emailVerified ? (
             <div style={{ display: "flex" }}>
               <VendorSidebar />
               <Routes>
                 <Route index={true} element={<Vendor />} />
               </Routes>
             </div>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
       </Routes>
