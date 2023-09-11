@@ -2,7 +2,7 @@ import { auth, db } from '../utils/firebase';  // Import Firestore database
 import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { doc, setDoc } from 'firebase/firestore';
 
-const signUp = async (email, password, fullName, idNumber) => {
+const signUp = async (email, password, fullName, idNumber, phoneNumber) => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
   
@@ -11,7 +11,7 @@ const signUp = async (email, password, fullName, idNumber) => {
   
   // Store the ID number in Firestore
   const userDocRef = doc(db, 'users', user.uid);
-  await setDoc(userDocRef, { idNumber });
+  await setDoc(userDocRef, { idNumber, phoneNumber });
   
   return user;
 };

@@ -9,6 +9,7 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [idNumber, setIdNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [foods, setFoods] = useState([]);
 
   useEffect(() => {
@@ -23,6 +24,7 @@ const Dashboard = () => {
       const docSnap = await getDoc(userDocRef);
 
       if (docSnap.exists()) {
+        setPhoneNumber(docSnap.data().phoneNumber);
         setIdNumber(docSnap.data().idNumber);
       } else {
         console.log("No such document!");
@@ -55,6 +57,7 @@ const Dashboard = () => {
       <h1>Dashboard Page</h1>
       <p>Full Name: {fullName}</p>
       <p>ID Number: {idNumber}</p>
+      <p>Phone Number: {phoneNumber}</p>
       <button onClick={handleLogOut}>Log Out</button>
       <h2>Available Foods:</h2>
       {foods.map((food, index) => (

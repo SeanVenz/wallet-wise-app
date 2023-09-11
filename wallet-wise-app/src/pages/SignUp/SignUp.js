@@ -6,6 +6,7 @@ const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
@@ -13,7 +14,7 @@ const SignUp = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const user = await authService.signUp(email, password, fullName, idNumber);
+      const user = await authService.signUp(email, password, fullName, idNumber, phoneNumber);
       await authService.sendVerificationEmail(user);
       navigate("/verify-email");
     } catch (err) {
@@ -35,6 +36,12 @@ const SignUp = () => {
           placeholder="ID Number"
           value={idNumber}
           onChange={(e) => setIdNumber(e.target.value)}
+        />
+        <input
+          type="text"
+          placeholder="Phone Number"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
         />
         <input
           type="email"
