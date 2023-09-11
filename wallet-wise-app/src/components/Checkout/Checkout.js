@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
-import { db, auth } from '../../utils/firebase';
-import { collection, addDoc, doc, FieldValue } from 'firebase/firestore';
+import { db } from '../../utils/firebase';
+import { collection, addDoc} from 'firebase/firestore';
 import authService from '../../utils/auth';
 
 function Checkout({ cartItems, fullName, idNumber, phoneNumber, clearCart }) {
   const [showModal, setShowModal] = useState(false);
-  const [quantity, setQuantity] = useState(1);
-
-  const user = auth.currentUser; // Get the current user directly from Firebase auth
 
   const handleOpenModal = () => {
     setShowModal(true);
