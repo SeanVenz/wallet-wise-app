@@ -5,7 +5,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
 import { getAllFoods } from "../service/FoodService";
 
-const Dashboard = () => {
+const Dashboard = () => { 
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [idNumber, setIdNumber] = useState("");

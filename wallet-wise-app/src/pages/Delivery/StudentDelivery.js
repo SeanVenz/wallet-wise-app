@@ -1,81 +1,56 @@
-import React, { useEffect, useState } from 'react';
-import { db } from '../../utils/firebase';
-import { doc, getDoc } from "firebase/firestore";
-import { collection, query, getDocs, where } from 'firebase/firestore';
-import { auth } from "../../utils/firebase";
+import React, { useEffect, useState } from "react";
+import { db } from "../../utils/firebase"; // Import your Firebase configuration
+import { collection, onSnapshot } from "firebase/firestore";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
-  const [fullName, setFullName] = useState("");
-  const [idNumber, setIdNumber] = useState("");
 
   useEffect(() => {
+    // Reference to the "deliveries" collection
+    const deliveryCollectionRef = collection(db, "deliveries");
 
-    const fetchUserData = async () => {
-      // Fetch full name from the user profile
-      if (auth.currentUser.displayName) {
-        setFullName(auth.currentUser.displayName);
-      }
+    // Query the collection and listen for changes
+    const unsubscribe = onSnapshot(deliveryCollectionRef, (snapshot) => {
+      const deliveryData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setDeliveries(deliveryData);
+    });
 
-      // Fetch ID number from Firestore
-      const userDocRef = doc(db, "users", auth.currentUser.uid);
-      const docSnap = await getDoc(userDocRef);
-
-      if (docSnap.exists()) {
-        setIdNumber(docSnap.data().idNumber);
-      } else {
-        console.log("No such document!");
-      }
+    return () => {
+      // Unsubscribe from the Firestore listener when the component unmounts
+      unsubscribe();
     };
-
-    fetchUserData();
-
-    const fetchDeliveries = async () => {
-      try {
-        const deliveryCollectionRef = collection(db, 'delivery');
-        const deliveryQuery = query(deliveryCollectionRef);
-
-        const deliverySnapshot = await getDocs(deliveryQuery);
-        const deliveryData = [];
-
-        for (const doc of deliverySnapshot.docs) {
-          const delivery = doc.data();
-          const userId = delivery.userId;
-
-          // Fetch user information based on userId
-          const userQuery = query(collection(db, 'users'), where('userId', '==', userId));
-          const userSnapshot = await getDocs(userQuery);
-          if (!userSnapshot.empty) {
-            const user = userSnapshot.docs[0].data();
-            // Include user information in the delivery data
-            delivery.userName = user.displayName;
-            delivery.studentId = user.idNumber;
-          }
-
-          deliveryData.push(delivery);
-        }
-
-        setDeliveries(deliveryData);
-      } catch (error) {
-        console.error('Error fetching deliveries:', error);
-      }
-    };
-
-    fetchDeliveries();
   }, []);
+
+  function calculatePerPersonTotal(items) {
+    let total = 0;
+    items.forEach((item) => {
+      total += item.totalPrice;
+    });
+    return total;
+  }
 
   return (
     <div>
-      <h2>Delivery List</h2>
+      <h2>Order List</h2>
       <ul>
-        {deliveries.map((delivery, index) => (
-          <li key={index}>
-            <strong>Delivery Date:</strong> {delivery.timestamp.toDate().toLocaleString()} <br />
-            <strong>User Name:</strong> {fullName} <br />
-            <strong>Student ID:</strong> {idNumber} <br />
-            <strong>Item Name:</strong> {delivery.itemName} <br />
-            <strong>Quantity:</strong> {delivery.quantity} <br />
-            <strong>Total Price:</strong> ₱{delivery.totalPrice.toFixed(2)}
+        {deliveries.map((delivery) => (
+          <li key={delivery.id}>
+            <h3>Student Name: {delivery.userName}</h3>
+            <p>ID Number: {delivery.idNumber}</p>
+            <p>Phone Number: {delivery.phoneNumber}</p>
+            <h4>Orders:</h4>
+            <ul>
+              {delivery.items.map((item, index) => (
+                <li key={index}>
+                  {item.itemName} - Quantity: {item.quantity}, Total Price: ₱
+                  {item.totalPrice.toFixed(2)}
+                </li>
+              ))}
+            </ul>
+            <p>Total: ₱{calculatePerPersonTotal(delivery.items).toFixed(2)}</p>
           </li>
         ))}
       </ul>

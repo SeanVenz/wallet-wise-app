@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { db } from '../../utils/firebase';
-import { collection, query, getDocs, deleteDoc, doc } from 'firebase/firestore'; // Import deleteDoc and doc
-import authService from "../../utils/auth";
+import { db, auth } from '../../utils/firebase';
+import { collection, query, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
 import Checkout from '../../components/Checkout/Checkout';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
-  
+  const [fullName, setFullName] = useState("");
+  const [idNumber, setIdNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+
   // Function to fetch cart items based on the user's UID
   const fetchCartItems = async (userId) => {
     try {
@@ -23,7 +25,7 @@ function Cart() {
   // Function to remove an item from the cart
   const removeItemFromCart = async (itemId) => {
     try {
-      const user = authService.getCurrentUser();
+      const user = auth.currentUser;
       if (user) {
         const userId = user.uid;
 
@@ -44,11 +46,32 @@ function Cart() {
   };
 
   useEffect(() => {
-    const user = authService.getCurrentUser();
-    if (user) {
-      const userId = user.uid;
-      fetchCartItems(userId);
-    }
+    const fetchUserData = async () => {
+
+      if(auth.currentUser.displayName){
+        setFullName(auth.currentUser.displayName);
+      }
+
+      const user = auth.currentUser;
+      if (user) {
+        const userId = user.uid;
+        fetchCartItems(userId);
+
+        // Fetch user information from Firestore
+        const userDocRef = doc(db, "users", userId);
+        const docSnap = await getDoc(userDocRef);
+
+        if (docSnap.exists()) {
+          const userData = docSnap.data();
+          setIdNumber(userData.idNumber || "");
+          setPhoneNumber(userData.phoneNumber || "");
+        } else {
+          console.log("No such document!");
+        }
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   return (
@@ -59,10 +82,16 @@ function Cart() {
           <li key={index}>
             {item.name} - Quantity: {item.quantity}, Price: ₱{item.totalPrice.toFixed(2)}
             <button onClick={() => removeItemFromCart(item.id)}>Remove</button> {/* Add a "Remove" button */}
-          </li>
+          </li> 
         ))}
       </ul>
-      <Checkout cartItems={cartItems}></Checkout>
+      <Checkout
+        cartItems={cartItems}
+        fullName={fullName}
+        idNumber={idNumber}
+        phoneNumber={phoneNumber}
+        clearCart={() => setCartItems([])}
+      />
     </div>
   );
 }

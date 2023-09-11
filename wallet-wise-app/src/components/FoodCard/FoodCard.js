@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./FoodCard.css";
+import "./FoodCard.css"; 
 import cart from "../../images/cart.png";
 import map from "../../images/location.png";
 import { db } from '../../utils/firebase';

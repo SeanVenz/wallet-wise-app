@@ -1,38 +1,51 @@
-import React from 'react';
-import { db } from '../../utils/firebase';
-import { collection, addDoc, query, getDocs, deleteDoc, doc } from 'firebase/firestore'; // Import deleteDoc and doc
-import authService from "../../utils/auth";
+import React, { useState } from 'react';
+import { db, auth } from '../../utils/firebase';
+import { collection, addDoc, doc, FieldValue } from 'firebase/firestore';
+import authService from '../../utils/auth';
 
-function Checkout({ cartItems }) {
+function Checkout({ cartItems, fullName, idNumber, phoneNumber, clearCart }) {
+  const [showModal, setShowModal] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+
+  const user = auth.currentUser; // Get the current user directly from Firebase auth
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
+
   const handleCheckout = async () => {
     try {
       const user = authService.getCurrentUser();
       if (user) {
-        const userId = user.uid;
+        const userId = user.uid; 
 
-        // Reference to the "Delivery" collection
-        const deliveryCollectionRef = collection(db, 'delivery');
+        const deliveryCollectionRef = collection(db, 'deliveries');
 
-        // Iterate through the user's cart items and add them to the "Delivery" collection
-        cartItems.forEach(async (item) => {
-          await addDoc(deliveryCollectionRef, {
-            userId: userId,
-            itemName: item.name,
-            quantity: item.quantity,
-            totalPrice: item.totalPrice,
-            timestamp: new Date(),
-          });
+        const itemsToCheckout = cartItems.map((item) => ({
+          itemName: item.name,
+          quantity: item.quantity,
+          totalPrice: item.totalPrice,
+        }));
 
-          // Reference to the specific item in the user's cart
-          const cartItemRef = doc(db, 'carts', userId, 'items', item.id);
-
-          // Delete the item document from the user's cart
-          await deleteDoc(cartItemRef);
+        // Create a delivery document with user information and items
+        await addDoc(deliveryCollectionRef, {
+          userId: userId,
+          userName: fullName,
+          idNumber: idNumber,
+          phoneNumber: phoneNumber,
+          items: itemsToCheckout,
+          timestamp: Date.now(),
         });
 
-        console.log('Checkout completed.');
-      } else {
-        console.error('User is not authenticated.');
+        // Clear the cart
+        clearCart();
+
+        // Close the modal
+        handleCloseModal();
       }
     } catch (error) {
       console.error('Error during checkout:', error);
@@ -42,7 +55,16 @@ function Checkout({ cartItems }) {
   return (
     <div>
       <h2>Checkout</h2>
-      <button onClick={handleCheckout}>Checkout</button>
+      <button onClick={handleOpenModal}>Checkout</button>
+      {showModal && (
+        <div className="modal">
+          <div className="modal-content">
+            <h2>Confirm Checkout</h2>
+            <button onClick={handleCheckout}>Confirm</button>
+            <button onClick={handleCloseModal}>Cancel</button>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

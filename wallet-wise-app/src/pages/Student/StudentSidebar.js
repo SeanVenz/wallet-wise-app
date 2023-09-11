@@ -48,7 +48,7 @@ const StudentSidebar = () => {
         </li>
         <li className="student-side-li">
           <NavLink
-            to="/student/delivery"
+            to="/student/orders"
             activeStyle={{
               fontWeight: "bold",
               backgroundColor: "white", // Background color on click
@@ -56,7 +56,7 @@ const StudentSidebar = () => {
             }}
             style={{ textDecoration: "none", color: "black", width: "100%" }}
           >
-            <div className="student-side-category">Delivery</div>
+            <div className="student-side-category">Orders</div>
           </NavLink>
         </li>
         <li className="student-side-li">

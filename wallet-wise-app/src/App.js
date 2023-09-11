@@ -95,7 +95,7 @@ function App() {
                 <Route index={true} element={<Student />} />
                 <Route path="market" element={<StudentMarket />} />
                 <Route path="profile" element={<StudentProfile />} />
-                <Route path="delivery" element={<StudentDelivery />} />
+                <Route path="orders" element={<StudentDelivery />} />
                 <Route path="cart" element={<Cart />} />
               </Routes>
             </div>
