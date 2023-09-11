@@ -7,7 +7,6 @@ import {
 } from "react-router-dom";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "./utils/firebase";
-import authService from "./service/auth";
 import Landing from "./pages/Landing/Landing";
 import Login from "./pages/Login/LogIn";
 import SignUp from "./pages/SignUp/SignUp";
@@ -19,7 +18,7 @@ import Student from "./pages/Student/Student";
 import StudentSidebar from "./pages/Student/StudentSidebar";
 import StudentMarket from "./pages/Market/Market";
 import StudentProfile from "./pages/Student/Profile";
-import StudentDelivery from "./pages/Student/StudentDelivery";
+import StudentDelivery from "./pages/Delivery/StudentDelivery";
 import Dashboard from "./pages/Dashboard";
 import VendorSidebar from "./pages/Vendor/VendorSidebar";
 import Cart from "./pages/Cart/Cart";
