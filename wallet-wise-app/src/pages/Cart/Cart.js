@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { db } from '../../utils/firebase';
 import { collection, query, getDocs } from 'firebase/firestore';
-import authService from "../../service/auth";
+import authService from "../../utils/auth";
 
 
 function Cart() {
