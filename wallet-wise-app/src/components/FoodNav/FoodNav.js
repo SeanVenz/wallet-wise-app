@@ -3,8 +3,8 @@ import mainDish from "../../images/main-dish.png";
 import riceBowls from "../../images/rice-bowls.png";
 import snacks from "../../images/snacks.png";
 import drinks from "../../images/drinks.png";
-
 import "./FoodNav.css";
+
 export const FoodNav = ({ setSelectedFoodType }) => {
   return (
     <div className="food-nav">

@@ -2,13 +2,31 @@ import React, { useState, useEffect } from "react";
 import { getAllFoods } from "../../service/FoodService";
 import PHP from "../../images/php.png";
 import "./Market.css";
-import { FoodNav } from "./FoodNav";
-import { FoodCard } from "./FoodCard";
+import { FoodNav } from "../../components/FoodNav/FoodNav";
+import { FoodCard } from "../../components/FoodCard/FoodCard";
+import { auth } from "../../utils/firebase";
 
 const StudentMarket = () => {
   const [foods, setFoods] = useState([]);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_SAFE_INTEGER);
   const [selectedFoodType, setSelectedFoodType] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
+
+  useEffect(() => {
+    // Listen for authentication state changes using Firebase's onAuthStateChanged
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        // If a user is logged in, set the currentUser state
+        setCurrentUser(user);
+      } else {
+        // If no user is logged in, set currentUser to null
+        setCurrentUser(null);
+      }
+    });
+  
+    // Cleanup the subscription when the component unmounts
+    return () => unsubscribe();
+  }, []);
 
   useEffect(() => {
     console.log(selectedFoodType);
@@ -31,7 +49,6 @@ const StudentMarket = () => {
 
   return (
     <div className="market-parent">
-      {/* FILTER BAR BUDGET AND SHOP */}
       <div className="market-filter">
         <div className="budget-filter">
           <div className="php-logo">
@@ -76,7 +93,6 @@ const StudentMarket = () => {
               />
             ))}
       </div>
-      {/* FILTER BAR FOOD TYPE */}
       <div className="food-filter">
         <FoodNav setSelectedFoodType={setSelectedFoodType} />
       </div>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { createFood, getAllFoods } from "../service/FoodService";
+import { createFood, getAllFoods } from "../../service/FoodService";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import "./Vendor.css";
