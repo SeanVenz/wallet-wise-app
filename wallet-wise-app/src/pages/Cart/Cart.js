@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../../utils/firebase';
 import { collection, query, getDocs, deleteDoc, doc } from 'firebase/firestore'; // Import deleteDoc and doc
 import authService from "../../utils/auth";
+import Checkout from '../../components/Checkout/Checkout';
 
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
@@ -61,6 +62,7 @@ function Cart() {
           </li>
         ))}
       </ul>
+      <Checkout cartItems={cartItems}></Checkout>
     </div>
   );
 }
