@@ -109,6 +109,10 @@ img {
   line-height: 1;
 }
 
+.modal-content label{
+  margin-bottom: 10px;
+}
+
 /* Checkbox */
 .modal-content input {
   height: 20px !important;
