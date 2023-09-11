@@ -90,7 +90,6 @@ function Cart() {
         fullName={fullName}
         idNumber={idNumber}
         phoneNumber={phoneNumber}
-        clearCart={() => setCartItems([])}
       />
     </div>
   );

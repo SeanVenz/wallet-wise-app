@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { db } from '../../utils/firebase';
-import { collection, addDoc} from 'firebase/firestore';
+import { collection, addDoc, query, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import authService from '../../utils/auth';
 
-function Checkout({ cartItems, fullName, idNumber, phoneNumber, clearCart }) {
+function Checkout({ cartItems, fullName, idNumber, phoneNumber }) {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -14,11 +14,28 @@ function Checkout({ cartItems, fullName, idNumber, phoneNumber, clearCart }) {
     setShowModal(false);
   };
 
+  const deleteCartItems = async (userId) => {
+    try {
+      const cartItemsCollectionRef = collection(db, 'carts', userId, 'items');
+      const cartItemsQuery = query(cartItemsCollectionRef);
+      const cartItemsSnapshot = await getDocs(cartItemsQuery);
+
+      // Delete each cart item
+      cartItemsSnapshot.forEach(async (itemDoc) => {
+        const itemId = itemDoc.id;
+        const cartItemRef = doc(db, 'carts', userId, 'items', itemId);
+        await deleteDoc(cartItemRef);
+      });
+    } catch (error) {
+      console.error('Error deleting cart items:', error);
+    }
+  };
+
   const handleCheckout = async () => {
     try {
       const user = authService.getCurrentUser();
       if (user) {
-        const userId = user.uid; 
+        const userId = user.uid;
 
         const deliveryCollectionRef = collection(db, 'deliveries');
 
@@ -38,8 +55,8 @@ function Checkout({ cartItems, fullName, idNumber, phoneNumber, clearCart }) {
           timestamp: Date.now(),
         });
 
-        // Clear the cart
-        clearCart();
+        // Delete cart items
+        deleteCartItems(userId);
 
         // Close the modal
         handleCloseModal();
