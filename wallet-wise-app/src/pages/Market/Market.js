@@ -90,6 +90,7 @@ const StudentMarket = () => {
                 name={food.name}
                 img={food.imageUrl}
                 price={food.price}
+                number = {food.quantity}
               />
             ))}
       </div>

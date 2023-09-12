@@ -10,6 +10,7 @@ function Vendor() {
     Name: "",
     isAvailable: true,
     Price: 0,
+    Quantity: 0,
     File: null,
   });
   const [createdFood, setCreatedFood] = useState(null);
@@ -59,6 +60,16 @@ function Vendor() {
 
       setCreatedFood(createdFood);
       setSuccessMessage("Food successfully created!");
+
+      // Reset the form fields in the state
+      setFoodData({
+        FoodType: "",
+        Name: "",
+        isAvailable: true,
+        Price: 0,
+        Quantity: 0,
+        File: null,
+      });
     } catch (error) {
       console.error("Error creating food:", error);
     }
@@ -75,6 +86,7 @@ function Vendor() {
       Name: "",
       isAvailable: true,
       Price: 0,
+      Quantity: 0,
       File: null,
     });
     setCreatedFood(null);
@@ -87,28 +99,34 @@ function Vendor() {
         <strong>My Shop</strong>
       </h2>
       <div className="my-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Food Name</th>
-              <th>Price</th>
-              <th>Is Available</th>
-              <th>Photo</th>
-            </tr>
-          </thead>
-          <tbody>
-            {foods.map((food) => (
-              <tr key={food.id}>
-                <td>{food.name}</td>
-                <td>{food.price}</td>
-                <td>{food.isAvailable ? "Yes" : "No"}</td>
-                <td>
-                  <img src={food.imageUrl} alt={food.name} />
-                </td>
+        {foods.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Available</th>
+                <th>Image</th>
+                <th>Quantity</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {foods.map((food) => (
+                <tr key={food.id}>
+                  <td>{food.name}</td>
+                  <td>{food.price}</td>
+                  <td>{food.isAvailable ? "Yes" : "No"}</td>
+                  <td>
+                    <img src={food.imageUrl} alt={food.name} />
+                  </td>
+                  <td>{food.quantity}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No foods available.</p>
+        )}
       </div>
       <div className="my-button">
         <Button onClick={handleNewFoodClick}>ADD FOOD</Button>
