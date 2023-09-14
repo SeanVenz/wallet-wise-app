@@ -1,28 +1,29 @@
 import React, { useState, useEffect } from "react";
-import { createFood, getAllFoods } from "../../service/FoodService";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { addFood, getFoods } from "../../service/FoodService";
 import "./Vendor.css";
 
 function Vendor() {
   const [foodData, setFoodData] = useState({
-    FoodType: "",
-    Name: "",
-    isAvailable: true,
-    Price: 0,
-    Quantity: 0,
-    File: null,
+    foodName: '',
+    price: '',
+    isAvailable: false,
+    image: null,
+    foodType: '',
+    quantity: '',
   });
+
   const [createdFood, setCreatedFood] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [foods, setFoods] = useState([]);
 
-  // Fetch all foods from the API
+  // Fetch all foods from the Firestore using FoodService
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const foodsData = await getAllFoods();
+        const foodsData = await getFoods();
         setFoods(foodsData);
         console.log(foodsData);
       } catch (error) {
@@ -33,47 +34,51 @@ function Vendor() {
     fetchFoods();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-
-    // Handle the special case for file input
-    const file = type === "file" ? files[0] : null;
-
-    setFoodData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? e.target.checked : value,
-      File: file,
-    }));
+  const handleChange = (event) => {
+    const { name, value, type } = event.target;
+    setFoodData({
+      ...foodData,
+      [name]: type === 'checkbox' ? event.target.checked : value,
+    });
   };
+  
+
+  const handleImageChange = (event) => {
+    const imageFile = event.target.files[0];
+    setFoodData({
+      ...foodData,
+      image: imageFile,
+    });
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowModal(false);
-
+  
     try {
-      const createdFood = await createFood(foodData);
-      console.log("Food created successfully:", createdFood);
-
+      await addFood(foodData); // Use the addFood function from FoodService
+  
       // Fetch the updated list of foods again
-      const updatedFoods = await getAllFoods();
+      const updatedFoods = await getFoods();
       setFoods(updatedFoods);
-
-      setCreatedFood(createdFood);
+  
       setSuccessMessage("Food successfully created!");
-
+  
       // Reset the form fields in the state
       setFoodData({
-        FoodType: "",
-        Name: "",
-        isAvailable: true,
-        Price: 0,
-        Quantity: 0,
-        File: null,
+        foodName: '',
+        price: '',
+        isAvailable: false,
+        image: null,
+        foodType: '',
+        quantity: '',
       });
     } catch (error) {
       console.error("Error creating food:", error);
     }
   };
+
 
   const handleNewFoodClick = () => {
     setShowModal(true);
@@ -113,13 +118,13 @@ function Vendor() {
             <tbody>
               {foods.map((food) => (
                 <tr key={food.id}>
-                  <td>{food.name}</td>
-                  <td>{food.price}</td>
+                  <td>{food.Name}</td>
+                  <td>{food.Price}</td>
                   <td>{food.isAvailable ? "Yes" : "No"}</td>
                   <td>
-                    <img src={food.imageUrl} alt={food.name} />
+                    <img src={food.ImageUrl} alt={food.Name} />
                   </td>
-                  <td>{food.quantity}</td>
+                  <td>{food.Quantity}</td>
                 </tr>
               ))}
             </tbody>
@@ -141,8 +146,8 @@ function Vendor() {
               <label>
                 Type of Food:
                 <select
-                  name="FoodType"
-                  value={foodData.FoodType}
+                  name="foodType"
+                  value={foodData.foodType}
                   onChange={handleChange}
                   required
                 >
@@ -159,8 +164,8 @@ function Vendor() {
                 Food Name:
                 <input
                   type="text"
-                  name="Name"
-                  value={foodData.Name}
+                  name="foodName"
+                  value={foodData.foodName}
                   onChange={handleChange}
                   required
                 />
@@ -170,9 +175,21 @@ function Vendor() {
               <label>
                 Price:
                 <input
-                  type="text"
-                  name="Price"
-                  value={foodData.Price}
+                  type="number"
+                  name="price"
+                  value={foodData.price}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+            </div>
+            <div className="input-group input-price">
+              <label>
+                Quantity:
+                <input
+                  type="number"
+                  name="quantity"
+                  value={foodData.quantity}
                   onChange={handleChange}
                   required
                 />
@@ -194,8 +211,9 @@ function Vendor() {
                 Image:
                 <input
                   type="file"
-                  name="File"
-                  onChange={handleChange}
+                  accept="image/*"
+                  name="image"
+                  onChange={handleImageChange}
                   required
                 />
               </label>

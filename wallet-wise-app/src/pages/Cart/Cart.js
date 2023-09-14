@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { db, auth } from '../../utils/firebase';
-import { collection, query, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, query, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
 import Checkout from '../../components/Checkout/Checkout';
 
 function Cart() {
@@ -45,6 +45,29 @@ function Cart() {
     }
   };
 
+  // Function to update the quantity of an item in the cart and Firestore
+  const updateItemQuantity = async (itemId, newQuantity) => {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const userId = user.uid;
+
+        // Reference to the specific item in the cart
+        const cartItemRef = doc(db, 'carts', userId, 'items', itemId);
+
+        // Update the quantity in Firestore
+        await updateDoc(cartItemRef, { quantity: newQuantity });
+
+        // Fetch the updated cart items
+        fetchCartItems(userId);
+      } else {
+        console.error('User is not authenticated.');
+      }
+    } catch (error) {
+      console.error('Error updating item quantity:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
 
@@ -81,7 +104,9 @@ function Cart() {
         {cartItems.map((item, index) => (
           <li key={index}>
             {item.name} - Quantity: {item.quantity}, Price: ₱{item.totalPrice.toFixed(2)}
-            <button onClick={() => removeItemFromCart(item.id)}>Remove</button> {/* Add a "Remove" button */}
+            <button onClick={() => removeItemFromCart(item.id)}>Remove</button>
+            <button onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>-</button>
+            <button onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>+</button>
           </li> 
         ))}
       </ul>

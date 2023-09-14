@@ -7,7 +7,7 @@ function StudentDelivery() {
 
   useEffect(() => {
     // Reference to the "deliveries" collection
-    const deliveryCollectionRef = collection(db, "deliveries");
+    const deliveryCollectionRef = collection(db, "orders");
 
     // Query the collection and listen for changes
     const unsubscribe = onSnapshot(deliveryCollectionRef, (snapshot) => {

@@ -1,33 +1,29 @@
-import axios from "axios";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, setDoc, collection, getDocs } from "firebase/firestore";
+import { db, storage } from "../utils/firebase";
 
-const API_BASE_URL = "https://localhost:7273/api";
-
-export const createFood = async (foodData) => {
-  try {
-    const formData = new FormData();
-    for (const key in foodData) {
-      formData.append(key, foodData[key]);
-    }
-
-    const response = await axios.post(`${API_BASE_URL}/foods`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-
-    return response.data;
-  } catch (error) {
-    console.error(`Error creating food: ${error}`);
-    throw error;
-  }
+export const getFoods = async () => {
+  const foodCollection = collection(db, "food");
+  const foodSnapshot = await getDocs(foodCollection);
+  return foodSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
 };
 
-export const getAllFoods = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/foods`);
-    return response.data;
-  } catch (error) {
-    console.error(`Error getting all foods: ${error}`);
-    throw error;
-  }
+export const addFood = async ({ foodName, price, isAvailable, image, foodType, quantity }) => {
+
+  const storageRef = ref(storage, `foodImages/${image.name}`);
+  await uploadBytes(storageRef, image);
+  const imageUrl = await getDownloadURL(storageRef);
+
+  const foodDocRef = doc(db, "food", foodName);
+  await setDoc(foodDocRef, {
+    Name: foodName,
+    Price: price,
+    isAvailable: isAvailable,
+    ImageUrl: imageUrl,
+    FoodType: foodType,
+    Quantity: quantity
+  });
 };

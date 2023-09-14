@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getAllFoods } from "../../service/FoodService";
+import { getFoods } from "../../service/FoodService";
 import PHP from "../../images/php.png";
 import "./Market.css";
 import { FoodNav } from "../../components/FoodNav/FoodNav";
@@ -36,7 +36,7 @@ const StudentMarket = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const foodsData = await getAllFoods();
+        const foodsData = await getFoods();
         setFoods(foodsData);
         console.log(foodsData);
       } catch (error) {
@@ -80,17 +80,17 @@ const StudentMarket = () => {
           foods
             .filter(
               (food) =>
-                food.foodType === selectedFoodType || selectedFoodType === ""
+                food.FoodType === selectedFoodType || selectedFoodType === ""
             )
-            .filter((food) => food.price <= maxPrice)
+            .filter((food) => food.Price <= maxPrice)
             .filter((food) => food.isAvailable === true)
             .map((food, index) => (
               <FoodCard
                 key={index}
-                name={food.name}
-                img={food.imageUrl}
-                price={food.price}
-                number = {food.quantity}
+                name={food.Name}
+                img={food.ImageUrl}
+                price={food.Price}
+                number = {food.Quantity}
               />
             ))}
       </div>
