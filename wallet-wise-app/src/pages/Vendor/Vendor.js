@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
-import { addFood, getFoods } from "../../service/FoodService";
+import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
+import { auth } from '../../utils/firebase';
 import "./Vendor.css";
 
 function Vendor() {
@@ -23,11 +24,12 @@ function Vendor() {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const foodsData = await getFoods();
+        const userId = auth.currentUser.uid;
+        const foodsData = await getVendorFoods(userId);
         setFoods(foodsData);
         console.log(foodsData);
       } catch (error) {
-        console.error("Error fetching foods:", error);
+        console.error("Error fetching vendor foods:", error);
       }
     };
 
@@ -57,10 +59,15 @@ function Vendor() {
     setShowModal(false);
   
     try {
-      await addFood(foodData); // Use the addFood function from FoodService
+      const userId = auth.currentUser.uid;
+      await addAllFood(foodData);
+      await addFood({
+        ...foodData,
+        userId: userId, // Include the userId when calling addFood
+      });
   
       // Fetch the updated list of foods again
-      const updatedFoods = await getFoods();
+      const updatedFoods = await getVendorFoods(userId);
       setFoods(updatedFoods);
   
       setSuccessMessage("Food successfully created!");

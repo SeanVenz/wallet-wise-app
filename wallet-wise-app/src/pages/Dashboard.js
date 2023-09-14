@@ -1,116 +1,80 @@
-import React, { useState } from 'react';
-import { addFood } from '../service/FoodService'; // Import the addFood function from your Firebase functions file
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../utils/firebase";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../utils/firebase";
+import { getFoods } from "../service/FoodService";
 
-function Dashboard() {
-  const [foodData, setFoodData] = useState({
-    foodName: '',
-    price: '',
-    isAvailable: false,
-    image: null,
-    foodType: '',
-    quantity: '',
-  });
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const [fullName, setFullName] = useState("");
+  const [idNumber, setIdNumber] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [foods, setFoods] = useState([]);
 
-  const handleInputChange = (event) => {
-    const { name, value, type } = event.target;
-    setFoodData({
-      ...foodData,
-      [name]: type === 'checkbox' ? event.target.checked : value,
-    });
-  };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      // Fetch full name from the user profile
+      if (auth.currentUser.displayName) {
+        setFullName(auth.currentUser.displayName);
+      }
 
-  const handleImageChange = (event) => {
-    const imageFile = event.target.files[0];
-    setFoodData({
-      ...foodData,
-      image: imageFile,
-    });
-  };
+      // Fetch ID number from Firestore
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      const docSnap = await getDoc(userDocRef);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    // Call the addFood function to add the food item to Firebase
-    await addFood(foodData);
-    // Clear the form after submitting
-    setFoodData({
-      foodName: '',
-      price: '',
-      isAvailable: false,
-      image: null,
-      foodType: '',
-      quantity: '',
-    });
+      if (docSnap.exists()) {
+        setPhoneNumber(docSnap.data().phoneNumber);
+        setIdNumber(docSnap.data().idNumber);
+      } else {
+        console.log("No such document!");
+      }
+    };
+
+    fetchUserData();
+
+    // Fetch all foods from the API
+    const fetchFoods = async () => {
+      try {
+        const foodsData = await getFoods();
+        setFoods(foodsData);
+        console.log("here: ", foodsData);
+      } catch (error) {
+        console.error("Error fetching foods:", error);
+      }
+    };
+
+    fetchFoods();
+  }, []);
+
+  const handleLogOut = async () => {
+    await auth.signOut();
+    navigate("/");
   };
 
   return (
     <div>
-      <h2>Add Food</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Food Name:</label>
-          <input
-            type="text"
-            name="foodName"
-            value={foodData.foodName}
-            onChange={handleInputChange}
-            required
-          />
+      <h1>Dashboard Page</h1>
+      <p>Full Name: {fullName}</p>
+      <p>ID Number: {idNumber}</p>
+      <p>Phone Number: {phoneNumber}</p>
+      <button onClick={handleLogOut}>Log Out</button>
+      <h2>Available Foods:</h2>
+      {foods.map((food, index) => (
+        <div key={index}>
+          <h3>Food Type: {food.FoodType}</h3>{" "}
+          {/* Use "FoodType" instead of "foodType" */}
+          <p>Food Name: {food.Name}</p> {/* Use "Name" instead of "name" */}
+          <p>
+            Availability: {food.isAvailable ? "Available" : "Not Available"}
+          </p>
+          <p>Price: {food.Price}</p> {/* Use "Price" instead of "price" */}
+          <img src={food.ImageUrl} alt={food.Name}></img>{" "}
+          {/* Use "ImageUrl" instead of "imageUrl" */}
         </div>
-        <div>
-          <label>Price:</label>
-          <input
-            type="number"
-            name="price"
-            value={foodData.price}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Is Available:</label>
-          <input
-            type="checkbox"
-            name="isAvailable"
-            checked={foodData.isAvailable}
-            onChange={handleInputChange}
-          />
-        </div>
-        <div>
-          <label>Image:</label>
-          <input
-            type="file"
-            accept="image/*"
-            name="image"
-            onChange={handleImageChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Food Type:</label>
-          <input
-            type="text"
-            name="foodType"
-            value={foodData.foodType}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <label>Quantity:</label>
-          <input
-            type="number"
-            name="quantity"
-            value={foodData.quantity}
-            onChange={handleInputChange}
-            required
-          />
-        </div>
-        <div>
-          <button type="submit">Add Food</button>
-        </div>
-      </form>
+      ))}
     </div>
   );
-}
+};
 
 export default Dashboard;

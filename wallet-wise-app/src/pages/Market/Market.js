@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getFoods } from "../../service/FoodService";
+import { getAllFoods } from "../../service/FoodService";
 import PHP from "../../images/php.png";
 import "./Market.css";
 import { FoodNav } from "../../components/FoodNav/FoodNav";
@@ -36,11 +36,11 @@ const StudentMarket = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const foodsData = await getFoods();
+        const foodsData = await getAllFoods();
         setFoods(foodsData);
         console.log(foodsData);
       } catch (error) {
-        console.error("Error fetching foods:", error);
+        console.error("Error fetching all foods:", error);
       }
     };
 
