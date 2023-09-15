@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { db, auth } from '../../utils/firebase';
-import { collection, query, getDocs, deleteDoc, doc, getDoc, updateDoc, arrayUnion, arrayRemove } from 'firebase/firestore';
+import { collection, query, getDocs, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import Checkout from '../../components/Checkout/Checkout';
-
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [fullName, setFullName] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  // Function to fetch cart items based on the user's UID
+  //Function to fetch cart items based on the user's UID
   const fetchCartItems = async (userId) => {
     try {
       const cartCollectionRef = collection(db, 'carts', userId, 'items');

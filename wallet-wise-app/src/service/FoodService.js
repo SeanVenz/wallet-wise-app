@@ -1,6 +1,6 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc, collection, getDocs, query, getDoc, updateDoc } from "firebase/firestore";
-import { auth, db, storage } from "../utils/firebase";
+import { doc, setDoc, collection, getDocs, query } from "firebase/firestore";
+import { db, storage } from "../utils/firebase";
 
 export const getFoods = async () => {
   const vendorsCollection = collection(db, "vendors");
