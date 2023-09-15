@@ -8,10 +8,10 @@ import "./Vendor.css";
 function Vendor() {
   const [foodData, setFoodData] = useState({
     foodName: '',
-    price: '',
+    price: 0,
     isAvailable: false,
     image: null,
-    foodType: '',
+    foodType: 0,
     quantity: '',
   });
 
@@ -75,11 +75,11 @@ function Vendor() {
       // Reset the form fields in the state
       setFoodData({
         foodName: '',
-        price: '',
+        price: 0,
         isAvailable: false,
         image: null,
         foodType: '',
-        quantity: '',
+        quantity: 0,
       });
     } catch (error) {
       console.error("Error creating food:", error);

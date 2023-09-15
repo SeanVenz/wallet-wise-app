@@ -16,7 +16,7 @@ function Cart() {
       const cartQuery = query(cartCollectionRef);
       const cartSnapshot = await getDocs(cartQuery);
       const items = cartSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })); // Include document ID
-      setCartItems(items);
+      setCartItems(items) ;
     } catch (error) {
       console.error('Error fetching cart items:', error);
     }
@@ -49,14 +49,23 @@ function Cart() {
   const updateItemQuantity = async (itemId, newQuantity) => {
     try {
       const user = auth.currentUser;
+      var unitPrice = 0;
+      var newTotalPrice = 0;
       if (user) {
         const userId = user.uid;
 
         // Reference to the specific item in the cart
         const cartItemRef = doc(db, 'carts', userId, 'items', itemId);
 
+        const itemRefSnapshot = await getDoc(cartItemRef);
+
+        if (itemRefSnapshot.exists()) {
+          unitPrice = itemRefSnapshot.data().unitPrice;
+          newTotalPrice = unitPrice * newQuantity;
+        }
+
         // Update the quantity in Firestore
-        await updateDoc(cartItemRef, { quantity: newQuantity });
+        await updateDoc(cartItemRef, { quantity: newQuantity, totalPrice: newTotalPrice });
 
         // Fetch the updated cart items
         fetchCartItems(userId);
