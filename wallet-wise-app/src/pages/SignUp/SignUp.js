@@ -8,14 +8,23 @@ const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [idNumber, setIdNumber] = useState("");
+  const [role, setRole] = useState(""); // Default role is student
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const user = await authService.signUp(email, password, fullName, idNumber, phoneNumber);
-      await authService.sendVerificationEmail(user);
+      // Sign up the user and set their role as part of the account creation
+      await authService.signUp(
+        email,
+        password,
+        fullName,
+        idNumber,
+        phoneNumber,
+        role
+      );
+
       navigate("/verify-email");
     } catch (err) {
       setError(err.message);
@@ -55,6 +64,16 @@ const SignUp = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
+        <div>
+          <label>
+            Role:
+            <select value={role} onChange={(e) => setRole(e.target.value)}>
+              <option value="">Select option ...</option>
+              <option value="student">Student</option>
+              <option value="vendor">Vendor</option>
+            </select>
+          </label>
+        </div>
         {error && <p>{error}</p>}
         <button type="submit">Sign up</button>
       </form>

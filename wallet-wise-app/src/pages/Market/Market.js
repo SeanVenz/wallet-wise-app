@@ -40,7 +40,7 @@ const StudentMarket = () => {
         setFoods(foodsData);
         console.log(foodsData);
       } catch (error) {
-        console.error("Error fetching foods:", error);
+        console.error("Error fetching all foods:", error);
       }
     };
 
@@ -80,16 +80,17 @@ const StudentMarket = () => {
           foods
             .filter(
               (food) =>
-                food.foodType === selectedFoodType || selectedFoodType === ""
+                food.FoodType === selectedFoodType || selectedFoodType === ""
             )
-            .filter((food) => food.price <= maxPrice)
+            .filter((food) => food.Price <= maxPrice)
             .filter((food) => food.isAvailable === true)
             .map((food, index) => (
               <FoodCard
                 key={index}
-                name={food.name}
-                img={food.imageUrl}
-                price={food.price}
+                name={food.Name}
+                img={food.ImageUrl}
+                price={food.Price}
+                number = {food.Quantity}
               />
             ))}
       </div>

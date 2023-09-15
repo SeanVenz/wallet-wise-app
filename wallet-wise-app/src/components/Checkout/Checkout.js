@@ -37,7 +37,7 @@ function Checkout({ cartItems, fullName, idNumber, phoneNumber }) {
       if (user) {
         const userId = user.uid;
 
-        const deliveryCollectionRef = collection(db, 'deliveries');
+        const deliveryCollectionRef = collection(db, 'orders');
 
         const itemsToCheckout = cartItems.map((item) => ({
           itemName: item.name,

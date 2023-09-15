@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { db, auth } from '../../utils/firebase';
-import { collection, query, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { collection, query, getDocs, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import Checkout from '../../components/Checkout/Checkout';
-
 function Cart() {
   const [cartItems, setCartItems] = useState([]);
   const [fullName, setFullName] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
-  // Function to fetch cart items based on the user's UID
+  //Function to fetch cart items based on the user's UID
   const fetchCartItems = async (userId) => {
     try {
       const cartCollectionRef = collection(db, 'carts', userId, 'items');
       const cartQuery = query(cartCollectionRef);
       const cartSnapshot = await getDocs(cartQuery);
       const items = cartSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })); // Include document ID
-      setCartItems(items);
+      setCartItems(items) ;
     } catch (error) {
       console.error('Error fetching cart items:', error);
     }
@@ -42,6 +41,38 @@ function Cart() {
       }
     } catch (error) {
       console.error('Error removing item from cart:', error);
+    }
+  };
+
+  // Function to update the quantity of an item in the cart and Firestore
+  const updateItemQuantity = async (itemId, newQuantity) => {
+    try {
+      const user = auth.currentUser;
+      var unitPrice = 0;
+      var newTotalPrice = 0;
+      if (user) {
+        const userId = user.uid;
+
+        // Reference to the specific item in the cart
+        const cartItemRef = doc(db, 'carts', userId, 'items', itemId);
+
+        const itemRefSnapshot = await getDoc(cartItemRef);
+
+        if (itemRefSnapshot.exists()) {
+          unitPrice = itemRefSnapshot.data().unitPrice;
+          newTotalPrice = unitPrice * newQuantity;
+        }
+
+        // Update the quantity in Firestore
+        await updateDoc(cartItemRef, { quantity: newQuantity, totalPrice: newTotalPrice });
+
+        // Fetch the updated cart items
+        fetchCartItems(userId);
+      } else {
+        console.error('User is not authenticated.');
+      }
+    } catch (error) {
+      console.error('Error updating item quantity:', error);
     }
   };
 
@@ -81,7 +112,9 @@ function Cart() {
         {cartItems.map((item, index) => (
           <li key={index}>
             {item.name} - Quantity: {item.quantity}, Price: ₱{item.totalPrice.toFixed(2)}
-            <button onClick={() => removeItemFromCart(item.id)}>Remove</button> {/* Add a "Remove" button */}
+            <button onClick={() => removeItemFromCart(item.id)}>Remove</button>
+            <button onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>-</button>
+            <button onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>+</button>
           </li> 
         ))}
       </ul>

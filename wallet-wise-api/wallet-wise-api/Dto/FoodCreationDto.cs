@@ -15,7 +15,9 @@ public class FoodCreationDto
     [FirestoreProperty]
     [Required(ErrorMessage = "Availability is Required!")]
     public bool isAvailable { get; set; }
-
+    [FirestoreProperty]
+    [Required(ErrorMessage = "Quantity is Required!")]
+    public int Quantity { get; set; }
     [Required(ErrorMessage = "Price is Required!")]
     [FirestoreProperty]
     public int Price { get; set; }

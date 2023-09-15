@@ -1,33 +1,98 @@
-import axios from "axios";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { doc, setDoc, collection, getDocs, query } from "firebase/firestore";
+import { db, storage } from "../utils/firebase";
 
-const API_BASE_URL = "https://localhost:7273/api";
+export const getFoods = async () => {
+  const vendorsCollection = collection(db, "vendors");
+  const vendorSnapshot = await getDocs(vendorsCollection);
+  const vendorFoods = [];
 
-export const createFood = async (foodData) => {
+  vendorSnapshot.forEach((vendorDoc) => {
+    const vendorId = vendorDoc.id;
+    const foodsCollection = collection(vendorDoc.ref, "foods");
+    const foodsSnapshot = getDocs(foodsCollection);
+
+    foodsSnapshot.forEach((foodDoc) => {
+      vendorFoods.push({
+        ...foodDoc.data(),
+        id: foodDoc.id,
+        vendorId: vendorId,
+      });
+    });
+  });
+  return vendorFoods;
+};
+
+export const getVendorFoods = async (userId) => {
+  const vendorFoodCollection = collection(db, "vendors", userId, "foods");
+  const vendorFoodQuery = query(vendorFoodCollection);
+  const vendorFoodSnapshot = await getDocs(vendorFoodQuery);
+  console.log(vendorFoodSnapshot)
+  return vendorFoodSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
+};
+
+export const addFood = async ({
+  foodName,
+  price,
+  isAvailable,
+  image,
+  foodType,
+  quantity,
+  userId, // Add a userId parameter
+}) => {
   try {
-    const formData = new FormData();
-    for (const key in foodData) {
-      formData.append(key, foodData[key]);
-    }
+    const storageRef = ref(storage, `foodImages/${image.name}`);
+    await uploadBytes(storageRef, image);
+    const imageUrl = await getDownloadURL(storageRef);
 
-    const response = await axios.post(`${API_BASE_URL}/foods`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
+    // Create a unique identifier for the food item
+    const foodId = `${userId}-${foodName}-${Date.now()}`;
+
+    // Reference to the vendor-specific food collection
+    const foodDocRef = doc(db, "vendors", userId, "foods", foodId);
+
+    await setDoc(foodDocRef, {
+      Name: foodName,
+      Price: price,
+      isAvailable: isAvailable,
+      ImageUrl: imageUrl,
+      FoodType: foodType,
+      Quantity: quantity,
     });
 
-    return response.data;
+    console.log("Food item added with ID:", foodId);
   } catch (error) {
-    console.error(`Error creating food: ${error}`);
+    console.error("Error adding food item:", error);
     throw error;
   }
 };
 
+
 export const getAllFoods = async () => {
-  try {
-    const response = await axios.get(`${API_BASE_URL}/foods`);
-    return response.data;
-  } catch (error) {
-    console.error(`Error getting all foods: ${error}`);
-    throw error;
-  }
+  const foodCollection = collection(db, "food");
+  const foodSnapshot = await getDocs(foodCollection);
+  return foodSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
+};
+
+export const addAllFood = async ({ foodName, price, isAvailable, image, foodType, quantity }) => {
+
+  const storageRef = ref(storage, `images/${image.name}`);
+  await uploadBytes(storageRef, image);
+  const imageUrl = await getDownloadURL(storageRef);
+
+  const foodDocRef = doc(db, "food", foodName);
+  await setDoc(foodDocRef, {
+    Name: foodName,
+    Price: price,
+    isAvailable: isAvailable,
+    ImageUrl: imageUrl,
+    FoodType: foodType,
+    Quantity: quantity
+  });
 };

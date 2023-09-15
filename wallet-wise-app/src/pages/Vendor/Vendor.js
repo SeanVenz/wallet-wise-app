@@ -1,68 +1,91 @@
 import React, { useState, useEffect } from "react";
-import { createFood, getAllFoods } from "../../service/FoodService";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
+import { auth } from '../../utils/firebase';
 import "./Vendor.css";
 
 function Vendor() {
   const [foodData, setFoodData] = useState({
-    FoodType: "",
-    Name: "",
-    isAvailable: true,
-    Price: 0,
-    File: null,
+    foodName: '',
+    price: 0,
+    isAvailable: false,
+    image: null,
+    foodType: 0,
+    quantity: '',
   });
+
   const [createdFood, setCreatedFood] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [foods, setFoods] = useState([]);
 
-  // Fetch all foods from the API
+  // Fetch all foods from the Firestore using FoodService
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const foodsData = await getAllFoods();
+        const userId = auth.currentUser.uid;
+        const foodsData = await getVendorFoods(userId);
         setFoods(foodsData);
         console.log(foodsData);
       } catch (error) {
-        console.error("Error fetching foods:", error);
+        console.error("Error fetching vendor foods:", error);
       }
     };
 
     fetchFoods();
   }, []);
 
-  const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-
-    // Handle the special case for file input
-    const file = type === "file" ? files[0] : null;
-
-    setFoodData((prevData) => ({
-      ...prevData,
-      [name]: type === "checkbox" ? e.target.checked : value,
-      File: file,
-    }));
+  const handleChange = (event) => {
+    const { name, value, type } = event.target;
+    setFoodData({
+      ...foodData,
+      [name]: type === 'checkbox' ? event.target.checked : value,
+    });
   };
+  
+
+  const handleImageChange = (event) => {
+    const imageFile = event.target.files[0];
+    setFoodData({
+      ...foodData,
+      image: imageFile,
+    });
+  };
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowModal(false);
-
+  
     try {
-      const createdFood = await createFood(foodData);
-      console.log("Food created successfully:", createdFood);
-
+      const userId = auth.currentUser.uid;
+      await addAllFood(foodData);
+      await addFood({
+        ...foodData,
+        userId: userId, // Include the userId when calling addFood
+      });
+  
       // Fetch the updated list of foods again
-      const updatedFoods = await getAllFoods();
+      const updatedFoods = await getVendorFoods(userId);
       setFoods(updatedFoods);
-
-      setCreatedFood(createdFood);
+  
       setSuccessMessage("Food successfully created!");
+  
+      // Reset the form fields in the state
+      setFoodData({
+        foodName: '',
+        price: 0,
+        isAvailable: false,
+        image: null,
+        foodType: '',
+        quantity: 0,
+      });
     } catch (error) {
       console.error("Error creating food:", error);
     }
   };
+
 
   const handleNewFoodClick = () => {
     setShowModal(true);
@@ -75,6 +98,7 @@ function Vendor() {
       Name: "",
       isAvailable: true,
       Price: 0,
+      Quantity: 0,
       File: null,
     });
     setCreatedFood(null);
@@ -87,28 +111,34 @@ function Vendor() {
         <strong>My Shop</strong>
       </h2>
       <div className="my-table">
-        <table>
-          <thead>
-            <tr>
-              <th>Food Name</th>
-              <th>Price</th>
-              <th>Is Available</th>
-              <th>Photo</th>
-            </tr>
-          </thead>
-          <tbody>
-            {foods.map((food) => (
-              <tr key={food.id}>
-                <td>{food.name}</td>
-                <td>{food.price}</td>
-                <td>{food.isAvailable ? "Yes" : "No"}</td>
-                <td>
-                  <img src={food.imageUrl} alt={food.name} />
-                </td>
+        {foods.length > 0 ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Available</th>
+                <th>Image</th>
+                <th>Quantity</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {foods.map((food) => (
+                <tr key={food.id}>
+                  <td>{food.Name}</td>
+                  <td>{food.Price}</td>
+                  <td>{food.isAvailable ? "Yes" : "No"}</td>
+                  <td>
+                    <img src={food.ImageUrl} alt={food.Name} />
+                  </td>
+                  <td>{food.Quantity}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p>No foods available.</p>
+        )}
       </div>
       <div className="my-button">
         <Button onClick={handleNewFoodClick}>ADD FOOD</Button>
@@ -123,8 +153,8 @@ function Vendor() {
               <label>
                 Type of Food:
                 <select
-                  name="FoodType"
-                  value={foodData.FoodType}
+                  name="foodType"
+                  value={foodData.foodType}
                   onChange={handleChange}
                   required
                 >
@@ -141,8 +171,8 @@ function Vendor() {
                 Food Name:
                 <input
                   type="text"
-                  name="Name"
-                  value={foodData.Name}
+                  name="foodName"
+                  value={foodData.foodName}
                   onChange={handleChange}
                   required
                 />
@@ -152,9 +182,21 @@ function Vendor() {
               <label>
                 Price:
                 <input
-                  type="text"
-                  name="Price"
-                  value={foodData.Price}
+                  type="number"
+                  name="price"
+                  value={foodData.price}
+                  onChange={handleChange}
+                  required
+                />
+              </label>
+            </div>
+            <div className="input-group input-price">
+              <label>
+                Quantity:
+                <input
+                  type="number"
+                  name="quantity"
+                  value={foodData.quantity}
                   onChange={handleChange}
                   required
                 />
@@ -176,8 +218,9 @@ function Vendor() {
                 Image:
                 <input
                   type="file"
-                  name="File"
-                  onChange={handleChange}
+                  accept="image/*"
+                  name="image"
+                  onChange={handleImageChange}
                   required
                 />
               </label>

@@ -14,14 +14,15 @@ const LogIn = () => {
     try {
       await authService.logIn(email, password);
       const user = authService.getCurrentUser();
-
+  
       if (!user.emailVerified) {
         setError("Please verify your email first.");
         authService.logOut();
-      } else if (authService.isAdmin(user)) {
-        navigate("/admin");
       } else {
-        navigate("/dashboard");
+        // Retrieve the user's role from Firestore
+        const role = await authService.getUserRoleFromFirestore(user.uid);
+
+        role === "vendor" ? navigate("/vendor") : navigate("/student");;
       }
     } catch (err) {
       setError(err.message);

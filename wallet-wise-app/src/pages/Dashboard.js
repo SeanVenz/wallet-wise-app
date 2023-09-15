@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../utils/firebase";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../utils/firebase";
-import { getAllFoods } from "../service/FoodService";
+import { getFoods } from "../service/FoodService";
 
-const Dashboard = () => { 
+const Dashboard = () => {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [idNumber, setIdNumber] = useState("");
@@ -36,9 +36,9 @@ const Dashboard = () => {
     // Fetch all foods from the API
     const fetchFoods = async () => {
       try {
-        const foodsData = await getAllFoods();
+        const foodsData = await getFoods();
         setFoods(foodsData);
-        console.log(foodsData);
+        console.log("here: ", foodsData);
       } catch (error) {
         console.error("Error fetching foods:", error);
       }
@@ -61,14 +61,16 @@ const Dashboard = () => {
       <button onClick={handleLogOut}>Log Out</button>
       <h2>Available Foods:</h2>
       {foods.map((food, index) => (
-        <div id={index}>
-          <h3>Food Type: {food.foodType}</h3>
-          <p>Food Name: {food.name}</p>
+        <div key={index}>
+          <h3>Food Type: {food.FoodType}</h3>{" "}
+          {/* Use "FoodType" instead of "foodType" */}
+          <p>Food Name: {food.Name}</p> {/* Use "Name" instead of "name" */}
           <p>
             Availability: {food.isAvailable ? "Available" : "Not Available"}
           </p>
-          <p>Price: {food.price}</p>
-          <img src={food.imageUrl} alt={food.name}></img>
+          <p>Price: {food.Price}</p> {/* Use "Price" instead of "price" */}
+          <img src={food.ImageUrl} alt={food.Name}></img>{" "}
+          {/* Use "ImageUrl" instead of "imageUrl" */}
         </div>
       ))}
     </div>

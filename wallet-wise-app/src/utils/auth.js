@@ -1,8 +1,8 @@
 import { auth, db } from '../utils/firebase';  // Import Firestore database
 import { createUserWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-const signUp = async (email, password, fullName, idNumber, phoneNumber) => {
+const signUp = async (email, password, fullName, idNumber, phoneNumber, role) => {
   const userCredential = await createUserWithEmailAndPassword(auth, email, password);
   const user = userCredential.user;
   
@@ -11,8 +11,9 @@ const signUp = async (email, password, fullName, idNumber, phoneNumber) => {
   
   // Store the ID number in Firestore
   const userDocRef = doc(db, 'users', user.uid);
-  await setDoc(userDocRef, { idNumber, phoneNumber });
+  await setDoc(userDocRef, { idNumber, phoneNumber, role });
   
+  await sendEmailVerification(user);
   return user;
 };
 
@@ -46,6 +47,16 @@ const observeAuthChanges = (callback) => {
   return onAuthStateChanged(auth, callback);
 };
 
+const getUserRoleFromFirestore = async (uid) => {
+  const userDocRef = doc(db, 'users', uid);
+  const userDocSnapshot = await getDoc(userDocRef);
+  if (userDocSnapshot.exists()) {
+    return userDocSnapshot.data().role;
+  } else {
+    return null;
+  }
+};
+
 const authService = {
   signUp,
   sendVerificationEmail,
@@ -54,6 +65,7 @@ const authService = {
   getCurrentUser,
   sendResetPasswordEmail,
   observeAuthChanges,
+  getUserRoleFromFirestore
 };
 
 export default authService;

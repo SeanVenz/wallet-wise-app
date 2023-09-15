@@ -7,7 +7,7 @@ import { doc, setDoc } from "firebase/firestore";
 import authService from "../../utils/auth";
 
 export const FoodCard = (props) => {
-  const { img, name, price } = props;
+  const { img, name, price, number } = props;
   const [showModal, setShowModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
 
@@ -63,6 +63,7 @@ export const FoodCard = (props) => {
           <h4>
             <strong>₱{parseFloat(price).toFixed(2)}</strong>
           </h4>
+          <p>In Stock: {number}</p>
         </div>
         <div className="bottom">
           <img src={cart} alt="cart" onClick={handleOpenModal} />

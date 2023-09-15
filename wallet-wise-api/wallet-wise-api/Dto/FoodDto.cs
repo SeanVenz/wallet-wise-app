@@ -12,5 +12,7 @@ public class FoodDto
     [FirestoreProperty]
     public int Price { get; set; }
     [FirestoreProperty]
+    public int Quantity { get; set; }
+    [FirestoreProperty]
     public string? ImageUrl { get; set; }
 }
