@@ -41,11 +41,7 @@ function App() {
         <Route
           path="/login"
           element={
-            user && user.emailVerified ? (
-              <Navigate to="/student" />
-            ) : (
-              <Login />
-            )
+            user && user.emailVerified ? <Navigate to="/student" /> : <Login />
           }
         />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -78,27 +74,23 @@ function App() {
         <Route
           path="/admin"
           element={
-            user && user.emailVerified ? (
-              <Admin />
-            ) : (
-              <Navigate to="/login" />
-            )
+            user && user.emailVerified ? <Admin /> : <Navigate to="/login" />
           }
         />
         <Route
           path="/student/*"
           element={
             user && user.emailVerified ? (
-            <div style={{ display: "flex" }}>
-              <StudentSidebar />
-              <Routes>
-                <Route index={true} element={<Student />} />
-                <Route path="market" element={<StudentMarket />} />
-                <Route path="profile" element={<StudentProfile />} />
-                <Route path="orders" element={<StudentDelivery />} />
-                <Route path="cart" element={<Cart />} />
-              </Routes>
-            </div>
+              <div style={{ display: "flex" }}>
+                <StudentSidebar />
+                <Routes>
+                  <Route index={true} element={<Student />} />
+                  <Route path="market" element={<StudentMarket />} />
+                  <Route path="profile" element={<StudentProfile />} />
+                  <Route path="orders" element={<StudentDelivery />} />
+                  <Route path="cart" element={<Cart />} />
+                </Routes>
+              </div>
             ) : (
               <Navigate to="/login" />
             )
@@ -108,12 +100,12 @@ function App() {
           path="/vendor/*"
           element={
             user && user.emailVerified ? (
-            <div style={{ display: "flex" }}>
-              <VendorSidebar />
-              <Routes>
-                <Route index={true} element={<Vendor />} />
-              </Routes>
-            </div>
+              <div style={{ display: "flex" }}>
+                <VendorSidebar />
+                <Routes>
+                  <Route index={true} element={<Vendor />} />
+                </Routes>
+              </div>
             ) : (
               <Navigate to="/login" />
             )
