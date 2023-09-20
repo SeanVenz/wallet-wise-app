@@ -56,11 +56,13 @@ export const FoodCard = (props) => {
         const cartDocRef = doc(db, "carts", userId, "items", itemId);
 
         await setDoc(cartDocRef, {
+          foodId: id,
           name: name,
           unitPrice: price,
           quantity: quantity,
           totalPrice: price * quantity,
           storeName: storeName,
+          number: number
         });
 
         console.log("Item added to cart with ID:", itemId);

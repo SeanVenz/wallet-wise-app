@@ -9,14 +9,36 @@ function Cart() {
   const [idNumber, setIdNumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
+  const [foodId, setFoodId] = useState([]);
+  const [number, setNumber] = useState([]);
+  const [quantity, setQuantity] = useState([]);
+
   //Function to fetch cart items based on the user's UID
   const fetchCartItems = async (userId) => {
     try {
       const cartCollectionRef = collection(db, 'carts', userId, 'items');
       const cartQuery = query(cartCollectionRef);
       const cartSnapshot = await getDocs(cartQuery);
-      const items = cartSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })); // Include document ID
-      setCartItems(items) ;
+      const items = cartSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()})); // Include document ID
+
+      const fetchedFoodIds = [];
+      const fetchedNumbers = [];
+      const fetchedQuantities = [];
+  
+      items.forEach((item) => {
+        fetchedFoodIds.push(item.foodId);
+        fetchedNumbers.push(item.number);
+        fetchedQuantities.push(item.quantity);
+      });
+  
+      setFoodId(fetchedFoodIds);
+      setNumber(fetchedNumbers);
+      setQuantity(fetchedQuantities);
+
+      // console.log(items);
+      console.log(foodId);
+
+      setCartItems(items);
     } catch (error) {
       console.error('Error fetching cart items:', error);
     }
@@ -102,7 +124,6 @@ function Cart() {
         }
       }
     };
-
     fetchUserData();
   }, []);
 
@@ -124,6 +145,9 @@ function Cart() {
         fullName={fullName}
         idNumber={idNumber}
         phoneNumber={phoneNumber}
+        foodId = {foodId}
+        number = {number}
+        quantity = {quantity}
       />
     </div>
   );
