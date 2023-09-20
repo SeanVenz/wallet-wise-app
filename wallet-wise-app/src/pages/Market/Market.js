@@ -84,6 +84,7 @@ const StudentMarket = () => {
             )
             .filter((food) => food.Price <= maxPrice)
             .filter((food) => food.isAvailable === true)
+            .filter((food) => food.Quantity > 0)
             .map((food, index) => (
               <FoodCard
                 key={index}
@@ -92,6 +93,7 @@ const StudentMarket = () => {
                 price={food.Price}
                 number = {food.Quantity}
                 storeName = {food.StoreName}
+                id = {food.id}
               />
             ))}
       </div>

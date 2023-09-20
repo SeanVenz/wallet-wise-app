@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { db } from '../../utils/firebase';
-import { collection, addDoc, query, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, query, getDocs, deleteDoc, doc, } from 'firebase/firestore';
 import authService from '../../utils/auth';
 
 function Checkout({ cartItems, fullName, idNumber, phoneNumber }) {

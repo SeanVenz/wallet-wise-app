@@ -3,11 +3,12 @@ import "./FoodCard.css";
 import cart from "../../images/cart.png";
 import map from "../../images/location.png";
 import { db } from "../../utils/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import authService from "../../utils/auth";
+import Cart from "../../pages/Cart/Cart";
 
 export const FoodCard = (props) => {
-  const { img, name, price, number, storeName } = props;
+  const { img, name, price, number, storeName, id } = props;
   const [showModal, setShowModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [errorMsg, setErrorMsg] = useState("");
@@ -20,34 +21,23 @@ export const FoodCard = (props) => {
     setShowModal(false);
   };
 
-  // const updateItemQuantity = async (itemId, newQuantity) => {
+  // const updateItemQuantity = async () => {
   //   try {
-  //     const user = auth.currentUser;
-  //     var unitPrice = 0;
-  //     var newTotalPrice = 0;
-  //     if (user) {
-  //       const userId = user.uid;
+  //     // Reference to the specific item in the food
+  //     const foodItemRef = doc(db, "food", id);
+  //     const newQuantity = quantity - number;
 
-  //       // Reference to the specific item in the cart
-  //       const cartItemRef = doc(db, 'carts', userId, 'items', itemId);
+  //     const foodRefSnapshot = await getDoc(foodItemRef);
 
-  //       const itemRefSnapshot = await getDoc(cartItemRef);
-
-  //       if (itemRefSnapshot.exists()) {
-  //         unitPrice = itemRefSnapshot.data().unitPrice;
-  //         newTotalPrice = unitPrice * newQuantity;
-  //       }
-
+  //     if (foodRefSnapshot.exists()) {
   //       // Update the quantity in Firestore
-  //       await updateDoc(cartItemRef, { quantity: newQuantity, totalPrice: newTotalPrice });
-
-  //       // Fetch the updated cart items
-  //       fetchCartItems(userId);
-  //     } else {
-  //       console.error('User is not authenticated.');
+  //       await updateDoc(foodItemRef, {
+  //         Quantity: newQuantity,
+  //       });
   //     }
   //   } catch (error) {
-  //     console.error('Error updating item quantity:', error);
+  //     console.error("Error updating item quantity:", error);
+  //     return false;
   //   }
   // };
 
@@ -70,10 +60,12 @@ export const FoodCard = (props) => {
           unitPrice: price,
           quantity: quantity,
           totalPrice: price * quantity,
-          storeName: storeName
+          storeName: storeName,
         });
 
         console.log("Item added to cart with ID:", itemId);
+
+        // updateItemQuantity();
 
         // Reset form fields and options
         setQuantity(1);
