@@ -1,5 +1,5 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc, collection, getDocs, query } from "firebase/firestore";
+import { doc, setDoc, collection, getDocs, query, addDoc } from "firebase/firestore";
 import { db, storage } from "../utils/firebase";
 
 export const getFoods = async () => {
@@ -9,7 +9,7 @@ export const getFoods = async () => {
 
   vendorSnapshot.forEach((vendorDoc) => {
     const vendorId = vendorDoc.id;
-    const foodsCollection = collection(vendorDoc.ref, "foods");
+    const foodsCollection = collection(vendorDoc.ref, "foods"); 
     const foodsSnapshot = getDocs(foodsCollection);
 
     foodsSnapshot.forEach((foodDoc) => {
@@ -80,19 +80,21 @@ export const getAllFoods = async () => {
   }));
 };
 
-export const addAllFood = async ({ foodName, price, isAvailable, image, foodType, quantity }) => {
+export const addAllFood = async ({ foodName, price, isAvailable, image, foodType, quantity, storeName }) => {
 
   const storageRef = ref(storage, `images/${image.name}`);
   await uploadBytes(storageRef, image);
   const imageUrl = await getDownloadURL(storageRef);
 
-  const foodDocRef = doc(db, "food", foodName);
-  await setDoc(foodDocRef, {
+  // Get a reference to the "food" collection and use addDoc to create a new document with a random ID
+  const foodCollectionRef = collection(db, "food");
+  await addDoc(foodCollectionRef, {
     Name: foodName,
     Price: price,
     isAvailable: isAvailable,
     ImageUrl: imageUrl,
     FoodType: foodType,
-    Quantity: quantity
+    Quantity: quantity,
+    StoreName: storeName,
   });
 };

@@ -29,6 +29,7 @@ function StudentDelivery() {
     items.forEach((item) => {
       total += item.totalPrice;
     });
+    console.log(deliveries[0]);
     return total;
   }
 
@@ -47,6 +48,7 @@ function StudentDelivery() {
                 <li key={index}>
                   {item.itemName} - Quantity: {item.quantity}, Total Price: ₱
                   {item.totalPrice.toFixed(2)}
+                  <p>Store Name: {item.storeName}</p>
                 </li>
               ))}
             </ul>

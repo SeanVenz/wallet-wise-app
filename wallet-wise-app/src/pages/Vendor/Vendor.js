@@ -2,23 +2,42 @@ import React, { useState, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
-import { auth } from '../../utils/firebase';
+import { auth, db } from "../../utils/firebase";
 import "./Vendor.css";
+import { doc, getDoc } from "@firebase/firestore";
 
 function Vendor() {
-  const [foodData, setFoodData] = useState({
-    foodName: '',
-    price: 0,
-    isAvailable: false,
-    image: null,
-    foodType: 0,
-    quantity: '',
-  });
-
+  const [storeName, setStoreName] = useState("No Shop Name");
   const [createdFood, setCreatedFood] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [foods, setFoods] = useState([]);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      // Fetch ID number from Firestore
+      const userDocRef = doc(db, "users", auth.currentUser.uid);
+      const docSnap = await getDoc(userDocRef);
+
+      if (docSnap.exists()) {
+        setStoreName(docSnap.data().idNumber);
+      } else {
+        console.log("No such document!");
+      }
+    };
+
+    fetchUserData();
+  });
+
+  const [foodData, setFoodData] = useState({
+    foodName: "",
+    price: 0,
+    isAvailable: false,
+    image: null,
+    foodType: 0,
+    quantity: "",
+    storeName: storeName,
+  });
 
   // Fetch all foods from the Firestore using FoodService
   useEffect(() => {
@@ -40,52 +59,52 @@ function Vendor() {
     const { name, value, type } = event.target;
     setFoodData({
       ...foodData,
-      [name]: type === 'checkbox' ? event.target.checked : value,
+      storeName: storeName,
+      [name]: type === "checkbox" ? event.target.checked : value,
     });
   };
-  
 
   const handleImageChange = (event) => {
     const imageFile = event.target.files[0];
     setFoodData({
       ...foodData,
+      storeName: storeName,
       image: imageFile,
     });
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setShowModal(false);
-  
+
     try {
       const userId = auth.currentUser.uid;
       await addAllFood(foodData);
       await addFood({
         ...foodData,
+        storeName: storeName,
         userId: userId, // Include the userId when calling addFood
       });
-  
+
       // Fetch the updated list of foods again
       const updatedFoods = await getVendorFoods(userId);
       setFoods(updatedFoods);
-  
+
       setSuccessMessage("Food successfully created!");
-  
+
       // Reset the form fields in the state
       setFoodData({
-        foodName: '',
+        foodName: "",
         price: 0,
         isAvailable: false,
         image: null,
-        foodType: '',
+        foodType: "",
         quantity: 0,
       });
     } catch (error) {
       console.error("Error creating food:", error);
     }
   };
-
 
   const handleNewFoodClick = () => {
     setShowModal(true);
@@ -108,7 +127,7 @@ function Vendor() {
   return (
     <div className="main-page">
       <h2 className="title">
-        <strong>My Shop</strong>
+        <strong>{storeName}</strong>
       </h2>
       <div className="my-table">
         {foods.length > 0 ? (

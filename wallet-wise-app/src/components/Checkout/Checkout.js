@@ -43,6 +43,7 @@ function Checkout({ cartItems, fullName, idNumber, phoneNumber }) {
           itemName: item.name,
           quantity: item.quantity,
           totalPrice: item.totalPrice,
+          storeName: item.storeName
         }));
 
         // Create a delivery document with user information and items

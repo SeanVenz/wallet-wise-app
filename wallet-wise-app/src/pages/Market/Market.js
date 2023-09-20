@@ -16,7 +16,7 @@ const StudentMarket = () => {
     // Listen for authentication state changes using Firebase's onAuthStateChanged
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        // If a user is logged in, set the currentUser state
+        // If a user is logged in, set the currentUser state 
         setCurrentUser(user);
       } else {
         // If no user is logged in, set currentUser to null
@@ -91,6 +91,7 @@ const StudentMarket = () => {
                 img={food.ImageUrl}
                 price={food.Price}
                 number = {food.Quantity}
+                storeName = {food.StoreName}
               />
             ))}
       </div>
