@@ -7,20 +7,24 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [idNumber, setIdNumber] = useState("");
-  const [role, setRole] = useState(""); // Default role is student
+  const [role, setRole] = useState("student"); // Default role is student
+  const [idNumber, setIdNumber] = useState(""); // Add idNumber state
+  const [storeName, setStoreName] = useState(""); // New state for store name
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      // Sign up the user and set their role as part of the account creation
+      // Determine whether to store ID number or store name based on the role
+      const idOrStoreName = role === "vendor" ? storeName : idNumber;
+
+      // Sign up the user and set their role or store name as part of the account creation
       await authService.signUp(
         email,
         password,
         fullName,
-        idNumber,
+        idOrStoreName,
         phoneNumber,
         role
       );
@@ -40,12 +44,21 @@ const SignUp = () => {
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
         />
-        <input
-          type="text"
-          placeholder="ID Number"
-          value={idNumber}
-          onChange={(e) => setIdNumber(e.target.value)}
-        />
+        {role === "student" ? (
+          <input
+            type="text"
+            placeholder="ID Number"
+            value={idNumber}
+            onChange={(e) => setIdNumber(e.target.value)}
+          />
+        ) : (
+          <input
+            type="text"
+            placeholder="Store Name"
+            value={storeName}
+            onChange={(e) => setStoreName(e.target.value)}
+          />
+        )}
         <input
           type="text"
           placeholder="Phone Number"
@@ -68,7 +81,6 @@ const SignUp = () => {
           <label>
             Role:
             <select value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="">Select option ...</option>
               <option value="student">Student</option>
               <option value="vendor">Vendor</option>
             </select>

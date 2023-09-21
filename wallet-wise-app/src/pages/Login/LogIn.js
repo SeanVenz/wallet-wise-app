@@ -22,7 +22,7 @@ const LogIn = () => {
         // Retrieve the user's role from Firestore
         const role = await authService.getUserRoleFromFirestore(user.uid);
 
-        role === "vendor" ? navigate("/vendor") : navigate("/student");;
+        role === "vendor" ? navigate("/vendor") : navigate("/student");; 
       }
     } catch (err) {
       setError(err.message);

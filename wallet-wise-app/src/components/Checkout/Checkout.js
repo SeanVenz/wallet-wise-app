@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { db } from '../../utils/firebase';
-import { collection, addDoc, query, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { collection, addDoc, query, getDocs, deleteDoc, doc, getDoc, updateDoc, } from 'firebase/firestore';
 import authService from '../../utils/auth';
 
-function Checkout({ cartItems, fullName, idNumber, phoneNumber }) {
+function Checkout({ cartItems, fullName, idNumber, phoneNumber, foodId,  number, quantity}) {
+  
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -13,6 +14,33 @@ function Checkout({ cartItems, fullName, idNumber, phoneNumber }) {
   const handleCloseModal = () => {
     setShowModal(false);
   };
+
+  const updateFoodQuantity = async () => {
+    try {
+      // Iterate through the arrays of foodId, number, and quantity
+      for (let i = 0; i < foodId.length; i++) {
+        const food = foodId[i];
+        const itemNumber = number[i];
+        const itemQuantity = quantity[i];
+  
+        const foodItemRef = doc(db, "food", food);
+        const newQuantity = itemNumber - itemQuantity;
+  
+        const foodRefSnapshot = await getDoc(foodItemRef);
+  
+        if (foodRefSnapshot.exists()) {
+          // Update the quantity in Firestore
+          await updateDoc(foodItemRef, {
+            Quantity: newQuantity,
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error updating item quantity:", error);
+      return false;
+    }
+  };
+  
 
   const deleteCartItems = async (userId) => {
     try {
@@ -43,6 +71,7 @@ function Checkout({ cartItems, fullName, idNumber, phoneNumber }) {
           itemName: item.name,
           quantity: item.quantity,
           totalPrice: item.totalPrice,
+          storeName: item.storeName
         }));
 
         // Create a delivery document with user information and items
@@ -54,6 +83,8 @@ function Checkout({ cartItems, fullName, idNumber, phoneNumber }) {
           items: itemsToCheckout,
           timestamp: Date.now(),
         });
+      
+        updateFoodQuantity();
 
         // Delete cart items
         deleteCartItems(userId);

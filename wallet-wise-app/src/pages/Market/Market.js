@@ -10,13 +10,14 @@ const StudentMarket = () => {
   const [foods, setFoods] = useState([]);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_SAFE_INTEGER);
   const [selectedFoodType, setSelectedFoodType] = useState("");
+  const [storeName, setStoreName] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
     // Listen for authentication state changes using Firebase's onAuthStateChanged
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        // If a user is logged in, set the currentUser state
+        // If a user is logged in, set the currentUser state 
         setCurrentUser(user);
       } else {
         // If no user is logged in, set currentUser to null
@@ -71,7 +72,8 @@ const StudentMarket = () => {
           <input
             type="text"
             className="custom-input-shop"
-            defaultValue={"School Canteen"}
+            defaultValue={"All"}
+            onChange={(e) => setStoreName(e.target.value)}
           />
         </div>
       </div>
@@ -84,6 +86,10 @@ const StudentMarket = () => {
             )
             .filter((food) => food.Price <= maxPrice)
             .filter((food) => food.isAvailable === true)
+            .filter((food) => food.Quantity > 0)
+            .filter((food) => 
+              storeName === "All" || food.StoreName.toLowerCase().includes(storeName.toLowerCase())
+            )
             .map((food, index) => (
               <FoodCard
                 key={index}
@@ -91,6 +97,8 @@ const StudentMarket = () => {
                 img={food.ImageUrl}
                 price={food.Price}
                 number = {food.Quantity}
+                storeName = {food.StoreName}
+                id = {food.id}
               />
             ))}
       </div>
