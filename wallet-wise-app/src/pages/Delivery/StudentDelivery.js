@@ -1,11 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { db } from "../../utils/firebase"; // Import your Firebase configuration
+import { auth, db } from "../../utils/firebase"; // Import your Firebase configuration
 import { collection, onSnapshot } from "firebase/firestore";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
+  const [currentUser, setCurrentUser] = useState();
 
   useEffect(() => {
+
+    const fetchUserData = async () => {
+
+      const currentUser = auth.currentUser.uid;
+      setCurrentUser(currentUser);
+    };
+
+    fetchUserData();
+
     // Reference to the "deliveries" collection
     const deliveryCollectionRef = collection(db, "orders");
 
@@ -19,7 +29,7 @@ function StudentDelivery() {
     });
 
     return () => {
-      // Unsubscribe from the Firestore listener when the component unmounts
+      // Unsubscribe from the Firestore listener when the component unmounts 
       unsubscribe();
     };
   }, []);
@@ -53,6 +63,7 @@ function StudentDelivery() {
               ))}
             </ul>
             <p>Total: ₱{calculatePerPersonTotal(delivery.items).toFixed(2)}</p>
+            {currentUser === delivery.userId ? "" : <button>Accept Order</button> }
           </li>
         ))}
       </ul>
