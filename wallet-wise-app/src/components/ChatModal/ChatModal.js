@@ -21,6 +21,8 @@ function ChatModal({ isOpen, onClose }) {
   const [recipient, setRecipient] = useState();
   const [currentUser, setSender] = useState();
   const [chatroom, setChatRoomId] = useState();
+  const [ordererName, setOrdererName] = useState();
+  const [courierName, setCourierName] = useState();
 
   const getChatRooms = async () => {
     const foodCollection = collection(db, "chatrooms");
@@ -40,7 +42,8 @@ function ChatModal({ isOpen, onClose }) {
         setSender(roomData[0].sender);
         setRecipient(roomData[0].recipient);
         setChatRoomId(roomData[0].id);
-
+        setOrdererName(roomData[0].ordererName);
+        setCourierName(roomData[0].courierName);
       } catch (error) {
         console.error("Error fetching all foods:", error);
       }
@@ -77,7 +80,6 @@ function ChatModal({ isOpen, onClose }) {
   };
 
   useEffect(() => {
-    console.log(recipient, currentUser, chatroom)
     const fetchParticipants = async () => {
       await getParticipants();
     };
@@ -151,7 +153,11 @@ function ChatModal({ isOpen, onClose }) {
   return (
     <div className={`chat-modal ${isOpen ? "open" : "closed"}`}>
       <div className="chat-header">
-        {auth.currentUser.uid === recipient ? <h3>Chat with {currentUser}</h3> : <h3>Chat with {recipient}</h3>}
+        {auth.currentUser.uid === recipient ? (
+          <h3>Chat with {courierName}</h3>
+        ) : (
+          <h3>Chat with {ordererName}</h3>
+        )}
         <button onClick={handleChatroomDelete}>Delete Chat</button>
         <button onClick={onClose}>Close</button>
       </div>

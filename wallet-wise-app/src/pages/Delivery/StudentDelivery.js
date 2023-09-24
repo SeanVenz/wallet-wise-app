@@ -9,7 +9,7 @@ function StudentDelivery() {
   const [chatroomId, setChatroomId] = useState();
   const [isChatOpen, setChatOpen] = useState(false);
   const [chatroomRecipient, setChatroomRecipient] = useState("");
-
+  const [ordererName, setOrdererName] = useState();
 
   const openChat = async (recipientUID) => {
     setChatroomRecipient(recipientUID);
@@ -72,14 +72,20 @@ function StudentDelivery() {
     return doc(db, "chatrooms", chatRoomID);
   };
 
-  const handleOrderAccepted = async (orderId, recipientId) => {
+  const handleOrderAccepted = async (orderId, recipientId, ordererName) => {
+
+    setOrdererName(ordererName)
+
     const senderUID = auth.currentUser.uid;
+    const courierName = auth.currentUser.displayName;
     const chatroomRef = getChatroomRef(senderUID, recipientId);
 
     // Create a chatroom document in Firestore if it doesn't exist 
     await setDoc(chatroomRef, {
       sender: senderUID,
       recipient: recipientId,
+      ordererName: ordererName,
+      courierName: courierName
     });
 
     //update not accepted order to accepted order
@@ -121,7 +127,7 @@ function StudentDelivery() {
                 Your Order is <strong>not</strong> yet accepted
               </p>
             ) : (
-              <button onClick={() => handleOrderAccepted(delivery.id, delivery.userId)}>Accept Order</button>
+              <button onClick={() => handleOrderAccepted(delivery.id, delivery.userId, delivery.userName)}>Accept Order</button>
             )}
             {currentUser === delivery.userId ? (
                 <>
@@ -134,7 +140,7 @@ function StudentDelivery() {
               ) : (
                 <>
                   {!delivery.isOrderAccepted ? (
-                    <button onClick={() => handleOrderAccepted(delivery.id, delivery.userId)}>
+                    <button onClick={() => handleOrderAccepted(delivery.id, delivery.userId, delivery.userName)}>
                       Accept Order
                     </button>
                   ) : null}
@@ -150,9 +156,6 @@ function StudentDelivery() {
         <ChatModal
           isOpen={isChatOpen}
           onClose={() => setChatOpen(false)}
-          recipient={chatroomRecipient}
-          currentUser={currentUser}
-          chatroom={chatroomId}
         />
       )}
     </div>
