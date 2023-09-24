@@ -158,13 +158,13 @@ function StudentDelivery() {
               </>
             ) : (
               <>
-              {
-                // mao ni ang view sa mga tao na pwede maka deliver (d ka ka deliver sa imo own order)
-                // if wala na accept, accept order na button imo makita
-                // if na accept, mag agad pa if ang user kay ang nag click sa accept order or di
-                // if ang user nag click sa accept order iya makita kay chat
-                // if dili kay order accepted ra
-              }
+                {
+                  // mao ni ang view sa mga tao na pwede maka deliver (d ka ka deliver sa imo own order)
+                  // if wala na accept, accept order na button imo makita
+                  // if na accept, mag agad pa if ang user kay ang nag click sa accept order or di
+                  // if ang user nag click sa accept order iya makita kay chat
+                  // if dili kay order accepted ra
+                }
                 {!delivery.isOrderAccepted ? (
                   <button
                     onClick={() =>
