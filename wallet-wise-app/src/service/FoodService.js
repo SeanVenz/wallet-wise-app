@@ -79,7 +79,7 @@ export const getAllFoods = async () => {
     id: doc.id,
   }));
 };
-
+ 
 export const addAllFood = async ({ foodName, price, isAvailable, image, foodType, quantity, storeName }) => {
 
   const storageRef = ref(storage, `images/${image.name}`);

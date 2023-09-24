@@ -9,14 +9,45 @@ import {
   deleteDoc,
   updateDoc,
   setDoc,
+  getDocs,
 } from "firebase/firestore";
 import { auth, db } from "../../utils/firebase";
 
-function ChatModal({ isOpen, onClose, recipient, currentUser, chatroom }) {
+function ChatModal({ isOpen, onClose }) {
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
   const [chatRef, setChatRef] = useState(null);
   const [participants, setParticipants] = useState(null);
+  const [recipient, setRecipient] = useState();
+  const [currentUser, setSender] = useState();
+  const [chatroom, setChatRoomId] = useState();
+
+  const getChatRooms = async () => {
+    const foodCollection = collection(db, "chatrooms");
+    const foodSnapshot = await getDocs(foodCollection);
+    return foodSnapshot.docs.map((doc) => ({
+      ...doc.data(),
+      id: doc.id,
+    }));
+  };
+
+  useEffect(() => {
+    const fetchRoomData = async () => {
+      try {
+        const roomData = await getChatRooms();
+        console.log(roomData[0].sender);
+        console.log(roomData[0].recipient);
+        setSender(roomData[0].sender);
+        setRecipient(roomData[0].recipient);
+        setChatRoomId(roomData[0].id);
+
+      } catch (error) {
+        console.error("Error fetching all foods:", error);
+      }
+    };
+
+    fetchRoomData();
+  }, []);
 
   const getChatroomRef = () => {
     // Ensure both sender and recipient are defined before constructing the chatroom reference
@@ -46,6 +77,7 @@ function ChatModal({ isOpen, onClose, recipient, currentUser, chatroom }) {
   };
 
   useEffect(() => {
+    console.log(recipient, currentUser, chatroom)
     const fetchParticipants = async () => {
       await getParticipants();
     };
