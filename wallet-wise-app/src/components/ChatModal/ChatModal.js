@@ -151,7 +151,7 @@ function ChatModal({ isOpen, onClose }) {
   return (
     <div className={`chat-modal ${isOpen ? "open" : "closed"}`}>
       <div className="chat-header">
-        <h3>Chat with {participants ? participants[0] : ""}</h3>
+        {auth.currentUser.uid === recipient ? <h3>Chat with {currentUser}</h3> : <h3>Chat with {recipient}</h3>}
         <button onClick={handleChatroomDelete}>Delete Chat</button>
         <button onClick={onClose}>Close</button>
       </div>
