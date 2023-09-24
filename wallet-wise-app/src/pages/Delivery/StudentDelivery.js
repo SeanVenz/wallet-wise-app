@@ -6,13 +6,10 @@ import ChatModal from "../../components/ChatModal/ChatModal";
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
   const [currentUser, setCurrentUser] = useState();
-  const [chatroomId, setChatroomId] = useState();
   const [isChatOpen, setChatOpen] = useState(false);
-  const [chatroomRecipient, setChatroomRecipient] = useState("");
   const [ordererName, setOrdererName] = useState();
 
-  const openChat = async (recipientUID) => {
-    setChatroomRecipient(recipientUID);
+  const openChat = async () => {
     setChatOpen(true);
   };
 
@@ -43,9 +40,9 @@ function StudentDelivery() {
   }, []);
 
   const getChatRooms = async () => {
-    const foodCollection = collection(db, "chatrooms");
-    const foodSnapshot = await getDocs(foodCollection);
-    return foodSnapshot.docs.map((doc) => ({
+    const chatCollection = collection(db, "chatrooms");
+    const chatSnapshot = await getDocs(chatCollection);
+    return chatSnapshot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
@@ -55,10 +52,6 @@ function StudentDelivery() {
     const fetchChatRooms = async () => {
       try {
         const roomData = await getChatRooms();
-        console.log(roomData[0].sender);
-        console.log(roomData[0].recipient);
-        setChatroomRecipient(roomData[0].recipient)
-        setChatroomId(roomData[0].id);
       } catch (error) {
         console.error("Error fetching all foods:", error);
       }
