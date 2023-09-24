@@ -123,13 +123,6 @@ function StudentDelivery() {
             </ul>
             <p>Total: ₱{calculatePerPersonTotal(delivery.items).toFixed(2)}</p>
             {currentUser === delivery.userId ? (
-              <p>
-                Your Order is <strong>not</strong> yet accepted
-              </p>
-            ) : (
-              <button onClick={() => handleOrderAccepted(delivery.id, delivery.userId, delivery.userName)}>Accept Order</button>
-            )}
-            {currentUser === delivery.userId ? (
                 <>
                   {delivery.isOrderAccepted ? (
                     <button onClick={() => openChat(delivery.userId)}>Chat</button>
