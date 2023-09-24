@@ -25,9 +25,9 @@ function ChatModal({ isOpen, onClose }) {
   const [courierName, setCourierName] = useState();
 
   const getChatRooms = async () => {
-    const foodCollection = collection(db, "chatrooms");
-    const foodSnapshot = await getDocs(foodCollection);
-    return foodSnapshot.docs.map((doc) => ({
+    const chatRoomCollection = collection(db, "chatrooms");
+    const chatRoomSnapshot = await getDocs(chatRoomCollection);
+    return chatRoomSnapshot.docs.map((doc) => ({
       ...doc.data(),
       id: doc.id,
     }));
@@ -36,16 +36,21 @@ function ChatModal({ isOpen, onClose }) {
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
+        const user = auth.currentUser.uid;
         const roomData = await getChatRooms();
-        console.log(roomData[0].sender);
-        console.log(roomData[0].recipient);
-        setSender(roomData[0].sender);
-        setRecipient(roomData[0].recipient);
-        setChatRoomId(roomData[0].id);
-        setOrdererName(roomData[0].ordererName);
-        setCourierName(roomData[0].courierName);
+        for (var i = 0; i < roomData.length; i++) {
+          if (user === roomData[i].recipient || user === roomData[i].sender) {
+            console.log(roomData[i].sender);
+            console.log(roomData[i].recipient);
+            setSender(roomData[i].sender);
+            setRecipient(roomData[i].recipient);
+            setChatRoomId(roomData[i].id);
+            setOrdererName(roomData[i].ordererName);
+            setCourierName(roomData[i].courierName);
+          }
+        }
       } catch (error) {
-        console.error("Error fetching all foods:", error);
+        console.error("Error fetching rooms:", error);
       }
     };
 
@@ -112,7 +117,8 @@ function ChatModal({ isOpen, onClose }) {
   const sendMessage = async () => {
     if (message && chatroom) {
       const newMessage = {
-        sender: currentUser,
+        sender:
+          auth.currentUser.uid === currentUser ? courierName : ordererName,
         text: message,
         timestamp: new Date(),
       };
