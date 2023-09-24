@@ -10,8 +10,10 @@ import {
   updateDoc,
   setDoc,
   getDocs,
+  getDoc,
 } from "firebase/firestore";
 import { auth, db } from "../../utils/firebase";
+
 
 function ChatModal({ isOpen, onClose }) {
   const [message, setMessage] = useState("");
@@ -23,6 +25,10 @@ function ChatModal({ isOpen, onClose }) {
   const [chatroom, setChatRoomId] = useState();
   const [ordererName, setOrdererName] = useState();
   const [courierName, setCourierName] = useState();
+  const [senderPhoneNumber, setSenderPhoneNumber] = useState();
+  const [senderIdNumber, setSenderIdNumber] = useState();
+  const [recipientPhoneNumber, setRecipientPhoneNumber] = useState();
+  const [recipientIdNumber, setRecipientIdNumber] = useState();
 
   const getChatRooms = async () => {
     const chatRoomCollection = collection(db, "chatrooms");
@@ -53,7 +59,32 @@ function ChatModal({ isOpen, onClose }) {
     };
 
     fetchRoomData();
-  }, []);
+
+    const getInfo = async () => {
+      try{
+        const senderRef = doc(db, "users", currentUser);
+        const senderData = await getDoc(senderRef);
+        
+        if (senderData.exists()) {
+          setSenderPhoneNumber(senderData.data().phoneNumber);
+          setSenderIdNumber(senderData.data().idNumber);
+        }
+  
+        const recipientRef = doc(db, "users", recipient);
+        const recepientData = await getDoc(recipientRef);
+  
+        if (recepientData.exists()) {
+          setRecipientPhoneNumber(recepientData.data().phoneNumber);
+          setRecipientIdNumber(recepientData.data().idNumber);
+        }
+      }
+      catch(error){
+        console.log("There's an error",error)
+      }
+    }
+
+    getInfo();
+  }, [currentUser, recipient]);
 
   const getChatroomRef = () => {
     // Ensure both sender and recipient are defined before constructing the chatroom reference
@@ -158,9 +189,18 @@ function ChatModal({ isOpen, onClose }) {
     <div className={`chat-modal ${isOpen ? "open" : "closed"}`}>
       <div className="chat-header">
         {auth.currentUser.uid === recipient ? (
-          <h3>Chat with {courierName}</h3>
+          <>
+            <h3>Chat with {courierName}</h3>
+            <h3>Phone Number: {senderPhoneNumber}</h3>
+            <h3>ID Number: {senderIdNumber}</h3>
+          </>
         ) : (
-          <h3>Chat with {ordererName}</h3>
+          <>
+            <h3>Chat with {ordererName}</h3>
+            <h3>Phone Number: {recipientPhoneNumber}</h3>
+            <h3>ID Number: {recipientIdNumber}</h3>
+          </>
+          
         )}
         <button onClick={handleChatroomDelete}>Delete Chat</button>
         <button onClick={onClose}>Close</button>
