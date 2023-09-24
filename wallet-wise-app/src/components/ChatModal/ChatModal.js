@@ -40,8 +40,6 @@ function ChatModal({ isOpen, onClose }) {
         const roomData = await getChatRooms();
         for (var i = 0; i < roomData.length; i++) {
           if (user === roomData[i].recipient || user === roomData[i].sender) {
-            console.log(roomData[i].sender);
-            console.log(roomData[i].recipient);
             setSender(roomData[i].sender);
             setRecipient(roomData[i].recipient);
             setChatRoomId(roomData[i].id);
