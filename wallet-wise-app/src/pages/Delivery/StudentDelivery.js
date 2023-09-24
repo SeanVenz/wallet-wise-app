@@ -1,12 +1,22 @@
 import React, { useEffect, useState } from "react";
 import { auth, db } from "../../utils/firebase"; // Import your Firebase configuration
-import { collection, doc, getDoc, getDocs, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  onSnapshot,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import ChatModal from "../../components/ChatModal/ChatModal";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
   const [currentUser, setCurrentUser] = useState();
   const [isChatOpen, setChatOpen] = useState(false);
+  const [sender, setSender] = useState();
+  const [recipient, setRecipient] = useState();
   const [ordererName, setOrdererName] = useState();
 
   const openChat = async () => {
@@ -49,6 +59,25 @@ function StudentDelivery() {
   };
 
   useEffect(() => {
+    const fetchRoomData = async () => {
+      try {
+        const user = auth.currentUser.uid;
+        const roomData = await getChatRooms();
+        for (var i = 0; i < roomData.length; i++) {
+          if (user === roomData[i].recipient || user === roomData[i].sender) {
+            setSender(roomData[i].sender);
+            setRecipient(roomData[i].recipient);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching rooms:", error);
+      }
+    };
+
+    fetchRoomData();
+  }, []);
+
+  useEffect(() => {
     const fetchChatRooms = async () => {
       try {
         const roomData = await getChatRooms();
@@ -66,25 +95,24 @@ function StudentDelivery() {
   };
 
   const handleOrderAccepted = async (orderId, recipientId, ordererName) => {
-
-    setOrdererName(ordererName)
+    setOrdererName(ordererName);
 
     const senderUID = auth.currentUser.uid;
     const courierName = auth.currentUser.displayName;
     const chatroomRef = getChatroomRef(senderUID, recipientId);
 
-    // Create a chatroom document in Firestore if it doesn't exist 
+    // Create a chatroom document in Firestore if it doesn't exist
     await setDoc(chatroomRef, {
       sender: senderUID,
       recipient: recipientId,
       ordererName: ordererName,
-      courierName: courierName
+      courierName: courierName,
     });
 
     //update not accepted order to accepted order
     const orderRef = doc(db, "orders", orderId);
     await updateDoc(orderRef, { isOrderAccepted: true });
-  }
+  };
 
   function calculatePerPersonTotal(items) {
     let total = 0;
@@ -115,34 +143,59 @@ function StudentDelivery() {
               ))}
             </ul>
             <p>Total: ₱{calculatePerPersonTotal(delivery.items).toFixed(2)}</p>
+            {
+              // this is the view of the orderer, mag agad if na accept naba iyang order or wala pa
+            }
             {currentUser === delivery.userId ? (
-                <>
-                  {delivery.isOrderAccepted ? (
-                    <button onClick={() => openChat(delivery.userId)}>Chat</button>
-                  ) : (
-                    <p>Order not yet accepted</p>
-                  )}
-                </>
-              ) : (
-                <>
-                  {!delivery.isOrderAccepted ? (
-                    <button onClick={() => handleOrderAccepted(delivery.id, delivery.userId, delivery.userName)}>
-                      Accept Order
-                    </button>
-                  ) : null}
-                  {delivery.isOrderAccepted ? (
-                    <button onClick={() => openChat(delivery.userId)}>Chat</button>
-                  ) : null}
-                </>
-              )}
+              <>
+                {delivery.isOrderAccepted ? (
+                  <button onClick={() => openChat(delivery.userId)}>
+                    Chat
+                  </button>
+                ) : (
+                  <p>Order not yet accepted</p>
+                )}
+              </>
+            ) : (
+              <>
+              {
+                // mao ni ang view sa mga tao na pwede maka deliver (d ka ka deliver sa imo own order)
+                // if wala na accept, accept order na button imo makita
+                // if na accept, mag agad pa if ang user kay ang nag click sa accept order or di
+                // if ang user nag click sa accept order iya makita kay chat
+                // if dili kay order accepted ra
+              }
+                {!delivery.isOrderAccepted ? (
+                  <button
+                    onClick={() =>
+                      handleOrderAccepted(
+                        delivery.id,
+                        delivery.userId,
+                        delivery.userName
+                      )
+                    }
+                  >
+                    Accept Order
+                  </button>
+                ) : null}
+                {delivery.isOrderAccepted ? (
+                  <>
+                    {currentUser === sender ? (
+                      <button onClick={() => openChat(delivery.userId)}>
+                        Chat
+                      </button>
+                    ) : (
+                      <p>Order is already accepted</p>
+                    )}
+                  </>
+                ) : null}
+              </>
+            )}
           </li>
         ))}
       </ul>
       {isChatOpen && (
-        <ChatModal
-          isOpen={isChatOpen}
-          onClose={() => setChatOpen(false)}
-        />
+        <ChatModal isOpen={isChatOpen} onClose={() => setChatOpen(false)} />
       )}
     </div>
   );
