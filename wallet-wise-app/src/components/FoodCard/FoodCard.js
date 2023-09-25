@@ -61,19 +61,27 @@ export const FoodCard = (props) => {
   return (
     <div>
       <div className="card">
-        <div className="top">
+        
+        <div className="top foodname">
           <img src={img} alt="Food" className="image" />
-          <h3>{name}</h3>
-          <h4>
-            <strong>₱{parseFloat(price).toFixed(2)}</strong>
-          </h4>
-          <p>In Stock: {number}</p>
-          <p>Store Name: {storeName}</p>
+          
+          <div className="detailsFood">
+            <h3 >{name}</h3>
+
+            <h4>
+              <strong>₱{parseFloat(price).toFixed(2)}</strong>
+            </h4>
+            <p>In Stock: {number}</p>
+            <p>Store Name: {storeName}</p>
+          </div>
+
         </div>
+
         <div className="bottom">
           <img src={cart} alt="cart" onClick={handleOpenModal} />
           <img src={map} alt="map" />
         </div>
+
       </div>
       {showModal && (
         <div className="modal">

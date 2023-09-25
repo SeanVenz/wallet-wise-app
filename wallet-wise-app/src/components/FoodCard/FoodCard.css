@@ -1,3 +1,5 @@
+@import url('https://fonts.cdnfonts.com/css/source-code-pro');
+
 .card {
   width: 400px;
   height: 400px;
@@ -14,8 +16,9 @@
 }
 
 .image {
-  width: auto;
-  height: 200px;
+  width: 130px;
+  height: 130px;
+  object-fit: cover;
 }
 
 .top {
@@ -27,6 +30,7 @@
 img {
   width: 50%;
   height: auto;
+  margin-top: -15px;
 }
 
 .bottom {
@@ -63,8 +67,9 @@ img {
 .modal-content {
   display: flex;
   flex-direction: column;
+  font-family: 'Source Code Pro', sans-serif;
   background-color: #fff;
-  padding: 20px;
+  padding: 15px;
   border-radius: 5px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
   max-width: 400px;
@@ -80,7 +85,7 @@ img {
 /* Modal form fields */
 .modal-content label {
   display: block;
-  margin-top: 10px;
+  margin-top: 5px;
 }
 
 /* Modal buttons */
@@ -110,10 +115,20 @@ img {
 }
 
 .modal-content label{
-  margin-bottom: 10px;
+  margin-bottom: 5px;
 }
 
 /* Checkbox */
 .modal-content input {
   height: 20px !important;
+}
+
+.foodname{
+  color: #000;
+  text-align: center;
+  font-family: Source Code Pro;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
 }
