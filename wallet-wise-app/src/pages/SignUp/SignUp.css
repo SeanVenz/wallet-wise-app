@@ -1,0 +1,89 @@
+.signup-parent{
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+input[type="email"]{
+    width: 500px;
+    height: 30px;
+    padding: 10px;
+    margin: 5px 0;
+    margin-left: 70px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 20px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: 210px;
+}
+
+input[type="password"]{
+    width: 500px;
+    height: 30px;
+    padding: 10px;
+    margin: 5px 0;
+    margin-left: 70px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 20px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: 210px;
+}
+
+input[type="text"]{
+    width: 500px;
+    height: 30px;
+    padding: 10px;
+    margin: 5px 0;
+    margin-left: 70px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 20px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    position: relative;
+    top: 210px;
+}
+
+form{
+    width: 650px;
+    height: 550px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-left: 650px;
+    background-color: #F9F2E2;
+    margin-top: 50px;
+}
+
+label {
+    display: inline-block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    position: relative;
+    top: 250px;
+}
+
+.text-box{
+    height: 10px;
+    width: 500px;
+}
+
+button[type="submit"]{
+    background-color:#F9F2E2;
+    color:black;
+    font-family:source-code-pro;
+    font-size: 22px;
+    border: black;
+    border-style: solid;
+    margin-left: 250px;
+    position: relative;
+    top:210px;
+}

@@ -1,5 +1,9 @@
 .login-parent{
- overflow: auto;
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow-x: hidden;
 }
 
 .potato-box{
