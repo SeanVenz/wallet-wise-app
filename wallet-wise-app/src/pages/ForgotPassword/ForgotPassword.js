@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import authService from '../../utils/auth';
+import './ForgotPassword.css'
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -18,7 +19,12 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div>
+    <div className='passbody'>
+      <div className='passpotato'></div>
+      <div className='smallbox'>
+        <div className='passwallet'>WALLET</div>
+        <div className='passwise'>WISE</div>
+        <div className='passmessage'>We've sent a verification code to your  email</div>
       <form onSubmit={handleForgotPassword}>
         <input
           type="email"
@@ -28,9 +34,10 @@ const ForgotPassword = () => {
         />
         {message && <p>{message}</p>}
         {error && <p>{error}</p>}
-        <button type="submit">Send password reset email</button>
+        <button type="submit" className='btn'>Send password reset email</button>
       </form>
-      <Link to="/login"><button>Login</button></Link>
+      <Link to="/login"><button className='btn'>Login</button></Link>
+      </div>
     </div>
   );
 };
