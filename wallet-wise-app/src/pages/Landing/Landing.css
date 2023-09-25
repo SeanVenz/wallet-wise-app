@@ -1,0 +1,77 @@
+.bg{
+    background-color: #F9F2E2;
+    height: 100vh;
+    width: 100vw;
+}
+.topBar{
+    display: flex;
+    justify-content: center;
+}
+
+.logo{
+    background-image: url("/src/images/top-logo.png");
+    height: 120px;
+    width: 120px;
+    background-size: cover;
+    margin-right: 1050px;
+}
+.midBar{
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    display: flex;
+    
+}
+.words{
+    text-align: center;
+}
+.wallet{
+    font-family: Julius;
+    letter-spacing: 30px;
+    font-size: 116px;
+}
+
+.wise{
+    font-family: Monoton;
+    font-size: 116px;
+}
+@font-face {
+    font-family: Monoton;
+    src: url("/src/pages/Landing/Monoton-regular.woff");
+    
+}
+@font-face {
+    font-family: Julius;
+    src: url("/src/pages/Landing/JuliusSansOne-Regular.woff");
+}
+
+.bigpotato{
+    background-image: url("/src/images/big-potato.png");
+    height: 301px;
+    width: 301px;
+    background-size: cover;
+}
+.bot{
+    color:black;
+    background: #F9F2E2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    border: 1px black solid;
+}
+.botBar{
+    display: flex;
+    
+}
+.option{
+    margin: 2.5%;;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 200px;
+    height: 200px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); 
+    border-radius: 9999px; 
+    border: 1px black solid;
+    background-size: cover;
+    overflow: hidden;
+}
