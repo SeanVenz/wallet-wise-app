@@ -24,13 +24,6 @@ function StudentDelivery() {
   };
 
   useEffect(() => {
-    const fetchUserData = async () => {
-      const currentUser = auth.currentUser.uid;
-      setCurrentUser(currentUser);
-    };
-
-    fetchUserData();
-
     // Reference to the "deliveries" collection
     const deliveryCollectionRef = collection(db, "orders");
 
@@ -58,10 +51,29 @@ function StudentDelivery() {
     }));
   };
 
+  //when handlebutton clicked
+  const fetchRoomData = async () => {
+    try {
+      const user = auth.currentUser.uid;
+      setCurrentUser(user);
+      const roomData = await getChatRooms();
+      for (var i = 0; i < roomData.length; i++) {
+        if (user === roomData[i].recipient || user === roomData[i].sender) {
+          setSender(roomData[i].sender);
+          setRecipient(roomData[i].recipient);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching rooms:", error);
+    }
+  };
+
+  //check if their convo is already existing
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
         const user = auth.currentUser.uid;
+        setCurrentUser(user);
         const roomData = await getChatRooms();
         for (var i = 0; i < roomData.length; i++) {
           if (user === roomData[i].recipient || user === roomData[i].sender) {
@@ -96,6 +108,10 @@ function StudentDelivery() {
 
   const handleOrderAccepted = async (orderId, recipientId, ordererName) => {
     setOrdererName(ordererName);
+    
+    //update not accepted order to accepted order
+    const orderRef = doc(db, "orders", orderId);
+    await updateDoc(orderRef, { isOrderAccepted: true });
 
     const senderUID = auth.currentUser.uid;
     const courierName = auth.currentUser.displayName;
@@ -108,10 +124,7 @@ function StudentDelivery() {
       ordererName: ordererName,
       courierName: courierName,
     });
-
-    //update not accepted order to accepted order
-    const orderRef = doc(db, "orders", orderId);
-    await updateDoc(orderRef, { isOrderAccepted: true });
+    fetchRoomData();
   };
 
   function calculatePerPersonTotal(items) {
@@ -179,6 +192,9 @@ function StudentDelivery() {
                   </button>
                 ) : null}
                 {delivery.isOrderAccepted ? (
+                //   <button onClick={() => openChat(delivery.userId)}>
+                //   Chat
+                // </button>
                   <>
                     {currentUser === sender ? (
                       <button onClick={() => openChat(delivery.userId)}>
