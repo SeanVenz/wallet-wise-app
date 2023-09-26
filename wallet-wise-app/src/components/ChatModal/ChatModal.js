@@ -185,6 +185,14 @@ function ChatModal({ isOpen, onClose }) {
     }
   };
 
+  const handleOrderAccepted = async () => {
+
+  }
+
+  const handleOrderDelivered = async () => {
+
+  }
+
   return (
     <div className={`chat-modal ${isOpen ? "open" : "closed"}`}>
       <div className="chat-header">
@@ -202,7 +210,11 @@ function ChatModal({ isOpen, onClose }) {
           </>
           
         )}
-        <button onClick={handleChatroomDelete}>Delete Chat</button>
+        {auth.currentUser.uid === recipient ? (
+          <button onClick={handleOrderAccepted}>Order Accepted</button>
+        ) : (
+          <button onClick={handleOrderDelivered}>Order Delivered</button>
+        )}
         <button onClick={onClose}>Close</button>
       </div>
       <div className="chat-messages">
