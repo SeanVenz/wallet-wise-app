@@ -42,6 +42,29 @@ function StudentDelivery() {
     };
   }, []);
 
+  const addHasCurrentDelivery = async (uid) => {
+    try {
+      const userInfoRef = doc(db, "users", uid);
+      await updateDoc(userInfoRef, {
+        hasPendingDelivery: true,
+      });
+    }
+    catch(error) {
+      console.log(error);
+    }
+  }
+
+  const checkHasCurrentDelivery = async (uid) => {
+    try{
+      const userInfoRef = doc(db, "users", uid);
+      const userInfoSnapshot = await getDoc(userInfoRef);
+      return userInfoSnapshot.data().hasPendingDelivery === true;
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
   const getChatRooms = async () => {
     const chatCollection = collection(db, "chatrooms");
     const chatSnapshot = await getDocs(chatCollection);
@@ -116,6 +139,8 @@ function StudentDelivery() {
     const senderUID = auth.currentUser.uid;
     const courierName = auth.currentUser.displayName;
     const chatroomRef = getChatroomRef(senderUID, recipientId);
+
+    addHasCurrentDelivery(senderUID);
 
     // Create a chatroom document in Firestore if it doesn't exist
     await setDoc(chatroomRef, {
@@ -192,9 +217,6 @@ function StudentDelivery() {
                   </button>
                 ) : null}
                 {delivery.isOrderAccepted ? (
-                //   <button onClick={() => openChat(delivery.userId)}>
-                //   Chat
-                // </button>
                   <>
                     {currentUser === sender ? (
                       <button onClick={() => openChat(delivery.userId)}>
