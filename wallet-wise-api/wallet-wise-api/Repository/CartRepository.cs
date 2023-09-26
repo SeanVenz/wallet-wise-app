@@ -122,5 +122,35 @@ namespace wallet_wise_api.Repository
                 await document.Reference.SetAsync(cartItem);
             }
         }
+
+        public async void AddFoodQuantity(string userId, string foodId, int newQuantity)
+        {
+            var cartQuery = _cartCollection.WhereEqualTo("UserId", userId).WhereEqualTo("FoodId", foodId);
+            var snapshot = await cartQuery.GetSnapshotAsync();
+
+            if (snapshot.Documents.Any())
+            {
+                var document = snapshot.Documents.First();
+                var cartItem = document.ConvertTo<Cart>();
+                cartItem.Quantity = newQuantity + 1;
+
+                await document.Reference.SetAsync(cartItem);
+            }
+        }
+
+        public async void DeductFoodQuantity(string userId, string foodId, int newQuantity)
+        {
+            var cartQuery = _cartCollection.WhereEqualTo("UserId", userId).WhereEqualTo("FoodId", foodId);
+            var snapshot = await cartQuery.GetSnapshotAsync();
+
+            if (snapshot.Documents.Any())
+            {
+                var document = snapshot.Documents.First();
+                var cartItem = document.ConvertTo<Cart>();
+                cartItem.Quantity = newQuantity - 1;
+
+                await document.Reference.SetAsync(cartItem);
+            }
+        }
     }
 }

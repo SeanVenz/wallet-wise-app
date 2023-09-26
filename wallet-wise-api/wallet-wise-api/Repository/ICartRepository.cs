@@ -16,6 +16,8 @@
 
         public void Checkout(string userId);
 
+        public void AddFoodQuantity(string userId, string foodId, int newQuantity);
+        public void DeductFoodQuantity(string userId, string foodId, int newQuantity);
         public void UpdateFoodQuantity(string userId, string foodId, int newQuantity);
     }
 }

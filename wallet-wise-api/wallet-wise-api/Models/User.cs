@@ -17,4 +17,8 @@ public class User
     public string? PhoneNumber{ get; set; }
     [FirestoreProperty]
     public string? Role { get; set; }
+    [FirestoreProperty]
+    public string? HasPendingOrder { get; set; }
+    [FirestoreProperty]
+    public string? HasPendingDelivery { get; set; }
 }
