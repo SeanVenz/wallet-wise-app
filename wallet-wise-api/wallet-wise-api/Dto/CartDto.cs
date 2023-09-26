@@ -3,6 +3,8 @@
 [FirestoreData]
 public class CartDto
 {
+    public readonly object Nameresult;
+
     [FirestoreProperty]
     public string? FoodId { get; set; }
     [FirestoreProperty]
