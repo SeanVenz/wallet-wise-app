@@ -93,6 +93,16 @@ function ChatModal({ isOpen, onClose }) {
     return null;
   };
 
+  const deleteMessagesRef = async () => {
+    const chatRoomRef = getChatroomRef();
+    const messageCollectionRef = collection(chatRoomRef, "messages");
+    const messageQuerySnapshot = await getDocs(messageCollectionRef);
+
+    messageQuerySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    })
+  };
+
   const getParticipants = async () => {
     try {
       const chatroomRef = getChatroomRef();
@@ -190,17 +200,22 @@ function ChatModal({ isOpen, onClose }) {
   };
 
   const deleteChatroomAndClose = async () => {
-    const info = getChatroomRef();
-    const docSnapshot = await getDoc(info);
-    const docData = docSnapshot.data();
-    const orderId = docData.orderId;
-    // const orderInfo = await getDoc(db, "orders", orderId);
-    
-    console.log(docData.orderId);
-    if(docData.orderIsAccepted === true && docData.orderIsDelivered === true){
-      await deleteDoc(info);
-      // await deleteDoc(orderInfo);
-      onClose();
+    try{
+      const info = getChatroomRef();
+      const docSnapshot = await getDoc(info);
+      const docData = docSnapshot.data();
+      const orderId = docData.orderId;
+      // const orderInfo = await getDoc(db, "orders", orderId);
+      
+      console.log(docData.orderId);
+      if(docData.orderIsAccepted === true && docData.orderIsDelivered === true){
+        await deleteDoc(info);
+        await deleteMessagesRef();
+        onClose();
+      }
+    }
+    catch(error){
+      console.log(error);
     }
   };
 
