@@ -10,6 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import ChatModal from "../../components/ChatModal/ChatModal";
+import authService from "../../utils/auth";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
@@ -18,6 +19,8 @@ function StudentDelivery() {
   const [sender, setSender] = useState();
   const [recipient, setRecipient] = useState();
   const [ordererName, setOrdererName] = useState();
+  const [hasCurrentDelivery, setHasCurrentDelivery] = useState(false);
+  const [hasCurrentOrder, setHasCurrentOrder] = useState(false);
 
   const openChat = async () => {
     setChatOpen(true);
@@ -41,6 +44,17 @@ function StudentDelivery() {
       unsubscribe();
     };
   }, []);
+
+  const checkHasCurrentOrder = async (uid) => {
+    try {
+      const userInfoRef = doc(db, "users", uid); // Get a reference to the document
+      const userInfoSnapshot = await getDoc(userInfoRef);
+      return userInfoSnapshot.data().hasPendingOrder === true;
+    } catch (error) {
+      console.error("Error checking current order:", error);
+      return false;
+    }
+  };
 
   const addHasCurrentDelivery = async (uid) => {
     try {
@@ -130,26 +144,40 @@ function StudentDelivery() {
   };
 
   const handleOrderAccepted = async (orderId, recipientId, ordererName) => {
-    setOrdererName(ordererName);
+    try{
+
+      const user = authService.getCurrentUser();
+      const hasCurrentDelivery = await checkHasCurrentDelivery(user.uid);
+      const hasCurrentOrder = await checkHasCurrentOrder(user.uid);
+      setHasCurrentDelivery(hasCurrentDelivery);
+      setHasCurrentOrder(hasCurrentOrder);
+
+      if(!hasCurrentDelivery && !hasCurrentOrder){
+        setOrdererName(ordererName);
     
-    //update not accepted order to accepted order
-    const orderRef = doc(db, "orders", orderId);
-    await updateDoc(orderRef, { isOrderAccepted: true });
-
-    const senderUID = auth.currentUser.uid;
-    const courierName = auth.currentUser.displayName;
-    const chatroomRef = getChatroomRef(senderUID, recipientId);
-
-    addHasCurrentDelivery(senderUID);
-
-    // Create a chatroom document in Firestore if it doesn't exist
-    await setDoc(chatroomRef, {
-      sender: senderUID,
-      recipient: recipientId,
-      ordererName: ordererName,
-      courierName: courierName,
-    });
-    fetchRoomData();
+        //update not accepted order to accepted order
+        const orderRef = doc(db, "orders", orderId);
+        await updateDoc(orderRef, { isOrderAccepted: true });
+    
+        const senderUID = auth.currentUser.uid;
+        const courierName = auth.currentUser.displayName;
+        const chatroomRef = getChatroomRef(senderUID, recipientId);
+    
+        addHasCurrentDelivery(senderUID);
+    
+        // Create a chatroom document in Firestore if it doesn't exist
+        await setDoc(chatroomRef, {
+          sender: senderUID,
+          recipient: recipientId,
+          ordererName: ordererName,
+          courierName: courierName,
+        });
+        fetchRoomData();
+      }
+    }
+    catch(error){
+      console.log(error);
+    }
   };
 
   function calculatePerPersonTotal(items) {
@@ -203,7 +231,7 @@ function StudentDelivery() {
                   // if ang user nag click sa accept order iya makita kay chat
                   // if dili kay order accepted ra
                 }
-                {!delivery.isOrderAccepted ? (
+                {!delivery.isOrderAccepted && (hasCurrentDelivery === false && hasCurrentOrder === false) ? (
                   <button
                     onClick={() =>
                       handleOrderAccepted(
@@ -215,7 +243,7 @@ function StudentDelivery() {
                   >
                     Accept Order
                   </button>
-                ) : null}
+                ) : <p>Finish your current transaction first</p>}
                 {delivery.isOrderAccepted ? (
                   <>
                     {currentUser === sender ? (

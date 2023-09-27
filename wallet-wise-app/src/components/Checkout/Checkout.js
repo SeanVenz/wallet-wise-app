@@ -23,6 +23,7 @@ function Checkout({
 }) {
   const [showModal, setShowModal] = useState(false);
   const [hasOrder, setHasOrder] = useState(false);
+  const [hasDelivery, setHasDelivery] = useState(false);
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -57,6 +58,17 @@ function Checkout({
     }
   };
 
+  const checkHasCurrentDelivery = async (uid) => {
+    try{
+      const userInfoRef = doc(db, "users", uid);
+      const userInfoSnapshot = await getDoc(userInfoRef);
+      return userInfoSnapshot.data().hasPendingDelivery === true;
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+
   const deleteCartItems = async (userId) => {
     try {
       const cartItemsCollectionRef = collection(db, "carts", userId, "items");
@@ -76,7 +88,7 @@ function Checkout({
 
   const addHasCurrentOrder = async (uid) => {
     try {
-      const userInfoRef = doc(db, "users", uid); // Get a reference to the document
+      const userInfoRef = doc(db, "users", uid); // Get a reference to the document 
       await updateDoc(userInfoRef, {
         hasPendingOrder: true,
       });
@@ -100,9 +112,10 @@ function Checkout({
     try {
       const user = authService.getCurrentUser();
       const hasCurrentOrder = await checkHasCurrentOrder(user.uid);
+      const hasCurrentDelivery = await checkHasCurrentDelivery(user.uid);
       setHasOrder(hasCurrentOrder); // Update the state with the result
-
-      if (user && !hasCurrentOrder) {
+      setHasDelivery(hasCurrentDelivery);
+      if (user && !hasCurrentOrder && !hasCurrentDelivery) {
         const userId = user.uid;
 
         const deliveryCollectionRef = collection(db, "orders");
@@ -147,8 +160,8 @@ function Checkout({
         <div className="modal">
           <div className="modal-content">
             <h2>Confirm Checkout</h2>
-            {hasOrder === true ? (
-              <p>Finish your current order first</p>
+            {hasOrder === true || hasDelivery === true ? (
+              <p>Finish your current transaction first</p>
             ) : null}
             <button onClick={handleCheckout}>Confirm</button>
             <button onClick={handleCloseModal}>Cancel</button>
