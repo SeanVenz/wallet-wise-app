@@ -1,14 +1,10 @@
 .login-parent{
-    overflow: auto;
     display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    overflow-x: hidden;
     height: 100%;
     width: 100%;
 }
 
-.potato-box{
+.login-potato-box{
     width: 650px;
     height: 500px;
     margin-top: 0px; 
@@ -20,22 +16,19 @@
     background-image: url('/src/images/potato-magnifying-glass.png');
     background-repeat: no-repeat;
     background-size: cover;
-    
 }
 
-.credentials-box{
-    width: 100px;
-    height: 50px;
-    border-color: black;
-    border-style: solid;
-    display:flow-root;
- }
+.main-box{
+    justify-content: center;
+}
 
  .text-box1{
     width: fit-content;
     height: fit-content;
-    font-size: 30px;
+    font-size: 22px;
     font-family: junge;
+    margin-left: 50px;
+    margin-top: 5px;
  }
 
  .text-box2{
@@ -45,23 +38,29 @@
     font-family: julius-sans-one;
     margin-left: 120px;
     letter-spacing: 15px;
+    position: relative;
  }
 
  .text-box3{
     width: fit-content;
     height: fit-content;
-    font-size: 65px;
+    font-size: 70px;
     font-family: monoton;
-    margin-left: 220px;
+    margin-left: 200px;
+    position: relative;
  }
 
-.main-box{
-    width: 650px;
+.login-form{
+    width: 625px;
     height: 550px;
-    background-color: #F9F2E2;
     padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     margin-left: 650px;
-    margin-top: 30px;
+    background-color: #F9F2E2;
+    position: absolute;
+    margin-top: 35px;
 }
 
 @font-face{
@@ -83,7 +82,7 @@
     src: url("/src/pages/Login/Fonts/SourceCodePro-Bold.woff");
 }
 
-input[type="email"]{
+input[type="login-email"]{
     width: 500px;
     height: 61px;
     padding: 10px;
@@ -93,11 +92,12 @@ input[type="email"]{
     box-sizing: border-box;
     font-size: 22px;
     margin-left: 80px;
+    margin-top: 15px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
 
 }
 
-input[type="password"]{
+input[type="login-password"]{
     width: 500px;
     height: 61px;
     padding: 10px;
@@ -111,7 +111,7 @@ input[type="password"]{
     margin-top: 15px;
 }
 
-button[type="submit"]{
+button[type="login-submit"]{
     background-color:#F9F2E2;
     color:black;
     font-family:source-code-pro;
@@ -126,10 +126,11 @@ a {
     text-decoration: none; 
     font-family:source-code-pro;
     font-size: 18px;
-    margin-left: 233px;
+    margin-left: 235px;
+    margin-top: 20px;
 }
 
-.error-message{
+.login-error-message{
     margin-left: 150px;
     font-family: source-code-pro;
     color: red;

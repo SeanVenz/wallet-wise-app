@@ -33,32 +33,30 @@ const LogIn = () => {
   return (
     <div className="login-parent">
       <div className="main-box">
-        <div className="text-box1">Welcome to</div>
-        <div className="text-box2">WALLET</div>
-        <div className="text-box3">WISE</div>
-        <div classname="credentials-box"> 
-          <form onSubmit={handleLogIn}>
+          <form onSubmit={handleLogIn} className="login-form">
+          <div className="text-box1">Welcome to</div>
+          <div className="text-box2">WALLET</div>
+          <div className="text-box3">WISE</div>
             <input
-              type="email"
+              type="login-email"
               placeholder="Enter username or Email Adress"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <input
-              type="password"
+              type="login-password"
               placeholder="Enter Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="error-message">
+            <div className="login-error-message">
             {error && <p>{error}</p>}
             </div>
-            <button type="submit">LOGIN</button>
-          </form>
-        </div>
+            <button type="login-submit">LOGIN</button>      
         <Link to="/forgot-password">Forgot password?</Link>
+        </form> 
       </div>
-      <div className="potato-box"></div>
+      <div className="login-potato-box"></div>
     </div>
   );
 };

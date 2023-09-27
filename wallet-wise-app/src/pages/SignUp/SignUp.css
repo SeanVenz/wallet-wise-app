@@ -8,7 +8,7 @@
     width: 100%;
 }
 
-input[type="email"]{
+input[type="signup-email"]{
     width: 500px;
     height: 30px;
     padding: 10px;
@@ -23,7 +23,7 @@ input[type="email"]{
     top: 210px;
 }
 
-input[type="password"]{
+input[type="signup-password"]{
     width: 500px;
     height: 30px;
     padding: 10px;
@@ -38,7 +38,7 @@ input[type="password"]{
     top: 210px;
 }
 
-input[type="text"]{
+input[type="signup-text"]{
     width: 500px;
     height: 30px;
     padding: 10px;
@@ -53,7 +53,7 @@ input[type="text"]{
     top: 210px;
 }
 
-form{
+.signup-form{
     width: 625px;
     height: 530px;
     padding: 20px;
@@ -78,7 +78,7 @@ label {
     width: 500px;
 }
 
-button[type="submit"]{
+button[type="signup-submit"]{
     background-color:#F9F2E2;
     color:black;
     font-family:source-code-pro;
