@@ -25,18 +25,14 @@ namespace wallet_wise_api_tests.Mappings
         public void CartMapsToCartDto_MapsCorrectly_ReturnsMappedCartDto()
         {
             // Arrange
-            var cart = new Cart
-            {
-                // Set properties according to your entity class
-            };
+            var cart = new Cart{};
 
             // Act
             var result = _mapper.Map<CartDto>(cart);
 
             // Assert
-            Assert.Equal(cart.Name, result.Name); // Replace with actual property names
+            Assert.Equal(cart.Name, result.Name); 
             Assert.Equal(cart.StoreName, result.StoreName);
-            // Add more assertions for other properties
         }
 
         [Fact]
@@ -56,10 +52,7 @@ namespace wallet_wise_api_tests.Mappings
         public void CartDtoMapsToCart_MapsCorrectly_ReturnsMappedCart()
         {
             // Arrange
-            var cartDto = new CartDto
-            {
-                // Set properties according to your DTO class
-            };
+            var cartDto = new CartDto{};
 
             // Act
             var result = _mapper.Map<Cart>(cartDto);

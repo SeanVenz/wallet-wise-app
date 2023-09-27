@@ -26,10 +26,7 @@ namespace wallet_wise_api_tests.Service
         public async Task SignUp_Success_ReturnsUserId()
         {
             // Arrange
-            var userDto = new UserDto
-            {
-                // Set your userDto properties here
-            };
+            var userDto = new UserDto{};
 
             var userModel = new User();
             var userId = Guid.NewGuid().ToString();
@@ -52,10 +49,7 @@ namespace wallet_wise_api_tests.Service
         public async Task SignUp_Fails_ThrowsException()
         {
             // Arrange
-            var userDto = new UserDto
-            {
-                // Set your userDto properties here
-            };
+            var userDto = new UserDto{};
 
             var userModel = new User();
 

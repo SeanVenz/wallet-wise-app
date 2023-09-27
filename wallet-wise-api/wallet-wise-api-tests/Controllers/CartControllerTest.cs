@@ -18,7 +18,7 @@ namespace wallet_wise_api_tests.Controllers
             var userId = "testUserId";
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock.Setup(service => service.GetCartItems(userId))
-                .ReturnsAsync(new List<CartDto> { new CartDto(), new CartDto() }); // Mocking cart items
+                .ReturnsAsync(new List<CartDto> { new CartDto(), new CartDto() });
 
             var controller = new CartController(cartServiceMock.Object, null);
 
@@ -28,7 +28,7 @@ namespace wallet_wise_api_tests.Controllers
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
             var cartItems = Assert.IsType<List<CartDto>>(okResult.Value);
-            Assert.Equal(2, cartItems.Count); // Change this count based on your expected result
+            Assert.Equal(2, cartItems.Count); 
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace wallet_wise_api_tests.Controllers
             var userId = "testUserId";
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock.Setup(service => service.CheckHasCurrentOrder(userId))
-                .ReturnsAsync(true); // User has a current order
+                .ReturnsAsync(true); 
 
             var controller = new CartController(cartServiceMock.Object, null);
 
@@ -126,7 +126,7 @@ namespace wallet_wise_api_tests.Controllers
             var userId = "invalidUserId";
             var cartServiceMock = new Mock<ICartService>();
             cartServiceMock.Setup(service => service.CheckHasCurrentOrder(userId))
-                .ReturnsAsync(false); // User has no current order
+                .ReturnsAsync(false); 
 
             var controller = new CartController(cartServiceMock.Object, null);
 

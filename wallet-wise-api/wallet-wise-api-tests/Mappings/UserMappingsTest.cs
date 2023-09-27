@@ -27,7 +27,6 @@ namespace wallet_wise_api_tests.Mappings
                 Id = "1",
                 FullName = "testuser",
                 Email = "testuser@example.com"
-                // Add other properties as needed
             };
 
             // Act
