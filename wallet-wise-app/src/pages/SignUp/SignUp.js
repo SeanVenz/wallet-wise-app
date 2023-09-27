@@ -38,47 +38,47 @@ const SignUp = () => {
 
   return (
     <div className="signup-parent">
-        <form onSubmit={handleSignUp}>
+        <form onSubmit={handleSignUp} className="signup-form">
           <div className="text-box">
             <div className="text-box1">Welcome to</div>
             <div className="text-box2">WALLET</div>
             <div className="text-box3">WISE</div>
             </div>
           <input
-            type="text"
+            type="signup-text"
             placeholder="Full Name"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
           />
           {role === "student" ? (
             <input
-              type="text"
+              type="signup-text"
               placeholder="ID Number"
               value={idNumber}
               onChange={(e) => setIdNumber(e.target.value)}
             />
           ) : (
             <input
-              type="text"
+              type="signup-text"
               placeholder="Store Name"
               value={storeName}
               onChange={(e) => setStoreName(e.target.value)}
             />
           )}
           <input
-            type="text"
+            type="signup-text"
             placeholder="Phone Number"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
           />
           <input
-            type="email"
+            type="signup-email"
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
-            type="password"
+            type="signup-password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -95,7 +95,7 @@ const SignUp = () => {
           <div className="error-message">
             {error && <p>{error}</p>}
             </div>
-          <button type="submit">Sign up</button>
+          <button type="signup-submit">Sign up</button>
         </form>
         <div className="potato-box"></div>
       </div>
