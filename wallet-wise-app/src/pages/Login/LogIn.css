@@ -4,6 +4,8 @@
     justify-content: space-between;
     flex-direction: column;
     overflow-x: hidden;
+    height: 100%;
+    width: 100%;
 }
 
 .potato-box{
@@ -15,7 +17,7 @@
     margin-top: 25px;
     padding-right: 50px;
     top: 0;
-    background-image: url('G:\School\Wallet Wise\wallet-wise-app\wallet-wise-app\src\images\potato-magnifying-glass.png');
+    background-image: url('/src/images/potato-magnifying-glass.png');
     background-repeat: no-repeat;
     background-size: cover;
     
