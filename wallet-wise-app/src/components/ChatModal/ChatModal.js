@@ -205,10 +205,12 @@ function ChatModal({ isOpen, onClose }) {
       const docSnapshot = await getDoc(info);
       const docData = docSnapshot.data();
       const orderId = docData.orderId;
-      // const orderInfo = await getDoc(db, "orders", orderId);
+      const orderInfo = await doc(db, "orders", orderId);
+      console.log(orderId);
       
-      console.log(docData.orderId);
       if(docData.orderIsAccepted === true && docData.orderIsDelivered === true){
+        await deleteDoc(orderInfo);
+        // console.log(orderInfo);
         await deleteDoc(info);
         await deleteMessagesRef();
         onClose();
@@ -224,6 +226,7 @@ function ChatModal({ isOpen, onClose }) {
     const chatRoomRef = getChatroomRef();
     await updateDoc(chatRoomRef, { orderIsAccepted: true });
     await deleteChatroomAndClose();
+    onClose();
   };
 
   const handleOrderDelivered = async () => {
@@ -232,6 +235,7 @@ function ChatModal({ isOpen, onClose }) {
     await deleteChatroomAndClose();
     await updateDoc(chatRoomRef, { orderIsDelivered: true });
     await deleteChatroomAndClose();
+    onClose();
   };
 
   return (
