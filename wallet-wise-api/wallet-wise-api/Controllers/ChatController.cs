@@ -20,6 +20,11 @@ namespace wallet_wise_api.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Retrieves a chat by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the chat.</param>
+        /// <returns>A chat DTO representing the chat.</returns>
         [HttpGet("{id}", Name = "GetChat")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(ChatDto), StatusCodes.Status200OK)]
@@ -45,6 +50,11 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Sends a chat message.
+        /// </summary>
+        /// <param name="chatDto">The chat DTO containing the message to send.</param>
+        /// <returns>A chat DTO representing the sent message.</returns>
         [HttpPost(Name = "SendChat")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(ChatDto), StatusCodes.Status201Created)]
@@ -70,6 +80,11 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Sets up a chat room between two users.
+        /// </summary>
+        /// <param name="request">The request DTO containing user information.</param>
+        /// <returns>A chat DTO representing the chat room.</returns>
         [HttpPost("setchatroom", Name = "SetChatRoom")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(ChatDto), StatusCodes.Status201Created)]
@@ -95,6 +110,11 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Retrieves a chat room by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the chat room.</param>
+        /// <returns>A chat DTO representing the chat room.</returns>
         [HttpGet("chatroom/{id}", Name = "GetChatRoom")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(ChatDto), StatusCodes.Status200OK)]

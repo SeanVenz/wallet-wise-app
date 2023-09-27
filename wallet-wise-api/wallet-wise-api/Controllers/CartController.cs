@@ -20,6 +20,10 @@ namespace wallet_wise_api.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Adds an item to the user's cart.
+        /// </summary>
+        /// <param name="cartItemDto">The cart item DTO to add to the cart.</param>
         [HttpPost(Name = "AddToCart")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(CartDto), StatusCodes.Status201Created)]
@@ -45,6 +49,10 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Gets a user's cart items.
+        /// </summary>
+        /// <param name="userId">The user's unique identifier.</param>
         [HttpGet(Name = "GetCartItems")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(List<CartDto>), StatusCodes.Status200OK)]
@@ -70,6 +78,11 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Removes an item from the user's cart.
+        /// </summary>
+        /// <param name="userId">The user's unique identifier.</param>
+        /// <param name="foodId">The unique identifier of the food item to remove.</param>
         [HttpDelete(Name = "RemoveFromCart")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -87,6 +100,10 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Clears all items from the user's cart.
+        /// </summary>
+        /// <param name="userId">The user's unique identifier.</param>
         [HttpDelete("clear", Name = "RemoveCartItems")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -104,6 +121,10 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Initiates the checkout process for the user's cart.
+        /// </summary>
+        /// <param name="userId">The user's unique identifier.</param>
         [HttpPost("checkout", Name = "Checkout")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -121,6 +142,10 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Marks that the user has a current order.
+        /// </summary>
+        /// <param name="userId">The user's unique identifier.</param>
         [HttpPost("addhascurrentorder", Name = "AddHasCurrentOrder")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -138,6 +163,10 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Checks if the user has a current order.
+        /// </summary>
+        /// <param name="userId">The user's unique identifier.</param>
         [HttpGet("checkhascurrentorder", Name = "CheckHasCurrentOrder")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
@@ -156,6 +185,12 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Updates the quantity of a food item in the user's cart.
+        /// </summary>
+        /// <param name="userId">The user's unique identifier.</param>
+        /// <param name="foodId">The unique identifier of the food item to update.</param>
+        /// <param name="newQuantity">The new quantity of the food item.</param>
         [HttpPut("updatefoodquantity", Name = "UpdateFoodQuantity")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

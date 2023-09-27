@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using wallet_wise_api.Dto;
 using wallet_wise_api.Repository;
 using wallet_wise_api.Service;
 
@@ -19,6 +21,11 @@ namespace wallet_wise_api.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Signs up a new user.
+        /// </summary>
+        /// <param name="userDto">The user DTO containing registration information.</param>
+        /// <returns>A string representing the user's unique identifier.</returns>
         [HttpPost("signup", Name = "SignUp")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(string), StatusCodes.Status201Created)]
@@ -49,6 +56,11 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Logs in a user with the provided email and password.
+        /// </summary>
+        /// <param name="loginRequest">The user DTO containing login credentials.</param>
+        /// <returns>A string representing an authentication token on successful login.</returns>
         [HttpPost("login", Name = "Login")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -80,6 +92,11 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Sends a verification email to the provided email address.
+        /// </summary>
+        /// <param name="emailRequest">The user DTO containing the email address for verification.</param>
+        /// <returns>A string representing the result of the email sending operation.</returns>
         [HttpPost("send-verification-email", Name = "SendVerificationEmail")]
         [Produces("application/json")]
         [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
@@ -110,6 +127,10 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Sends a reset password email to the provided email address.
+        /// </summary>
+        /// <param name="emailRequest">The user DTO containing the email address for password reset.</param>
         [HttpPost("send-reset-password-email", Name = "SendResetPasswordEmail")]
         [Produces("application/json")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -124,7 +145,7 @@ namespace wallet_wise_api.Controllers
                     return BadRequest("Invalid input");
                 }
 
-                _userService.sendResetPasswordEmail(emailRequest.Email);
+                _userService.SendResetPasswordEmail(emailRequest.Email);
                 return NoContent();
             }
             catch (Exception ex)
@@ -134,6 +155,9 @@ namespace wallet_wise_api.Controllers
             }
         }
 
+        /// <summary>
+        /// Logs out the currently authenticated user.
+        /// </summary>
         [HttpPost("logout", Name = "Logout")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

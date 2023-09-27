@@ -59,12 +59,7 @@ namespace wallet_wise_api.Service
                 throw new ArgumentNullException(nameof(email));
             }
 
-            _repository.sendResetPasswordEmail(email);
-        }
-
-        public void sendResetPasswordEmail(string email)
-        {
-            throw new NotImplementedException();
+            _repository.SendResetPasswordEmail(email);
         }
     }
 }

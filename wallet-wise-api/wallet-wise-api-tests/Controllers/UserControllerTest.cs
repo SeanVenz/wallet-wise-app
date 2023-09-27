@@ -204,7 +204,7 @@ namespace wallet_wise_api_tests.Controllers
                 Email = "user@example.com"
             };
 
-            _mockUserService.Setup(service => service.sendResetPasswordEmail(emailRequest.Email))
+            _mockUserService.Setup(service => service.SendResetPasswordEmail(emailRequest.Email))
                 .Throws(new Exception());
 
             // Act

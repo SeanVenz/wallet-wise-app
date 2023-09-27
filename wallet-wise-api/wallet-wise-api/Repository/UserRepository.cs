@@ -105,7 +105,7 @@ namespace wallet_wise_api.Repository
             return null;
         }
 
-        public void sendResetPasswordEmail(string email)
+        public void SendResetPasswordEmail(string email)
         {
             // Generate a reset token (for example, a GUID) and send it to the user's email.
             var resetToken = Guid.NewGuid().ToString();
