@@ -11,8 +11,10 @@ function Landing() {
     <div className='bg'>
       <div className='topBar'>
         <div className='logo'></div>
-        <Link to="/login"><button className='bot'>Login</button></Link>
-        <Link to="/signup"><button className='bot'>Sign Up</button></Link>
+        <div className='buttons'>
+          <Link to="/login"><button className='bot'>Login</button></Link>
+          <Link to="/signup"><button className='bot'>Sign Up</button></Link>
+        </div>
       </div>
       <div className='midBar'>
         <div className='bigpotato'></div>
