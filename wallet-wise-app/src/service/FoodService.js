@@ -27,7 +27,6 @@ export const getVendorFoods = async (userId) => {
   const vendorFoodCollection = collection(db, "vendors", userId, "foods");
   const vendorFoodQuery = query(vendorFoodCollection);
   const vendorFoodSnapshot = await getDocs(vendorFoodQuery);
-  console.log(vendorFoodSnapshot)
   return vendorFoodSnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
@@ -79,7 +78,7 @@ export const getAllFoods = async () => {
     id: doc.id,
   }));
 };
-
+ 
 export const addAllFood = async ({ foodName, price, isAvailable, image, foodType, quantity, storeName }) => {
 
   const storageRef = ref(storage, `images/${image.name}`);

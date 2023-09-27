@@ -4,6 +4,8 @@
 public class Food
 {
     [FirestoreProperty]
+    public string? Id { get; set; }
+    [FirestoreProperty]
     public string? FoodType { get; set; }
     [FirestoreProperty]
     public string? Name { get; set; }

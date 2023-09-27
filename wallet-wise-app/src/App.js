@@ -78,6 +78,21 @@ function App() {
           }
         />
         <Route
+          path="/vendor/*"
+          element={
+            user && user.emailVerified ? (
+              <div style={{ display: "flex" }}>
+                <VendorSidebar />
+                <Routes>
+                  <Route index={true} element={<Vendor />} />
+                </Routes>
+              </div>
+            ) : (
+              <Navigate to="/login" />
+            )
+          }
+        />
+        <Route
           path="/student/*"
           element={
             user && user.emailVerified ? (
@@ -89,21 +104,6 @@ function App() {
                   <Route path="profile" element={<StudentProfile />} />
                   <Route path="orders" element={<StudentDelivery />} />
                   <Route path="cart" element={<Cart />} />
-                </Routes>
-              </div>
-            ) : (
-              <Navigate to="/login" />
-            )
-          }
-        />
-        <Route
-          path="/vendor/*"
-          element={
-            user && user.emailVerified ? (
-              <div style={{ display: "flex" }}>
-                <VendorSidebar />
-                <Routes>
-                  <Route index={true} element={<Vendor />} />
                 </Routes>
               </div>
             ) : (
