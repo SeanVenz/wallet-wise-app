@@ -62,22 +62,20 @@ function StudentDelivery() {
       await updateDoc(userInfoRef, {
         hasPendingDelivery: true,
       });
-    }
-    catch(error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const checkHasCurrentDelivery = async (uid) => {
-    try{
+    try {
       const userInfoRef = doc(db, "users", uid);
       const userInfoSnapshot = await getDoc(userInfoRef);
       return userInfoSnapshot.data().hasPendingDelivery === true;
-    }
-    catch(error){
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const getChatRooms = async () => {
     const chatCollection = collection(db, "chatrooms");
@@ -144,27 +142,26 @@ function StudentDelivery() {
   };
 
   const handleOrderAccepted = async (orderId, recipientId, ordererName) => {
-    try{
-
+    try {
       const user = authService.getCurrentUser();
       const hasCurrentDelivery = await checkHasCurrentDelivery(user.uid);
       const hasCurrentOrder = await checkHasCurrentOrder(user.uid);
       setHasCurrentDelivery(hasCurrentDelivery);
       setHasCurrentOrder(hasCurrentOrder);
 
-      if(!hasCurrentDelivery && !hasCurrentOrder){
+      if (!hasCurrentDelivery && !hasCurrentOrder) {
         setOrdererName(ordererName);
-    
+
         //update not accepted order to accepted order
         const orderRef = doc(db, "orders", orderId);
         await updateDoc(orderRef, { isOrderAccepted: true });
-    
+
         const senderUID = auth.currentUser.uid;
         const courierName = auth.currentUser.displayName;
         const chatroomRef = getChatroomRef(senderUID, recipientId);
-    
+
         addHasCurrentDelivery(senderUID);
-    
+
         // Create a chatroom document in Firestore if it doesn't exist
         await setDoc(chatroomRef, {
           sender: senderUID,
@@ -174,8 +171,7 @@ function StudentDelivery() {
         });
         fetchRoomData();
       }
-    }
-    catch(error){
+    } catch (error) {
       console.log(error);
     }
   };
@@ -231,20 +227,23 @@ function StudentDelivery() {
                   // if ang user nag click sa accept order iya makita kay chat
                   // if dili kay order accepted ra
                 }
-                {!delivery.isOrderAccepted && (hasCurrentDelivery === false && hasCurrentOrder === false) ? (
-                  <button
-                    onClick={() =>
-                      handleOrderAccepted(
-                        delivery.id,
-                        delivery.userId,
-                        delivery.userName
-                      )
-                    }
-                  >
-                    Accept Order
-                  </button>
-                ) : <p>Finish your current transaction first</p>}
-                {delivery.isOrderAccepted ? (
+                {!delivery.isOrderAccepted ? (
+                  hasCurrentDelivery || hasCurrentOrder ? (
+                    <p>Finish your current transaction first</p>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        handleOrderAccepted(
+                          delivery.id,
+                          delivery.userId,
+                          delivery.userName
+                        )
+                      }
+                    >
+                      Accept Order
+                    </button>
+                  )
+                ) : (
                   <>
                     {currentUser === sender ? (
                       <button onClick={() => openChat(delivery.userId)}>
@@ -254,7 +253,7 @@ function StudentDelivery() {
                       <p>Order is already accepted</p>
                     )}
                   </>
-                ) : null}
+                )}
               </>
             )}
           </li>
