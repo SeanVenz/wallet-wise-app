@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../utils/auth";
+import "./SignUp.css";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -36,60 +37,68 @@ const SignUp = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSignUp}>
-        <input
-          type="text"
-          placeholder="Full Name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-        />
-        {role === "student" ? (
+    <div className="signup-parent">
+        <form onSubmit={handleSignUp}>
+          <div className="text-box">
+            <div className="text-box1">Welcome to</div>
+            <div className="text-box2">WALLET</div>
+            <div className="text-box3">WISE</div>
+            </div>
           <input
             type="text"
-            placeholder="ID Number"
-            value={idNumber}
-            onChange={(e) => setIdNumber(e.target.value)}
+            placeholder="Full Name"
+            value={fullName}
+            onChange={(e) => setFullName(e.target.value)}
           />
-        ) : (
+          {role === "student" ? (
+            <input
+              type="text"
+              placeholder="ID Number"
+              value={idNumber}
+              onChange={(e) => setIdNumber(e.target.value)}
+            />
+          ) : (
+            <input
+              type="text"
+              placeholder="Store Name"
+              value={storeName}
+              onChange={(e) => setStoreName(e.target.value)}
+            />
+          )}
           <input
             type="text"
-            placeholder="Store Name"
-            value={storeName}
-            onChange={(e) => setStoreName(e.target.value)}
+            placeholder="Phone Number"
+            value={phoneNumber}
+            onChange={(e) => setPhoneNumber(e.target.value)}
           />
-        )}
-        <input
-          type="text"
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div>
-          <label>
-            Role:
-            <select value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="student">Student</option>
-              <option value="vendor">Vendor</option>
-            </select>
-          </label>
-        </div>
-        {error && <p>{error}</p>}
-        <button type="submit">Sign up</button>
-      </form>
-    </div>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <div>
+            <label>
+              Role:
+              <select value={role} onChange={(e) => setRole(e.target.value)}>
+                <option value="student">Student</option>
+                <option value="vendor">Vendor</option>
+              </select>
+            </label>
+          </div>
+          <div className="error-message">
+            {error && <p>{error}</p>}
+            </div>
+          <button type="submit">Sign up</button>
+        </form>
+        <div className="potato-box"></div>
+      </div>
   );
 };
 

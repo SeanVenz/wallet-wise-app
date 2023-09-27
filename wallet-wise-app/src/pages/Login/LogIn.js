@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../utils/auth";
+import "./LogIn.css";
 import { Link } from 'react-router-dom';
 
 const LogIn = () => {
@@ -30,24 +31,34 @@ const LogIn = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleLogIn}>
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {error && <p>{error}</p>}
-        <button type="submit">Log in</button>
-      </form>
-      <Link to="/forgot-password">Forgot password?</Link>
+    <div className="login-parent">
+      <div className="main-box">
+        <div className="text-box1">Welcome to</div>
+        <div className="text-box2">WALLET</div>
+        <div className="text-box3">WISE</div>
+        <div classname="credentials-box"> 
+          <form onSubmit={handleLogIn}>
+            <input
+              type="email"
+              placeholder="Enter username or Email Adress"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Enter Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <div className="error-message">
+            {error && <p>{error}</p>}
+            </div>
+            <button type="submit">LOGIN</button>
+          </form>
+        </div>
+        <Link to="/forgot-password">Forgot password?</Link>
+      </div>
+      <div className="potato-box"></div>
     </div>
   );
 };
