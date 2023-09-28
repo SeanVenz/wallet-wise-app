@@ -19,12 +19,12 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className='passbody'>
-      <div className='passpotato'></div>
-      <div className='smallbox'>
-        <div className='passwallet'>WALLET</div>
-        <div className='passwise'>WISE</div>
-        <div className='passmessage'>We've sent a verification code to your  email</div>
+    <div className='pass-body'>
+      <div className='pass-potato'></div>
+      <div className='pass-smallbox'>
+        <div className='pass-wallet'>WALLET</div>
+        <div className='pass-wise'>WISE</div>
+        <div className='pass-message'>We've sent a verification code to your  email</div>
       <form onSubmit={handleForgotPassword}>
         <input
           type="email"
@@ -34,9 +34,9 @@ const ForgotPassword = () => {
         />
         {message && <p>{message}</p>}
         {error && <p>{error}</p>}
-        <button type="submit" className='btn'>Send password reset email</button>
+        <button type="submit" className='pass-btn'>Send password reset email</button>
       </form>
-      <Link to="/login"><button className='btn'>Login</button></Link>
+      <Link to="/login"><button className='pass-btn'>Login</button></Link>
       </div>
     </div>
   );
