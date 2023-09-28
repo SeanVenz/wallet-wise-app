@@ -1,7 +1,8 @@
 .bg{
     justify-content: center;
     background-color: #F9F2E2;
-    display:contents;
+    display:flexbox;
+    align-items: center;
     height: 100%;
     width: 100%;
 }
@@ -41,11 +42,22 @@
 }
 /* for mobile */
 @media (max-width: 768px) {
+    .bg{
+        padding-top: 10%;
+        padding-bottom: 55%;
+    }
     .logo{
         background-image: url("/src/images/top-logo.png");
         width: 85px;
         height: 85px;
         background-size: cover;
+    }
+    .bot {
+        font-size: 8px; 
+    }
+    .midBar{
+        margin-top: 25%;
+        margin-bottom: 15%;
     }
     .wallet {
       font-size: 40px;
@@ -62,6 +74,13 @@
   
   /*for larger screens, e.g., desktops */
   @media (min-width: 1200px) {
+    .logo{
+        width: 120px;
+        height: 120px;
+        background-size: cover;
+    }.bot {
+        font-size: 20px; 
+    }
     .wallet {
       font-size: 150px; 
     }
@@ -73,20 +92,15 @@
         width: 301px;
         background-size: cover;
     }
-    .logo{
-        width: 120px;
-        height: 120px;
-        background-size: cover;
-    }
   }
 @font-face {
     font-family: Monoton;
-    src: url("/src/pages/Landing/Monoton-regular.woff");
+    src: url("/src/fonts/Monoton-regular.woff");
     
 }
 @font-face {
     font-family: Julius;
-    src: url("/src/pages/Landing/JuliusSansOne-Regular.woff");
+    src: url("/src/fonts/JuliusSansOne-Regular.woff");
 }
 
 .bigpotato{
@@ -109,5 +123,6 @@
     width: 18%;
     height: auto;
     border-radius: 100%;
+    border: 1px solid;
     overflow: hidden;
 }
