@@ -1,4 +1,9 @@
 .body{
+    justify-content: center;
+    background-color: #F9F2E2;
+    display:contents;
+    height: 100%;
+    width: 100%;
     overflow: hidden;
 }
 .landing-bg{
@@ -45,7 +50,7 @@
     border: 1px black solid;
     font-size: 20px; 
     position: relative;
-    left: 75px;
+    left: 180px;
 }
 
 .landing-midBar{
