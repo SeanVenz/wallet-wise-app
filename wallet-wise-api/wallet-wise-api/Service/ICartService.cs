@@ -44,6 +44,10 @@
         /// <returns>True if the user has a current order; otherwise, false.</returns>
         public Task<bool> CheckHasCurrentOrder(string userId);
 
+        public Task AddHasCurrentDelivery(string userId);
+
+        public Task<bool> CheckHasCurrentDelivery(string userId);
+
         /// <summary>
         /// Completes the checkout process for the user's shopping cart.
         /// </summary>
