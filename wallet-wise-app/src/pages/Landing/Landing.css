@@ -26,6 +26,27 @@
     align-items: center;
     display: flex;
 }
+.landing-bot-signup{
+    color:black;
+    background: #F9F2E2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    border: 1px black solid;
+    font-size: 20px;
+    position: relative;
+    right: 182px; 
+}
+
+.landing-bot-login{
+    color:black;
+    background: #F9F2E2;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    border: 1px black solid;
+    font-size: 20px; 
+    position: relative;
+    left: 75px;
+}
 
 .landing-midBar{
     display: flex;
