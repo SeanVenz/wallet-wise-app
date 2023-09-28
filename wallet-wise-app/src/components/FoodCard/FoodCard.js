@@ -3,9 +3,8 @@ import "./FoodCard.css";
 import cart from "../../images/cart.png";
 import map from "../../images/location.png";
 import { db } from "../../utils/firebase";
-import { doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import authService from "../../utils/auth";
-import Cart from "../../pages/Cart/Cart";
 
 export const FoodCard = (props) => {
   const { img, name, price, number, storeName, id } = props;
@@ -20,26 +19,6 @@ export const FoodCard = (props) => {
   const handleCloseModal = () => {
     setShowModal(false);
   };
-
-  // const updateItemQuantity = async () => {
-  //   try {
-  //     // Reference to the specific item in the food
-  //     const foodItemRef = doc(db, "food", id);
-  //     const newQuantity = quantity - number;
-
-  //     const foodRefSnapshot = await getDoc(foodItemRef);
-
-  //     if (foodRefSnapshot.exists()) {
-  //       // Update the quantity in Firestore
-  //       await updateDoc(foodItemRef, {
-  //         Quantity: newQuantity,
-  //       });
-  //     }
-  //   } catch (error) {
-  //     console.error("Error updating item quantity:", error);
-  //     return false;
-  //   }
-  // };
 
   const handleAddToCart = async () => {
     try {
@@ -66,8 +45,6 @@ export const FoodCard = (props) => {
         });
 
         console.log("Item added to cart with ID:", itemId);
-
-        // updateItemQuantity();
 
         // Reset form fields and options
         setQuantity(1);

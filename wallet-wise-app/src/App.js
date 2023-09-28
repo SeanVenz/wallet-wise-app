@@ -22,12 +22,13 @@ import StudentDelivery from "./pages/Delivery/StudentDelivery";
 import Dashboard from "./pages/Dashboard";
 import VendorSidebar from "./pages/Vendor/VendorSidebar";
 import Cart from "./pages/Cart/Cart";
+import Spinner from "./components/Spinner/Spiner";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner/>;
   }
 
   if (error) {
@@ -78,17 +79,13 @@ function App() {
           }
         />
         <Route
-          path="/student/*"
+          path="/vendor/*"
           element={
             user && user.emailVerified ? (
               <div style={{ display: "flex" }}>
-                <StudentSidebar />
+                <VendorSidebar />
                 <Routes>
-                  <Route index={true} element={<Student />} />
-                  <Route path="market" element={<StudentMarket />} />
-                  <Route path="profile" element={<StudentProfile />} />
-                  <Route path="orders" element={<StudentDelivery />} />
-                  <Route path="cart" element={<Cart />} />
+                  <Route index={true} element={<Vendor />} />
                 </Routes>
               </div>
             ) : (
@@ -97,13 +94,17 @@ function App() {
           }
         />
         <Route
-          path="/vendor/*"
+          path="/student/*"
           element={
             user && user.emailVerified ? (
               <div style={{ display: "flex" }}>
-                <VendorSidebar />
+                <StudentSidebar />
                 <Routes>
-                  <Route index={true} element={<Vendor />} />
+                  <Route index={true} element={<StudentMarket />} />
+                  <Route path="market" element={<StudentMarket />} />
+                  <Route path="profile" element={<StudentProfile />} />
+                  <Route path="orders" element={<StudentDelivery />} />
+                  <Route path="cart" element={<Cart />} />
                 </Routes>
               </div>
             ) : (

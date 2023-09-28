@@ -8,7 +8,7 @@ import { getFoods } from "../service/FoodService";
 const Dashboard = () => {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
-  const [idNumber, setIdNumber] = useState("");
+  const [idNumber, setIdNumber] = useState(""); 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [foods, setFoods] = useState([]);
 

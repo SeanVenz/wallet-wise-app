@@ -16,7 +16,7 @@ const VerifyEmail = () => {
     // Clean up the subscription
     return () => unsubscribe();
   }, [navigate]);
-
+ 
   const resendEmail = async () => {
     const user = authService.getCurrentUser();
     if (user && !user.emailVerified) {
