@@ -4,14 +4,14 @@ import { useNavigate } from "react-router-dom";
 import { doc, getDoc, updateDoc } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
-// import profile from "../../images/profile.png";
+import profile from "../../images/profile.png";
 
 const StudentProfile = () => {
   const navigate = useNavigate();
   const [fullName, setFullName] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [newProfileImage, setNewProfileImage] = useState();
+  const [newProfileImage, setNewProfileImage] = useState(profile);
 
   const getProfilePicture = async (uid) => {
     const profile = await doc(db, "users", uid);
