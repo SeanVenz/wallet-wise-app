@@ -1,71 +1,73 @@
-.bg{
+.landing-bg{
     justify-content: center;
     background-color: #F9F2E2;
-    display:flexbox;
+    display:contents;
     align-items: center;
     height: 100%;
     width: 100%;
 }
-.topBar{
+.landing-topBar{
     display: flex;
     justify-content:space-between;
 }
 
-.logo{
+.landing-logo{
     background-image: url("/src/images/top-logo.png");
     background-size: cover;
 }
 
-.buttons{
+.landing-buttons{
     align-content: center;
     align-items: center;
     display: flex;
 }
 
-.midBar{
+.landing-midBar{
     display: flex;
     justify-content:space-around;
 }
-.words{
+.landing-words{
     text-align: center;
 }
-.wallet{
+.landing-wallet{
     font-family: Julius;
     letter-spacing: 0.2em;
     font-size: 1;
     height: fit-content;
 }
 
-.wise{
+.landing-wise{
     font-family: Monoton;
     font-size: 550%;
 }
 /* for mobile */
 @media (max-width: 768px) {
-    .bg{
+    .landing-bg{
         padding-top: 10%;
         padding-bottom: 55%;
     }
-    .logo{
+    .landing-logo{
         background-image: url("/src/images/top-logo.png");
         width: 85px;
         height: 85px;
         background-size: cover;
     }
-    .bot {
-        font-size: 8px; 
+    .landing-bot {
+        font-size: 8px;
+        display: inline-block;
+        margin: 5px;
     }
-    .midBar{
+    .landing-midBar{
         margin-top: 25%;
         margin-bottom: 15%;
     }
-    .wallet {
+    .landing-wallet {
       font-size: 40px;
     }
-    .wise {
+    .landing-wise {
         font-size: 35px;
     }
-    .bigpotato{
+    .landing-bigpotato{
         height: 100px;
         width: 100px;
         background-size: cover;
@@ -74,20 +76,21 @@
   
   /*for larger screens, e.g., desktops */
   @media (min-width: 1200px) {
-    .logo{
+    .landing-logo{
         width: 120px;
         height: 120px;
         background-size: cover;
-    }.bot {
+    }
+    .landing-bot {
         font-size: 20px; 
     }
-    .wallet {
+    .landing-wallet {
       font-size: 150px; 
     }
-    .wise {
+    .landing-wise {
         font-size: 100px;
     }
-    .bigpotato{
+    .landing-bigpotato{
         height: 301px;
         width: 301px;
         background-size: cover;
@@ -103,23 +106,23 @@
     src: url("/src/fonts/JuliusSansOne-Regular.woff");
 }
 
-.bigpotato{
+.landing-bigpotato{
     background-image: url("/src/images/big-potato.png");
     background-size: cover;
 }
-.bot{
+.landing-bot{
     color:black;
     background: #F9F2E2;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 15px;
     border: 1px black solid;
 }
-.botBar{
+.landing-botBar{
     display: flex;
     justify-content: space-between;
     padding: 2%;
 }
-.option{
+.landing-option{
     width: 18%;
     height: auto;
     border-radius: 100%;
