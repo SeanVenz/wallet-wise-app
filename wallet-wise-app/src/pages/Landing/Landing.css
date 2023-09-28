@@ -1,10 +1,15 @@
+.body{
+    overflow: hidden;
+}
 .landing-bg{
     justify-content: center;
     background-color: #F9F2E2;
-    display:contents;
+    display:flexbox;
     align-items: center;
     height: 100%;
     width: 100%;
+    padding-bottom: 10%;
+    
 }
 .landing-topBar{
     display: flex;
@@ -55,7 +60,6 @@
     .landing-bot {
         font-size: 8px;
         display: inline-block;
-        margin: 5px;
     }
     .landing-midBar{
         margin-top: 25%;
