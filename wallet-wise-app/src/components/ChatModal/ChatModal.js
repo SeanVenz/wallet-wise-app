@@ -29,6 +29,20 @@ function ChatModal({ isOpen, onClose }) {
   const [recipientPhoneNumber, setRecipientPhoneNumber] = useState();
   const [recipientIdNumber, setRecipientIdNumber] = useState();
 
+  const addDeliveryHIstory = async (uid, orderId) => {
+    const userCollectionRef = collection(db, "users", uid, "deliveries");
+    await addDoc (userCollectionRef, {
+      OrderId : orderId
+    })
+  }
+
+  const addOrderHistory = async (uid, orderId) => {
+    const userCollectionRef = collection(db, "users", uid, "orders");
+    await addDoc (userCollectionRef, {
+      OrderId : orderId
+    })
+  }
+
   const getChatRooms = async () => {
     const chatRoomCollection = collection(db, "chatrooms");
     const chatRoomSnapshot = await getDocs(chatRoomCollection);
@@ -206,11 +220,11 @@ function ChatModal({ isOpen, onClose }) {
       const docData = docSnapshot.data();
       const orderId = docData.orderId;
       const orderInfo = await doc(db, "orders", orderId);
-      console.log(orderId);
       
       if(docData.orderIsAccepted === true && docData.orderIsDelivered === true){
+        addDeliveryHIstory(currentUser, orderId);
+        addOrderHistory(recipient, orderId);
         await deleteDoc(orderInfo);
-        // console.log(orderInfo);
         await deleteDoc(info);
         await deleteMessagesRef();
         onClose();
