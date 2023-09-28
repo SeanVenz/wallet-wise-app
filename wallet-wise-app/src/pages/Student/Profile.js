@@ -158,9 +158,11 @@ const StudentProfile = () => {
         <>
           <h3>Accepted Orders:</h3>
           {deliveries.map((food, index) => (
-            <span class="order" key={index}>
-              Order # {food.OrderId}
-            </span>
+            <ul>
+              <li class="order" key={index}>
+                Order # {food.OrderId}
+              </li>
+            </ul>
           ))}
         </>
       )}
@@ -169,9 +171,11 @@ const StudentProfile = () => {
         <>
           <h3>My Orders:</h3>
           {orders.map((food, index) => (
-            <span class="order" key={index}>
-              Order # {food.OrderId}
-            </span>
+            <ul>
+              <li class="order" key={index}>
+                Order # {food.OrderId}
+              </li>
+            </ul>
           ))}
         </>
       )}
