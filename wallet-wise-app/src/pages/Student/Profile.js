@@ -1,7 +1,13 @@
 import { useEffect, useState } from "react";
 import { auth, db, storage } from "../../utils/firebase";
 import { useNavigate } from "react-router-dom";
-import { doc, getDoc, updateDoc } from "@firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  updateDoc,
+} from "@firebase/firestore";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import profile from "../../images/profile.png";
@@ -12,12 +18,60 @@ const StudentProfile = () => {
   const [idNumber, setIdNumber] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [newProfileImage, setNewProfileImage] = useState(profile);
+  const [deliveries, setDeliveries] = useState([]);
+  const [orders, setOrders] = useState([]);
 
   const getProfilePicture = async (uid) => {
     const profile = await doc(db, "users", uid);
     const data = await getDoc(profile);
     return data.data().profileImageUrl;
   };
+
+  useEffect(() => {
+    // Define a function to fetch deliveries from Firestore and update state
+    const fetchDeliveries = async () => {
+      try {
+        const userCollectionRef = collection(
+          db,
+          "users",
+          auth.currentUser.uid,
+          "deliveries"
+        );
+        const querySnapshot = await getDocs(userCollectionRef);
+
+        // Extract the data from the query snapshot and store it in an array
+        const deliveryData = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // Update the state with the delivery data
+        setDeliveries(deliveryData);
+
+        const orderCollectionRef = collection(
+          db,
+          "users",
+          auth.currentUser.uid,
+          "orders"
+        );
+        const orderSnapshot = await getDocs(orderCollectionRef);
+
+        // Extract the data from the query snapshot and store it in an array
+        const orderData = orderSnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        // Update the state with the delivery data
+        setOrders(orderData);
+      } catch (error) {
+        console.error("Error fetching deliveries:", error);
+      }
+    };
+
+    // Call the fetchDeliveries function to fetch and update the state
+    fetchDeliveries();
+  }, []);
 
   const handleUpdateProfileImage = async (image) => {
     try {
@@ -93,16 +147,38 @@ const StudentProfile = () => {
       <img src={newProfileImage} alt="Profile" />
       <h3>Change Profile Picture</h3>
       <form>
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageChange}
-        />
+        <input type="file" accept="image/*" onChange={handleImageChange} />
       </form>
       <p>Full Name: {fullName}</p>
       <p>ID Number: {idNumber}</p>
       <p>Phone Number: {phoneNumber}</p>
       <button onClick={handleLogOut}>Log Out</button>
+
+      {deliveries.length > 0 && (
+        <>
+          <h3>Accepted Orders:</h3>
+          {deliveries.map((food, index) => (
+            <ul>
+              <li class="order" key={index}>
+                Order # {food.OrderId}
+              </li>
+            </ul>
+          ))}
+        </>
+      )}
+
+      {orders.length > 0 && (
+        <>
+          <h3>My Orders:</h3>
+          {orders.map((food, index) => (
+            <ul>
+              <li class="order" key={index}>
+                Order # {food.OrderId}
+              </li>
+            </ul>
+          ))}
+        </>
+      )}
     </div>
   );
 };
