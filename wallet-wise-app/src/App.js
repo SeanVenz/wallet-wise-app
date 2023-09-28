@@ -100,7 +100,7 @@ function App() {
               <div style={{ display: "flex" }}>
                 <StudentSidebar />
                 <Routes>
-                  <Route index={true} element={<Student />} />
+                  <Route index={true} element={<StudentMarket />} />
                   <Route path="market" element={<StudentMarket />} />
                   <Route path="profile" element={<StudentProfile />} />
                   <Route path="orders" element={<StudentDelivery />} />
