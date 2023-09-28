@@ -92,10 +92,10 @@ const SignUp = () => {
               </select>
             </label>
           </div>
+          <button type="signup-submit">Sign up</button>
           <div className="error-message">
             {error && <p>{error}</p>}
             </div>
-          <button type="signup-submit">Sign up</button>
         </form>
         <div className="potato-box"></div>
       </div>
