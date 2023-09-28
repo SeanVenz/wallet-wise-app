@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
 import { auth, db } from "../../utils/firebase";
 import "./Vendor.css";
-import { doc, getDoc } from "@firebase/firestore";
+import { doc, getDoc, updateDoc } from "@firebase/firestore";
 
 function Vendor() {
   const [storeName, setStoreName] = useState("No Shop Name");
@@ -124,6 +124,38 @@ function Vendor() {
     setSuccessMessage("");
   };
 
+  const updateItemQuantity = async (itemId, newQuantity) => {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const userId = user.uid;
+  
+        // Reference to the specific item in the cart
+        const vendorFoodRef = doc(db, 'vendors', userId, 'foods', itemId);
+  
+        const vendorRefSnapshot = await getDoc(vendorFoodRef);
+  
+        if (vendorRefSnapshot.exists()) {
+          await updateDoc(vendorFoodRef, { Quantity: newQuantity });
+          
+          // Update the quantity in the local state
+          const updatedFoods = foods.map((food) => {
+            if (food.id === itemId) {
+              return { ...food, Quantity: newQuantity };
+            } else {
+              return food;
+            }
+          });
+          setFoods(updatedFoods);
+        }
+      } else {
+        console.error('User is not authenticated.');
+      }
+    } catch (error) {
+      console.error('Error updating item quantity:', error);
+    }
+  };
+
   return (
     <div className="main-page">
       <h2 className="title">
@@ -151,6 +183,8 @@ function Vendor() {
                     <img src={food.ImageUrl} alt={food.Name} />
                   </td>
                   <td>{food.Quantity}</td>
+                  <button onClick={() => updateItemQuantity(food.id, food.Quantity - 1)}>-</button>
+                 <button onClick={() => updateItemQuantity(food.id, food.Quantity + 1)}>+</button>
                 </tr>
               ))}
             </tbody>

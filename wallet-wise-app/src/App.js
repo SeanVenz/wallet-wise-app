@@ -22,12 +22,13 @@ import StudentDelivery from "./pages/Delivery/StudentDelivery";
 import Dashboard from "./pages/Dashboard";
 import VendorSidebar from "./pages/Vendor/VendorSidebar";
 import Cart from "./pages/Cart/Cart";
+import Spinner from "./components/Spinner/Spiner";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Spinner/>;
   }
 
   if (error) {
@@ -99,7 +100,7 @@ function App() {
               <div style={{ display: "flex" }}>
                 <StudentSidebar />
                 <Routes>
-                  <Route index={true} element={<Student />} />
+                  <Route index={true} element={<StudentMarket />} />
                   <Route path="market" element={<StudentMarket />} />
                   <Route path="profile" element={<StudentProfile />} />
                   <Route path="orders" element={<StudentDelivery />} />
