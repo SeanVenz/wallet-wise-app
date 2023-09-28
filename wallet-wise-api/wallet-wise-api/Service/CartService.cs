@@ -59,4 +59,14 @@ public class CartService : ICartService
     {
         _repository.UpdateFoodQuantity(userId, foodId, newQuantity);
     }
+
+    public async Task AddHasCurrentDelivery(string userId)
+    {
+        _repository.AddHasCurrentDelivery(userId);
+    }
+
+    public async Task<bool> CheckHasCurrentDelivery(string userId)
+    {
+        return await _repository.CheckHasCurrentDelivery(userId);
+    }
 }

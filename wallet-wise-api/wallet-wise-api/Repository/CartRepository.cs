@@ -152,5 +152,24 @@ namespace wallet_wise_api.Repository
                 await document.Reference.SetAsync(cartItem);
             }
         }
+
+        public async void AddHasCurrentDelivery(string userId)
+        {
+            var userRef = _context.Db.Collection("users").Document(userId);
+
+            var updateData = new Dictionary<string, object>
+            {
+                { "hasCurrentDelivery", true }
+            };
+            await userRef.UpdateAsync(updateData);
+        }
+
+        public async Task<bool> CheckHasCurrentDelivery(string userId)
+        {
+            var orderQuery = _context.Db.Collection("orders").WhereEqualTo("UserId", userId).WhereEqualTo("OrderDate", DateTime.Today);
+            var snapshot = await orderQuery.GetSnapshotAsync();
+
+            return snapshot.Documents.Any();
+        }
     }
 }
