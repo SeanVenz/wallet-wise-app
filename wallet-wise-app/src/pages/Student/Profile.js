@@ -71,7 +71,7 @@ const StudentProfile = () => {
 
     // Call the fetchDeliveries function to fetch and update the state
     fetchDeliveries();
-  });
+  }, []);
 
   const handleUpdateProfileImage = async (image) => {
     try {
