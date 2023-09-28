@@ -14,7 +14,6 @@ import {
 } from "firebase/firestore";
 import { auth, db } from "../../utils/firebase";
 
-
 function ChatModal({ isOpen, onClose }) {
   const [message, setMessage] = useState("");
   const [chatMessages, setChatMessages] = useState([]);
@@ -61,27 +60,26 @@ function ChatModal({ isOpen, onClose }) {
     fetchRoomData();
 
     const getInfo = async () => {
-      try{
+      try {
         const senderRef = doc(db, "users", currentUser);
         const senderData = await getDoc(senderRef);
-        
+
         if (senderData.exists()) {
           setSenderPhoneNumber(senderData.data().phoneNumber);
           setSenderIdNumber(senderData.data().idNumber);
         }
-  
+
         const recipientRef = doc(db, "users", recipient);
         const recepientData = await getDoc(recipientRef);
-  
+
         if (recepientData.exists()) {
           setRecipientPhoneNumber(recepientData.data().phoneNumber);
           setRecipientIdNumber(recepientData.data().idNumber);
         }
+      } catch (error) {
+        console.log("There's an error", error);
       }
-      catch(error){
-        console.log("There's an error",error)
-      }
-    }
+    };
 
     getInfo();
   }, [currentUser, recipient]);
@@ -93,6 +91,16 @@ function ChatModal({ isOpen, onClose }) {
       return doc(db, "chatrooms", chatroomID);
     }
     return null;
+  };
+
+  const deleteMessagesRef = async () => {
+    const chatRoomRef = getChatroomRef();
+    const messageCollectionRef = collection(chatRoomRef, "messages");
+    const messageQuerySnapshot = await getDocs(messageCollectionRef);
+
+    messageQuerySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    })
   };
 
   const getParticipants = async () => {
@@ -173,25 +181,62 @@ function ChatModal({ isOpen, onClose }) {
     }
   };
 
-  const handleChatroomDelete = async () => {
-    // Only allow the recipient to delete the chatroom
-    if (participants && participants[1] === auth.currentUser.uid) {
-      const chatroomRef = getChatroomRef();
+  const updateHasCurrentDelivery = async (uid) => {
+    try {
+      const userInfoRef = doc(db, "users", uid);
+      return await updateDoc(userInfoRef, { hasPendingDelivery: false });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-      if (chatroomRef) {
-        await deleteDoc(chatroomRef);
-        onClose(); // Close the chat modal after deleting the chatroom
+  const updateHasCurrentOrder = async (uid) => {
+    try {
+      const userInfoRef = doc(db, "users", uid);
+      return await updateDoc(userInfoRef, { hasPendingOrder: false });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const deleteChatroomAndClose = async () => {
+    try{
+      const info = getChatroomRef();
+      const docSnapshot = await getDoc(info);
+      const docData = docSnapshot.data();
+      const orderId = docData.orderId;
+      const orderInfo = await doc(db, "orders", orderId);
+      console.log(orderId);
+      
+      if(docData.orderIsAccepted === true && docData.orderIsDelivered === true){
+        await deleteDoc(orderInfo);
+        // console.log(orderInfo);
+        await deleteDoc(info);
+        await deleteMessagesRef();
+        onClose();
       }
+    }
+    catch(error){
+      console.log(error);
     }
   };
 
   const handleOrderAccepted = async () => {
-
-  }
+    updateHasCurrentOrder(recipient);
+    const chatRoomRef = getChatroomRef();
+    await updateDoc(chatRoomRef, { orderIsAccepted: true });
+    await deleteChatroomAndClose();
+    onClose();
+  };
 
   const handleOrderDelivered = async () => {
-
-  }
+    updateHasCurrentDelivery(currentUser);
+    const chatRoomRef = getChatroomRef();
+    await deleteChatroomAndClose();
+    await updateDoc(chatRoomRef, { orderIsDelivered: true });
+    await deleteChatroomAndClose();
+    onClose();
+  };
 
   return (
     <div className={`chat-modal ${isOpen ? "open" : "closed"}`}>
@@ -208,7 +253,6 @@ function ChatModal({ isOpen, onClose }) {
             <h3>Phone Number: {recipientPhoneNumber}</h3>
             <h3>ID Number: {recipientIdNumber}</h3>
           </>
-          
         )}
         {auth.currentUser.uid === recipient ? (
           <button onClick={handleOrderAccepted}>Order Accepted</button>

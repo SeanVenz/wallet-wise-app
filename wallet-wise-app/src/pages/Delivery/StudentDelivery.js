@@ -10,6 +10,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import ChatModal from "../../components/ChatModal/ChatModal";
+import authService from "../../utils/auth";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
@@ -18,6 +19,8 @@ function StudentDelivery() {
   const [sender, setSender] = useState();
   const [recipient, setRecipient] = useState();
   const [ordererName, setOrdererName] = useState();
+  const [hasCurrentDelivery, setHasCurrentDelivery] = useState(false);
+  const [hasCurrentOrder, setHasCurrentOrder] = useState(false);
 
   const openChat = async () => {
     setChatOpen(true);
@@ -42,28 +45,37 @@ function StudentDelivery() {
     };
   }, []);
 
+  const checkHasCurrentOrder = async (uid) => {
+    try {
+      const userInfoRef = doc(db, "users", uid); // Get a reference to the document
+      const userInfoSnapshot = await getDoc(userInfoRef);
+      return userInfoSnapshot.data().hasPendingOrder === true;
+    } catch (error) {
+      console.error("Error checking current order:", error);
+      return false;
+    }
+  };
+
   const addHasCurrentDelivery = async (uid) => {
     try {
       const userInfoRef = doc(db, "users", uid);
       await updateDoc(userInfoRef, {
         hasPendingDelivery: true,
       });
-    }
-    catch(error) {
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const checkHasCurrentDelivery = async (uid) => {
-    try{
+    try {
       const userInfoRef = doc(db, "users", uid);
       const userInfoSnapshot = await getDoc(userInfoRef);
       return userInfoSnapshot.data().hasPendingDelivery === true;
-    }
-    catch(error){
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const getChatRooms = async () => {
     const chatCollection = collection(db, "chatrooms");
@@ -130,26 +142,39 @@ function StudentDelivery() {
   };
 
   const handleOrderAccepted = async (orderId, recipientId, ordererName) => {
-    setOrdererName(ordererName);
-    
-    //update not accepted order to accepted order
-    const orderRef = doc(db, "orders", orderId);
-    await updateDoc(orderRef, { isOrderAccepted: true });
+    try {
+      const user = authService.getCurrentUser();
+      const hasCurrentDelivery = await checkHasCurrentDelivery(user.uid);
+      const hasCurrentOrder = await checkHasCurrentOrder(user.uid);
+      setHasCurrentDelivery(hasCurrentDelivery);
+      setHasCurrentOrder(hasCurrentOrder);
 
-    const senderUID = auth.currentUser.uid;
-    const courierName = auth.currentUser.displayName;
-    const chatroomRef = getChatroomRef(senderUID, recipientId);
+      if (!hasCurrentDelivery && !hasCurrentOrder) {
+        setOrdererName(ordererName);
 
-    addHasCurrentDelivery(senderUID);
+        //update not accepted order to accepted order
+        const orderRef = doc(db, "orders", orderId);
+        await updateDoc(orderRef, { isOrderAccepted: true });
 
-    // Create a chatroom document in Firestore if it doesn't exist
-    await setDoc(chatroomRef, {
-      sender: senderUID,
-      recipient: recipientId,
-      ordererName: ordererName,
-      courierName: courierName,
-    });
-    fetchRoomData();
+        const senderUID = auth.currentUser.uid;
+        const courierName = auth.currentUser.displayName;
+        const chatroomRef = getChatroomRef(senderUID, recipientId);
+
+        addHasCurrentDelivery(senderUID);
+
+        // Create a chatroom document in Firestore if it doesn't exist
+        await setDoc(chatroomRef, {
+          sender: senderUID,
+          recipient: recipientId,
+          ordererName: ordererName,
+          courierName: courierName,
+          orderId : orderId
+        });
+        fetchRoomData();
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   function calculatePerPersonTotal(items) {
@@ -204,19 +229,22 @@ function StudentDelivery() {
                   // if dili kay order accepted ra
                 }
                 {!delivery.isOrderAccepted ? (
-                  <button
-                    onClick={() =>
-                      handleOrderAccepted(
-                        delivery.id,
-                        delivery.userId,
-                        delivery.userName
-                      )
-                    }
-                  >
-                    Accept Order
-                  </button>
-                ) : null}
-                {delivery.isOrderAccepted ? (
+                  hasCurrentDelivery || hasCurrentOrder ? (
+                    <p>Finish your current transaction first</p>
+                  ) : (
+                    <button
+                      onClick={() =>
+                        handleOrderAccepted(
+                          delivery.id,
+                          delivery.userId,
+                          delivery.userName
+                        )
+                      }
+                    >
+                      Accept Order
+                    </button>
+                  )
+                ) : (
                   <>
                     {currentUser === sender ? (
                       <button onClick={() => openChat(delivery.userId)}>
@@ -226,7 +254,7 @@ function StudentDelivery() {
                       <p>Order is already accepted</p>
                     )}
                   </>
-                ) : null}
+                )}
               </>
             )}
           </li>
