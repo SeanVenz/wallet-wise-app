@@ -12,8 +12,8 @@ function Landing() {
       <div className='landing-topBar'>
         <div className='landing-logo'></div>
         <div className='landing-buttons'>
-          <Link to="/login"><button className='landing-bot'>Login</button></Link>
-          <Link to="/signup"><button className='landing-bot'>Sign Up</button></Link>
+          <Link to="/login"><button className='landing-bot-login'>Login</button></Link>
+          <Link to="/signup"><button className='landing-bot-signup'>Sign Up</button></Link>
         </div>
       </div>
       <div className='landing-midBar'>
