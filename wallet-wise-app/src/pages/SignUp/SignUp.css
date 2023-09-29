@@ -8,7 +8,7 @@
     width: 100%;
 }
 
-input[type="signup-email"]{
+.signup-email{
     width: 650px;
     height: 70px;
     padding: 10px;
@@ -23,7 +23,7 @@ input[type="signup-email"]{
     top: 250px;
 }
 
-input[type="signup-password"]{
+.signup-password{
     width: 650px;
     height: 70px;
     padding: 10px;
@@ -38,7 +38,7 @@ input[type="signup-password"]{
     top: 250px;
 }
 
-input[type="signup-text"]{
+.signup-text{
     width: 650px;
     height: 70px;
     padding: 10px;
@@ -119,3 +119,11 @@ button[type="signup-submit"]:hover{
     top: 120px;
 }
 
+.success-message{
+    margin-left: 310px;
+    font-family: source-code-pro;
+    color: black;
+    position: relative;
+    top: 250px;
+    left: 85px
+}
