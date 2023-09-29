@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import authService from "../../utils/auth";
+import './Verify.scss'
 
 const VerifyEmail = () => { 
   const navigate = useNavigate();
@@ -25,8 +26,8 @@ const VerifyEmail = () => {
   };
 
   return (
-    <div>
-      <h2>Verify your Email</h2>
+    <div id='verify'>
+      <h2 className='verify-email'>Verify your Email</h2>
       <p>Please check your inbox and click the link provided to verify your email before logging in.</p>
       <button onClick={resendEmail}>Resend Verification Email</button>
     </div>
