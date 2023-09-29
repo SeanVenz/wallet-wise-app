@@ -85,8 +85,9 @@ export const FoodCard = (props) => {
       </div>
       {showModal && (
         <div className="modal">
-          <div className="modal-content">
-            <h2>Add to Cart</h2>
+          <div className="modal-content addToCart-Modal">
+            <h2>ADD TO CART</h2>
+            <h2>{name}</h2>
             <label>Quantity:</label>
             <input
               type="number"
@@ -94,8 +95,13 @@ export const FoodCard = (props) => {
               onChange={(e) => setQuantity(parseInt(e.target.value))}
             />
             <strong>{errorMsg}</strong>
-            <button onClick={handleAddToCart}>Add to Cart</button>
-            <button onClick={handleCloseModal}>Cancel</button>
+            
+            <hr></hr>
+            <div>
+              <button className="btn" onClick={handleAddToCart}>ADD TO CART</button>
+              <button className="btn" onClick={handleCloseModal}>CANCEL</button>
+            </div>
+
           </div>
         </div>
       )}
