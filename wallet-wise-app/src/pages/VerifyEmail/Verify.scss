@@ -1,0 +1,105 @@
+.verify-parent {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+
+    @font-face {
+        font-family: Monoton;
+        src: url("../../../src/fonts/Monoton-regular.woff");
+        
+    }
+    @font-face {
+        font-family: Julius;
+        src: url("../../../src/fonts/JuliusSansOne-Regular.woff");
+    }
+  @import url('https://fonts.googleapis.com/css2?family=Junge&display=swap');
+
+  .potato-box {
+    height: 800px;
+    width: 700px;
+    position: absolute;
+    margin-top: 50px;
+    padding-right: 70px;
+    background-image: url("../../images/potato-support.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-right: 20px;
+  }
+
+  .verify-right {
+    top: 8%;
+    width: 51%;
+    height: 70%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-left: 800px;
+    background-color: #f9f2e2;
+    position: absolute;
+    margin-top: 25px;
+  }
+
+  .verify-words {
+    text-align: center;
+    margin-top: 10%;
+  }
+  .verify-wallet {
+    font-family: Julius;
+    letter-spacing: 0.3em;
+    font-size: 80px;
+    height: fit-content;
+    margin-bottom: -25px;
+    font-weight: 900;
+  }
+  .verify-wise {
+    font-family: Monoton;
+    font-size: 550%;
+  }
+  .message{
+    font-family: Junge;
+    text-align: center;
+    
+    p{
+        font-size: 30px;
+    }
+  }
+  .button{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    button{
+        background-color:#F9F2E2;
+        color:black;
+        font-family:source-code-pro;
+        font-size: 20px;
+        border: rgba(233, 78, 115, 0.6);;
+        border-style: solid;
+        justify-content: center;
+        // top:250px;
+    
+    &:hover{
+        background-color: rgba(233, 78, 115, 0.6);
+        border-color: black;
+    }
+  }
+  }
+
+  .submitting-message{
+    font-family: source-code-pro;
+    color: black;
+    position: relative;
+  }
+
+  .error-message-verify{
+    margin-left: 290px;
+    font-family: source-code-pro;
+    color: red;
+    position: relative;
+  }
+}

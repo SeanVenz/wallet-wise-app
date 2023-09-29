@@ -61,24 +61,33 @@ export const FoodCard = (props) => {
   return (
     <div>
       <div className="card">
-        <div className="top">
+        
+        <div className="top foodname">
           <img src={img} alt="Food" className="image" />
-          <h3>{name}</h3>
-          <h4>
-            <strong>₱{parseFloat(price).toFixed(2)}</strong>
-          </h4>
-          <p>In Stock: {number}</p>
-          <p>Store Name: {storeName}</p>
+          
+          <div className="detailsFood">
+            <h3 >{name}</h3>
+
+            <h4>
+              <strong>₱{parseFloat(price).toFixed(2)}</strong>
+            </h4>
+            <p>In Stock: {number}</p>
+            <p>Store Name: {storeName}</p>
+          </div>
+
         </div>
+
         <div className="bottom">
           <img src={cart} alt="cart" onClick={handleOpenModal} />
           <img src={map} alt="map" />
         </div>
+
       </div>
       {showModal && (
         <div className="modal">
-          <div className="modal-content">
-            <h2>Add to Cart</h2>
+          <div className="modal-content addToCart-Modal">
+            <h2>ADD TO CART</h2>
+            <h2>{name}</h2>
             <label>Quantity:</label>
             <input
               type="number"
@@ -86,8 +95,13 @@ export const FoodCard = (props) => {
               onChange={(e) => setQuantity(parseInt(e.target.value))}
             />
             <strong>{errorMsg}</strong>
-            <button onClick={handleAddToCart}>Add to Cart</button>
-            <button onClick={handleCloseModal}>Cancel</button>
+            
+            <hr></hr>
+            <div>
+              <button className="btn" onClick={handleAddToCart}>ADD TO CART</button>
+              <button className="btn" onClick={handleCloseModal}>CANCEL</button>
+            </div>
+
           </div>
         </div>
       )}
