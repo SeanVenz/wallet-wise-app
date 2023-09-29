@@ -39,7 +39,7 @@ const LogIn = () => {
           <div className="text-box3">WISE</div>
             <input
               type="login-email"
-              placeholder="Enter username or Email Adress"
+              placeholder="Enter Username or Email Adress"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -49,10 +49,10 @@ const LogIn = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <div className="login-error-message">
+             <div className="login-error-message">
             {error && <p>{error}</p>}
-            </div>
-            <button type="login-submit">LOGIN</button>      
+            </div> 
+            <button type="login-submit">LOGIN</button>    
         <Link to="/forgot-password">Forgot password?</Link>
         </form> 
       </div>

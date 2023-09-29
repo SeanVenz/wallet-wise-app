@@ -9,59 +9,60 @@
 }
 
 input[type="signup-email"]{
-    width: 500px;
-    height: 30px;
+    width: 650px;
+    height: 70px;
     padding: 10px;
     margin: 5px 0;
-    margin-left: 70px;
+    margin-left: 150px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 20px;
+    font-size: 30px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     position: relative;
-    top: 210px;
+    top: 250px;
 }
 
 input[type="signup-password"]{
-    width: 500px;
-    height: 30px;
+    width: 650px;
+    height: 70px;
     padding: 10px;
     margin: 5px 0;
-    margin-left: 70px;
+    margin-left: 150px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 20px;
+    font-size: 30px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     position: relative;
-    top: 210px;
+    top: 250px;
 }
 
 input[type="signup-text"]{
-    width: 500px;
-    height: 30px;
+    width: 650px;
+    height: 70px;
     padding: 10px;
     margin: 5px 0;
-    margin-left: 70px;
+    margin-left: 150px;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 20px;
+    font-size: 30px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     position: relative;
-    top: 210px;
+    top: 250px;
 }
 
 .signup-form{
-    width: 625px;
-    height: 530px;
+    width: 51%;
+    height: 91%;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-left: 625px;
+    margin-left: 800px;
     background-color: #F9F2E2;
+    position: absolute;
     margin-top: 25px;
 }
 
@@ -70,7 +71,9 @@ label {
     font-weight: bold;
     margin-bottom: 5px;
     position: relative;
-    top: 250px;
+    top: 255px;
+    font-family:source-code-pro;
+    font-size: 22px;
 }
 
 .text-box{
@@ -82,32 +85,31 @@ button[type="signup-submit"]{
     background-color:#F9F2E2;
     color:black;
     font-family:source-code-pro;
-    font-size: 22px;
+    font-size: 33px;
     border: black;
     border-style: solid;
-    margin-left: 250px;
+    margin-left:375px;
     position: relative;
-    top:185px;
+    top:250px;
 }
-.potato-box{
-    width: 650px;
-    height: 500px;
-    margin-top: 0px; 
+.potato-box{  
+    height: 800px;
+    width: 700px;
     position: absolute;
-    margin-left: 0px;
-    margin-top: 25px;
-    padding-right: 50px;
-    top: 0;
+    margin-top: 50px;
+    padding-right: 70px;
     background-image: url('/src/images/candy-potato.png');
     background-repeat: no-repeat;
     background-size: cover;
-    
+    background-position: center;
+    margin-right: 20px;
 }
 
 .error-message{
-    margin-left: 150px;
+    margin-left: 310px;
     font-family: source-code-pro;
     color: red;
     position: relative;
-    top: 175px;
+    top: 120px;
 }
+
