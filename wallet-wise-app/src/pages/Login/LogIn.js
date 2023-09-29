@@ -38,13 +38,15 @@ const LogIn = () => {
           <div className="text-box2">WALLET</div>
           <div className="text-box3">WISE</div>
           <input
-            type="login-email"
+            className="login-email"
+            type="email"
             placeholder="Enter Username or Email Adress"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
           <input
-            type="login-password"
+            className="login-password"
+            type="password"
             placeholder="Enter Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}

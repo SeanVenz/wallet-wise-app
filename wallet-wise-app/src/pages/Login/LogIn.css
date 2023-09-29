@@ -88,7 +88,7 @@
     src: url("/src/pages/Login/Fonts/SourceCodePro-Bold.woff");
 }
 
-input[type="login-email"]{
+.login-email{
     width: 700px;
     height: 80px;
     padding: 10px;
@@ -102,10 +102,9 @@ input[type="login-email"]{
     position: relative;
     bottom: 40px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-
 }
 
-input[type="login-password"]{
+.login-password{
     width: 700px;
     height: 80px;
     padding: 10px;
@@ -126,7 +125,7 @@ button[type="login-submit"]{
     color:black;
     font-family:source-code-pro;
     font-size: 35px;
-    border: black;
+    border: rgba(233, 78, 115, 0.6);
     border-style: solid;
     margin-left: 375px;
     margin-top: 10px;
@@ -136,6 +135,7 @@ button[type="login-submit"]{
 
 button[type="login-submit"]:hover{
     background-color: rgba(233, 78, 115, 0.6);
+    border-color: black;
 }
 
 .login-forgot-password:hover{
