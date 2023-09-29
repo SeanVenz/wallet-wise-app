@@ -77,11 +77,13 @@
     }
   }
 
-  .scrollable-list {
+  .scrollable-list {  
     display: flex;
     justify-content: center;
-    max-height: 50px;
-    overflow-y: auto;
+    align-items: center;
+    flex-direction: column;
+    height: 100px;
+    overflow-y: scroll;
     border: 1px solid #ccc;
     width: 330px;
     padding: 10px;
@@ -89,12 +91,15 @@
     .order-list {
       p {
         display: flex;
+        padding: 0;
+        margin-top: -1%;
       }
     }
 
     li {
       list-style: none;
       font-family: source-code-pro;
+      margin-bottom: 3px;
     }
   }
 

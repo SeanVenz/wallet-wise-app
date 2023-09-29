@@ -13,6 +13,8 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { auth, db } from "../../utils/firebase";
+import "./ChatModal.scss";
+import close from "../../images/close.png";
 
 function ChatModal({ isOpen, onClose }) {
   const [message, setMessage] = useState("");
@@ -31,17 +33,17 @@ function ChatModal({ isOpen, onClose }) {
 
   const addDeliveryHIstory = async (uid, orderId) => {
     const userCollectionRef = collection(db, "users", uid, "deliveries");
-    await addDoc (userCollectionRef, {
-      OrderId : orderId
-    })
-  }
+    await addDoc(userCollectionRef, {
+      OrderId: orderId,
+    });
+  };
 
   const addOrderHistory = async (uid, orderId) => {
     const userCollectionRef = collection(db, "users", uid, "orders");
-    await addDoc (userCollectionRef, {
-      OrderId : orderId
-    })
-  }
+    await addDoc(userCollectionRef, {
+      OrderId: orderId,
+    });
+  };
 
   const getChatRooms = async () => {
     const chatRoomCollection = collection(db, "chatrooms");
@@ -114,7 +116,7 @@ function ChatModal({ isOpen, onClose }) {
 
     messageQuerySnapshot.forEach(async (doc) => {
       await deleteDoc(doc.ref);
-    })
+    });
   };
 
   const getParticipants = async () => {
@@ -136,6 +138,9 @@ function ChatModal({ isOpen, onClose }) {
   };
 
   useEffect(() => {
+    console.log(courierName);
+    console.log(ordererName);
+    console.log(auth.currentUser.displayName);
     const fetchParticipants = async () => {
       await getParticipants();
     };
@@ -165,7 +170,8 @@ function ChatModal({ isOpen, onClose }) {
     }
   }, [recipient, currentUser, chatroom]);
 
-  const sendMessage = async () => {
+  const sendMessage = async (e) => {
+    e.preventDefault();
     if (message && chatroom) {
       const newMessage = {
         sender:
@@ -214,14 +220,17 @@ function ChatModal({ isOpen, onClose }) {
   };
 
   const deleteChatroomAndClose = async () => {
-    try{
+    try {
       const info = getChatroomRef();
       const docSnapshot = await getDoc(info);
       const docData = docSnapshot.data();
       const orderId = docData.orderId;
       const orderInfo = await doc(db, "orders", orderId);
-      
-      if(docData.orderIsAccepted === true && docData.orderIsDelivered === true){
+
+      if (
+        docData.orderIsAccepted === true &&
+        docData.orderIsDelivered === true
+      ) {
         addDeliveryHIstory(currentUser, orderId);
         addOrderHistory(recipient, orderId);
         await deleteDoc(orderInfo);
@@ -229,8 +238,7 @@ function ChatModal({ isOpen, onClose }) {
         await deleteMessagesRef();
         onClose();
       }
-    }
-    catch(error){
+    } catch (error) {
       console.log(error);
     }
   };
@@ -254,43 +262,85 @@ function ChatModal({ isOpen, onClose }) {
 
   return (
     <div className={`chat-modal ${isOpen ? "open" : "closed"}`}>
-      <div className="chat-header">
-        {auth.currentUser.uid === recipient ? (
-          <>
-            <h3>Chat with {courierName}</h3>
-            <h3>Phone Number: {senderPhoneNumber}</h3>
-            <h3>ID Number: {senderIdNumber}</h3>
-          </>
-        ) : (
-          <>
-            <h3>Chat with {ordererName}</h3>
-            <h3>Phone Number: {recipientPhoneNumber}</h3>
-            <h3>ID Number: {recipientIdNumber}</h3>
-          </>
-        )}
-        {auth.currentUser.uid === recipient ? (
-          <button onClick={handleOrderAccepted}>Order Accepted</button>
-        ) : (
-          <button onClick={handleOrderDelivered}>Order Delivered</button>
-        )}
-        <button onClick={onClose}>Close</button>
-      </div>
-      <div className="chat-messages">
-        {chatMessages.map((message, index) => (
-          <div key={index} className="message">
-            <p>{message.text}</p>
-            <span>{message.sender}</span>
-          </div>
-        ))}
-      </div>
-      <div className="chat-input">
-        <input
-          type="text"
-          placeholder="Type your message..."
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-        />
-        <button onClick={sendMessage}>Send</button>
+      <div className="chat-modal-content">
+        <img
+          className="close-chat"
+          onClick={onClose}
+          alt="close"
+          src={close}
+        ></img>
+        <div className="chat-header ">
+          {auth.currentUser.uid === recipient ? (
+            <>
+              <h3 className="chat-content"> {courierName}</h3>
+              <h3 className="chat-content">
+                Phone Number: {senderPhoneNumber}
+              </h3>
+              <h3 className="chat-content">ID Number: {senderIdNumber}</h3>
+            </>
+          ) : (
+            <>
+              <h3 className="chat-content">Chat with: {ordererName}</h3>
+              <h3 className="chat-content">
+                Phone Number: {recipientPhoneNumber}
+              </h3>
+              <h3 className="chat-content">ID Number: {recipientIdNumber}</h3>
+            </>
+          )}
+          {auth.currentUser.uid === recipient ? (
+            <>
+              <div className="order-accepted-parent">
+                <button
+                  className="order-accepted"
+                  onClick={handleOrderAccepted}
+                >
+                  Order Accepted
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="order-delivered-parent">
+                <button
+                  className="order-delivered"
+                  onClick={handleOrderDelivered}
+                >
+                  Order Delivered
+                </button>
+              </div>
+            </>
+          )}
+        </div>
+        <div className="chat-messages">
+          {chatMessages.map((message, index) => (
+            <div key={index} className="message">
+              {auth.currentUser.displayName === message.sender ? (
+                <>
+                  <div className="sender">
+                    <p className="message-text">{message.text}</p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="recipient">
+                    <p className="message-text">{message.text}</p>
+                  </div>
+                </>
+              )}
+            </div>
+          ))}
+        </div>
+        <div className="chat-input">
+          <form onSubmit={(e) => sendMessage(e)}>
+            <input
+              type="text"
+              placeholder="Type your message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+            />
+            <button>Send</button>
+          </form>
+        </div>
       </div>
     </div>
   );

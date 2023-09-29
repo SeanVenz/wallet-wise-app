@@ -264,12 +264,16 @@ function StudentDelivery() {
                 ) : (
                   <>
                     {currentUser === sender ? (
-                      <button
-                        className="chat"
-                        onClick={() => openChat(delivery.userId)}
-                      >
-                        Chat
-                      </button>
+                      <>
+                        <div className="chat-container">
+                          <button
+                            className="chat"
+                            onClick={() => openChat(delivery.userId)}
+                          >
+                            Chat
+                          </button>
+                        </div>
+                      </>
                     ) : (
                       <p>Order is already accepted</p>
                     )}
