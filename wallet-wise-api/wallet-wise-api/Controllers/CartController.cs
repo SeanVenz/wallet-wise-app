@@ -207,5 +207,50 @@ namespace wallet_wise_api.Controllers
                 return StatusCode(500, "Something went wrong");
             }
         }
+
+        /// <summary>
+        /// Marks that the user has a current delivery.
+        /// </summary>
+        /// <param name="userId">The user's unique identifier.</param>
+        /// <returns>No content if the operation is successful; otherwise, an internal server error.</returns>
+        [HttpPost("addhascurrentdelivery", Name = "AddHasCurrentDelivery")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddHasCurrentDelivery([FromQuery] string userId)
+        {
+            try
+            {
+                await _service.AddHasCurrentDelivery(userId);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, "Something went wrong");
+            }
+        }
+
+        /// <summary>
+        /// Checks if the user has a current delivery.
+        /// </summary>
+        /// <param name="userId">The user's unique identifier.</param>
+        /// <returns>True if the user has a current delivery; otherwise, false. Returns an internal server error if an exception occurs.</returns>
+        [HttpGet("checkhascurrentdelivery", Name = "CheckHasCurrentDelivery")]
+        [Produces("application/json")]
+        [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> CheckHasCurrentDelivery([FromQuery] string userId)
+        {
+            try
+            {
+                var hasCurrentDelivery = await _service.CheckHasCurrentDelivery(userId);
+                return Ok(hasCurrentDelivery);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return StatusCode(500, "Something went wrong");
+            }
+        }
     }
 }
