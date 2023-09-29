@@ -134,6 +134,15 @@ button[type="login-submit"]{
     bottom: 25px;
 }
 
+button[type="login-submit"]:hover{
+    background-color: rgba(233, 78, 115, 0.6);
+}
+
+.login-forgot-password:hover{
+    text-decoration: underline;
+    color: red;
+}
+
 a {
     color: black; 
     text-decoration:solid; 
