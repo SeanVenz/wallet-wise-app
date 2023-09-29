@@ -162,7 +162,7 @@ function Vendor() {
       <div className="my-button">
         <Button onClick={handleNewFoodClick}>ADD FOOD</Button>
       </div>
-      <Modal show={showModal} className="add-food-modal">
+      <Modal show={showModal}>
         <Modal.Header>
           <Modal.Title className="modal-title-centered">Add Food</Modal.Title>
         </Modal.Header>
