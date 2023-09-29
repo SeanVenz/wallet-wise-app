@@ -1,0 +1,164 @@
+.login-parent{
+    justify-content: center;
+    background-color: #F9F2E2;
+    display:contents;
+    height: 100%;
+    width: 100%;
+}
+
+.login-potato-box{
+    height: 800px;
+    width: 700px;
+    position: absolute;
+    margin-top: 50px;   
+    padding-right: 70px;
+    background-image: url('/src/images/potato-magnifying-glass.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-right: 20px;
+}
+
+.main-box{
+    justify-content: center;
+}
+
+ .text-box1{
+    width: fit-content;
+    height: fit-content;
+    font-size: 30px;
+    font-family: junge;
+    margin-left: 100px;
+    margin-top: 35px;
+ }
+
+ .text-box2{
+    width: fit-content;
+    height: fit-content;
+    font-size: 120px;
+    font-family: julius-sans-one;
+    margin-left: 220px;
+    letter-spacing: 15px;
+ }
+
+.text-box3{
+    width: fit-content;
+    height: fit-content;
+    font-size: 110px;
+    font-family: monoton;
+    margin-left: 315px;
+    position: relative;
+    bottom: 50px;
+    
+ }
+
+.login-form{
+    width: 51%;
+    height: 84%;
+    padding: 20px;
+    display: flexbox;
+    justify-content: space-around;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-left: 800px;
+    background-color: #F9F2E2;
+    position: absolute;
+    margin-top: 50px;
+    align-items: center;
+    align-content: center;
+}
+
+@font-face{
+    font-family: monoton;
+    src: url("/src/pages/Login/Fonts/Monoton-regular.woff");
+}
+
+@font-face{
+    font-family: junge;
+    src: url("/src/pages/Login/Fonts/Junge-Regular.woff");
+}
+@font-face{
+    font-family: julius-sans-one;
+    src: url("/src/pages/Login/Fonts/JuliusSansOne-Regular.woff");
+}
+
+@font-face{
+    font-family: source-code-pro;
+    src: url("/src/pages/Login/Fonts/SourceCodePro-Bold.woff");
+}
+
+.login-email{
+    width: 700px;
+    height: 80px;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 30px;
+    margin-left: 135px;
+    margin-top: 15px;
+    position: relative;
+    bottom: 40px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.login-password{
+    width: 700px;
+    height: 80px;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 33px;
+    margin-left: 135px;
+    text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+    margin-top: 15px;
+    position: relative;
+    bottom: 30px;
+}
+
+button[type="login-submit"]{
+    background-color:#F9F2E2;
+    color:black;
+    font-family:source-code-pro;
+    font-size: 35px;
+    border: rgba(233, 78, 115, 0.6);
+    border-style: solid;
+    margin-left: 375px;
+    margin-top: 10px;
+    position: relative;
+    bottom: 25px;
+}
+
+button[type="login-submit"]:hover{
+    background-color: rgba(233, 78, 115, 0.6);
+    border-color: black;
+}
+
+.login-forgot-password:hover{
+    text-decoration: underline;
+    color: red;
+}
+
+a {
+    color: black; 
+    text-decoration:solid; 
+    font-family:source-code-pro;
+    font-size: 22px;
+    margin-left: 358px;
+    position: relative;
+    bottom: 10px;
+}
+
+.login-error-message{
+    margin-left: 280px;
+    font-family: source-code-pro;
+    color: red;
+    font-size: 18px;
+    position: relative;
+    bottom: 30px;
+}
+
