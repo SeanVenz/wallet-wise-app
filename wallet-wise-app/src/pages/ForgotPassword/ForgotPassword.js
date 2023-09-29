@@ -24,19 +24,19 @@ const ForgotPassword = () => {
       <div className='pass-smallbox'>
         <div className='pass-wallet'>WALLET</div>
         <div className='pass-wise'>WISE</div>
-        <div className='pass-message'>We've sent a verification code to your  email</div>
+        <div className='pass-message'>We will send a verification code to the email below</div>
       <form onSubmit={handleForgotPassword}>
         <input
-          type="email"
+          type="forgot-email"
           placeholder="Email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
-        {message && <p>{message}</p>}
-        {error && <p>{error}</p>}
-        <button type="submit" className='pass-btn'>Send password reset email</button>
+        <div className='forgot-message'>{message && <p>{message}</p>}</div>
+        <div className="forgot-error-message">{error && <p>{error}</p>}</div>
+        <button type="forgot-submit">Send password reset email</button>
       </form>
-      <Link to="/login"><button className='pass-btn'>Login</button></Link>
+      <Link to="/login"><button type='login-btn-forgot'>Login</button></Link>
       </div>
     </div>
   );
