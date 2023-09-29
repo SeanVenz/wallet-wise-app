@@ -48,7 +48,7 @@
     font-family: monoton;
     margin-left: 315px;
     position: relative;
-    bottom: 50px;
+    bottom: 40px;
     
  }
 
@@ -97,7 +97,7 @@
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 30px;
-    margin-left: 135px;
+    margin-left: 150px;
     margin-top: 15px;
     position: relative;
     bottom: 40px;
@@ -113,7 +113,7 @@
     border-radius: 4px;
     box-sizing: border-box;
     font-size: 33px;
-    margin-left: 135px;
+    margin-left: 150px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
     margin-top: 15px;
     position: relative;
@@ -127,7 +127,7 @@ button[type="login-submit"]{
     font-size: 35px;
     border: rgba(233, 78, 115, 0.6);
     border-style: solid;
-    margin-left: 375px;
+    margin-left: 390px;
     margin-top: 10px;
     position: relative;
     bottom: 25px;
@@ -148,9 +148,9 @@ a {
     text-decoration:solid; 
     font-family:source-code-pro;
     font-size: 22px;
-    margin-left: 358px;
+    margin-left: 373px;
     position: relative;
-    bottom: 10px;
+    bottom: 20px;
 }
 
 .login-error-message{
