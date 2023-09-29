@@ -13,7 +13,7 @@
     align-items: center;
     height: 100%;
     width: 100%;
-    padding-bottom: 10%;
+    padding-bottom: 8.6%;
     
 }
 .landing-topBar{
@@ -50,8 +50,17 @@
     border: 1px black solid;
     font-size: 20px; 
     position: relative;
-    left: 180px;
+    left: 150px;
 }
+
+.landing-bot-login:hover {
+    background-color: rgba(233, 78, 115, 0.6); 
+}
+
+.landing-bot-signup:hover {
+    background-color: rgba(233, 78, 115, 0.6); 
+}
+
 
 .landing-midBar{
     display: flex;
