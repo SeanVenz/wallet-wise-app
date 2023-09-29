@@ -19,6 +19,7 @@ const StudentSidebar = () => {
         position: "sticky",
         zIndex: "1",
         paddingLeft: "20px",
+        fontSize: "3rem",
       }}
     >
       <img
@@ -29,7 +30,7 @@ const StudentSidebar = () => {
         style={{ height: "200px", width: "200px" }}
       />
       <ul className="student-side-ul">
-        <li className="student-side-li">
+        <li>
           <NavLink
             to="/student/market"
             activeStyle={{
@@ -46,7 +47,7 @@ const StudentSidebar = () => {
             <div className="student-side-category">Market</div>
           </NavLink>
         </li>
-        <li className="student-side-li">
+        <li>
           <NavLink
             to="/student/orders"
             activeStyle={{
@@ -59,7 +60,7 @@ const StudentSidebar = () => {
             <div className="student-side-category">Orders</div>
           </NavLink>
         </li>
-        <li className="student-side-li">
+        <li>
           <NavLink
             to="/student/profile"
             activeStyle={{
@@ -72,7 +73,7 @@ const StudentSidebar = () => {
             <div className="student-side-category">Profile</div>
           </NavLink>
         </li>
-        <li className="student-side-li">
+        <li>
           <NavLink
             to="/student/cart"
             activeStyle={{

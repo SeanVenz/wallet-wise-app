@@ -31,6 +31,7 @@
 .student-side-category {
   padding: 0;
   width: 100%;
+  font-size: 3rem;
   display: flex;
   align-items: center;
   justify-content: center;
