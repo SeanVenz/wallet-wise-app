@@ -20,14 +20,13 @@
     width: 100%;
   }
 
-  .chat-header {
+  .chat-header-data {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    flex-direction: row;
+    justify-content: space-between;
   }
 
   .close-chat {
-    align-self: flex-end;
     width: 5%;
     padding: 5px;
     height: auto;
@@ -60,7 +59,7 @@
     background-color: white;
     color: black;
     font-family: source-code-pro;
-    width: 75%;
+    width: 40%;
     &:hover {
       background-color: #ff93ad;
       border: 1px solid white;
@@ -88,34 +87,48 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-height: 200px;
+    height: 200px;
     overflow-y: auto;
     border: 1px solid #ccc;
     width: 500px;
     padding: 10px;
+    // background-color: black;
   }
 
   .sender {
     display: flex;
-    color: blue;
+    color: black;
     flex-direction: column;
     align-items: end;
-
+    padding: 0;
     .message-text {
       max-width: 45%;
       word-wrap: break-word;
-      background-color: white;
-      border-radius: 10px;
       padding: 5px;
     }
   }
 
   .recipient {
-    color: black;
+    color: white;
 
     .message-text {
+      background-color: blue;
+      border-radius: 10px;
       max-width: 45%;
       word-wrap: break-word;
+    }
+  }
+
+  .chat-header-other {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    img{
+      width: 5%;
+      height: 5%;
+      cursor: pointer;
+      margin-top: 0px;
     }
   }
 }
