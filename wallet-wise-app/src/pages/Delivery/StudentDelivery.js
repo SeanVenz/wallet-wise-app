@@ -11,6 +11,7 @@ import {
 } from "firebase/firestore";
 import ChatModal from "../../components/ChatModal/ChatModal";
 import authService from "../../utils/auth";
+import "./Delivery.scss";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
@@ -168,7 +169,7 @@ function StudentDelivery() {
           recipient: recipientId,
           ordererName: ordererName,
           courierName: courierName,
-          orderId : orderId
+          orderId: orderId,
         });
         fetchRoomData();
       }
@@ -187,36 +188,45 @@ function StudentDelivery() {
   }
 
   return (
-    <div>
-      <h2>Order List</h2>
-      <ul>
+    <div className="orders-student-delivery">
+      <h2 className="orders-header">Orders</h2>
+      <ul className="order-parent">
         {deliveries.map((delivery) => (
-          <li key={delivery.id}>
-            <h3>Student Name: {delivery.userName}</h3>
-            <p>ID Number: {delivery.idNumber}</p>
-            <p>Phone Number: {delivery.phoneNumber}</p>
-            <h4>Orders:</h4>
-            <ul>
+          <li key={delivery.id} className="order-card">
+            <h3 className="text"> {delivery.userName}</h3>
+            <p className="text">ID Number: {delivery.idNumber}</p>
+            <p className="text">Phone Number: {delivery.phoneNumber}</p>
+            <h4>Order Summary:</h4>
+            <ul className="scrollable-list">
               {delivery.items.map((item, index) => (
-                <li key={index}>
-                  {item.itemName} - Quantity: {item.quantity}, Total Price: ₱
+                <li key={index} className="order-list">
+                  {item.itemName} - x{item.quantity} ₱
                   {item.totalPrice.toFixed(2)}
-                  <p>Store Name: {item.storeName}</p>
+                  <p>Store: {item.storeName}</p>
                 </li>
               ))}
             </ul>
-            <p>Total: ₱{calculatePerPersonTotal(delivery.items).toFixed(2)}</p>
+            <p className="total">
+              Total: ₱{calculatePerPersonTotal(delivery.items).toFixed(2)}
+            </p>
             {
               // this is the view of the orderer, mag agad if na accept naba iyang order or wala pa
             }
             {currentUser === delivery.userId ? (
               <>
                 {delivery.isOrderAccepted ? (
-                  <button onClick={() => openChat(delivery.userId)}>
-                    Chat
-                  </button>
+                  <>
+                    <div className="chat-container">
+                      <button
+                        className="chat"
+                        onClick={() => openChat(delivery.userId)}
+                      >
+                        Chat
+                      </button>
+                    </div>
+                  </>
                 ) : (
-                  <p>Order not yet accepted</p>
+                  <p className="order-not-accepted">Order not yet accepted</p>
                 )}
               </>
             ) : (
@@ -230,28 +240,42 @@ function StudentDelivery() {
                 }
                 {!delivery.isOrderAccepted ? (
                   hasCurrentDelivery || hasCurrentOrder ? (
-                    <p>Finish your current transaction first</p>
+                    <p className="order-not-accepted">
+                      Finish your current transaction first
+                    </p>
                   ) : (
-                    <button
-                      onClick={() =>
-                        handleOrderAccepted(
-                          delivery.id,
-                          delivery.userId,
-                          delivery.userName
-                        )
-                      }
-                    >
-                      Accept Order
-                    </button>
+                    <>
+                      <div className="accept-order-parent">
+                        <button
+                          className="accept-order"
+                          onClick={() =>
+                            handleOrderAccepted(
+                              delivery.id,
+                              delivery.userId,
+                              delivery.userName
+                            )
+                          }
+                        >
+                          Accept Order
+                        </button>
+                      </div>
+                    </>
                   )
                 ) : (
                   <>
                     {currentUser === sender ? (
-                      <button onClick={() => openChat(delivery.userId)}>
-                        Chat
-                      </button>
+                      <>
+                        <div className="chat-container">
+                          <button
+                            className="chat"
+                            onClick={() => openChat(delivery.userId)}
+                          >
+                            Chat
+                          </button>
+                        </div>
+                      </>
                     ) : (
-                      <p>Order is already accepted</p>
+                      <p className="order-not-accepted">Order is already accepted</p>
                     )}
                   </>
                 )}
