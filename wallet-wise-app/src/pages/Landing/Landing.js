@@ -21,13 +21,13 @@ function Landing() {
         />
         <div className="lg:ml-0 -ml-[300px] flex space-x-4 h-full mr-5">
           <Link
-            href="/login"
+            to="/login"
             className="bg-[#f9f2e2] shadow-md rounded-lg border border-rose-300 flex items-center w-auto px-5 text-[15px] lg:text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 hover:border-black mt-6 h-[50px]"
           >
             Login
           </Link>
           <Link
-            href="/signup"
+            to="/signup"
             className="bg-[#f9f2e2] shadow-md rounded-lg border border-rose-300 flex items-center w-auto px-5 text-[15px] lg:text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 hover:border-black mt-6 h-[50px]"
           >
             Sign Up
