@@ -226,7 +226,11 @@ function StudentDelivery() {
                     </div>
                   </>
                 ) : (
-                  <p className="order-not-accepted">Order not yet accepted</p>
+                  <>
+                    <div className="order-not-accepted">
+                      <p>Your order is not yet accepted</p>
+                    </div>
+                  </>
                 )}
               </>
             ) : (
@@ -275,7 +279,9 @@ function StudentDelivery() {
                         </div>
                       </>
                     ) : (
-                      <p className="order-not-accepted">Order is already accepted</p>
+                      <p className="order-not-accepted">
+                        Order is already accepted
+                      </p>
                     )}
                   </>
                 )}
