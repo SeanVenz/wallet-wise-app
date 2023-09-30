@@ -1,4 +1,5 @@
 .orders-student-delivery {
+  @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -20,17 +21,12 @@
     }
   }
 
-  @font-face {
-    font-family: source-code-pro;
-    src: url("../../../src/pages/Login/Fonts/SourceCodePro-Bold.woff");
-  }
-
   .orders-header {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    font-family: source-code-pro;
+    font-family: Source Code Pro;
     font-size: 50px;
     padding: 0;
   }
@@ -38,11 +34,18 @@
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
+    margin-left:1%;
+  }
+
+  h4{
+    padding-top: 2%;
+    padding-bottom: 2%;
   }
   .order-card {
     list-style: none;
     border: 1px solid black;
     width: 350px;
+    height: 380px;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -53,24 +56,29 @@
   }
   .text {
     text-align: center;
-    font-family: source-code-pro;
+    font-family: Source Code Pro;
     font-weight: 900;
+    padding:1%;
+    font-size: 18px;
   }
 
   .accept-order-parent {
     display: flex;
     justify-content: center;
     padding-bottom: 20px;
+    padding-top: 20px
   }
 
   .accept-order {
     background-color: #ddfdfd;
     color: black;
-    font-family: source-code-pro;
+    font-family: Source Code Pro;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border: 1px #ff93ad solid;
     width: 200px;
-
+    padding: 15px 32px;
+    border-radius: 10px;
+    
     &:hover {
       background-color: #ff93ad;
       border: 1px solid #ddfdfd;
@@ -99,38 +107,46 @@
 
     li {
       list-style: none;
-      font-family: source-code-pro;
+      font-family: Source Code Pro;
       margin-bottom: 3px;
     }
   }
 
   h4 {
     padding-left: 10px;
-    font-family: source-code-pro;
+    font-family: Source Code Pro;
+    font-weight: 800;
   }
 
   .total {
-    font-family: source-code-pro;
+    font-family: Source Code Pro;
     text-align: center;
+    padding-top: 3%;
   }
   .order-not-accepted {
     text-align: center;
-    font-family: source-code-pro;
+    font-family: Source Code Pro;
     color: red;
+    margin-top: 7%;
+    padding: 10px;
   }
 
   .chat-container {
     display: flex;
     justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
   }
 
   .chat {
     background-color: #ff93ad;
     color: black;
-    font-family: source-code-pro;
+    font-family: Source Code Pro;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border: 1px #ddfdfd solid;
     width: 200px;
+    padding: 15px 32px;
+    border-radius: 10px;
 
     &:hover {
       background-color: #ddfdfd;

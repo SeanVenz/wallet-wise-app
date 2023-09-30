@@ -58,12 +58,9 @@ const VerifyEmail = () => {
               <h3>Sending Verification Email...</h3>
             </div>
           ) : emailSent ? (
-            // Display "Verification email sent" message
             <div className="success-message-verify">
-              {/* <p>Verification email sent</p> */}
             </div>
           ) : (
-            // Display the button to resend the email
             <button className="verify-message" onClick={resendEmail}>
               Resend Verification Email
             </button>

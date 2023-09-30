@@ -377,7 +377,7 @@ function ChatModal({ isOpen, onClose }) {
                 </>
               )}
               {auth.currentUser.uid === recipient ? (
-                <>
+                <> 
                   {orderReceived === true ? (
                     <p className="order-received-message">
                       Waiting for confirmation from courier

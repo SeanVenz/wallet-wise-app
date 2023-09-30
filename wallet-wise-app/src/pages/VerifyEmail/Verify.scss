@@ -7,16 +7,7 @@
     height: 100%;
     width: 100%;
 
-    @font-face {
-        font-family: Monoton;
-        src: url("../../../src/fonts/Monoton-regular.woff");
-        
-    }
-    @font-face {
-        font-family: Julius;
-        src: url("../../../src/fonts/JuliusSansOne-Regular.woff");
-    }
-  @import url('https://fonts.googleapis.com/css2?family=Junge&display=swap');
+    @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
 
   .potato-box {
     height: 800px;
@@ -73,33 +64,42 @@
     justify-content: center;
     display: flex;
     align-items: center;
+    padding-top: 2%;
     button{
         background-color:#F9F2E2;
         color:black;
-        font-family:source-code-pro;
+        font-family: Source Code Pro;
         font-size: 20px;
+        font-weight: 800;
         border: rgba(233, 78, 115, 0.6);;
         border-style: solid;
         justify-content: center;
-        // top:250px;
+        padding: 15px 32px;
+        border-radius: 10px;
     
     &:hover{
         background-color: rgba(233, 78, 115, 0.6);
-        border-color: black;
+        border-color: #F9F2E2;
     }
   }
   }
 
   .submitting-message{
-    font-family: source-code-pro;
+    font-family: Source Code Pro;
     color: black;
     position: relative;
+    font-size: 23.5px;
   }
 
   .error-message-verify{
-    margin-left: 290px;
-    font-family: source-code-pro;
+    font-family: Source Code Pro;
+    padding-top: 3%;
+    font-weight: 800;
+    font-size: 20px;
     color: red;
+    display: flex;
+    justify-content: center;
     position: relative;
+    text-align: center;
   }
 }
