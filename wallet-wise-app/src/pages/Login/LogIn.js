@@ -9,9 +9,11 @@ const LogIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogIn = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       await authService.logIn(email, password);
       const user = authService.getCurrentUser();
@@ -25,7 +27,9 @@ const LogIn = () => {
 
         role === "vendor" ? navigate("/vendor") : navigate("/student");
       }
+      setIsSubmitting(false);
     } catch (err) {
+      setIsSubmitting(false);
       setError(err.message);
     }
   };
@@ -52,7 +56,7 @@ const LogIn = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <div className="login-error-message">{error && <p>{error}</p>}</div>
-          <button type="login-submit">LOGIN</button>
+          {isSubmitting ? <><div className="success-message-login"><h3>Logging in... </h3></div></> : <button type="login-submit">LOGIN</button>}
           <Link to="/forgot-password" className="login-forgot-password">
             Forgot password?
           </Link>
