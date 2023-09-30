@@ -263,28 +263,86 @@ function ChatModal({ isOpen, onClose }) {
   return (
     <div className={`chat-modal ${isOpen ? "open" : "closed"}`}>
       <div className="chat-modal-content">
-        <img
-          className="close-chat"
-          onClick={onClose}
-          alt="close"
-          src={close}
-        ></img>
-        <div className="chat-header ">
+        <div className="chat-header-data">
           {auth.currentUser.uid === recipient ? (
             <>
-              <h3 className="chat-content"> {courierName}</h3>
-              <h3 className="chat-content">
+              <h3
+                style={{
+                  marginTop: "0px",
+                  marginBottom: "0px",
+                }}
+              >
+                {" "}
+                {courierName}
+              </h3>
+              <img
+                className="close-chat"
+                onClick={onClose}
+                alt="close"
+                src={close}
+              ></img>
+            </>
+          ) : null}
+        </div>
+
+        <div className="chat-header">
+          {auth.currentUser.uid === recipient ? (
+            <>
+              <h3
+                className="chat-content"
+                style={{
+                  marginTop: "0px",
+                  marginBottom: "0px",
+                }}
+              >
                 Phone Number: {senderPhoneNumber}
               </h3>
-              <h3 className="chat-content">ID Number: {senderIdNumber}</h3>
+              <h3
+                className="chat-content"
+                style={{
+                  marginTop: "0px",
+                  marginBottom: "0px",
+                }}
+              >
+                ID Number: {senderIdNumber}
+              </h3>
             </>
           ) : (
             <>
-              <h3 className="chat-content">Chat with: {ordererName}</h3>
-              <h3 className="chat-content">
+              <div className="chat-header-other">
+                <h3
+                  style={{
+                    marginTop: "0px",
+                    marginBottom: "0px",
+                  }}
+                >
+                  {ordererName}
+                </h3>
+                <img
+                  className="close-chat-other"
+                  onClick={onClose}
+                  alt="close"
+                  src={close}
+                ></img>
+              </div>
+              <h3
+                className="chat-content"
+                style={{
+                  marginTop: "0px",
+                  marginBottom: "0px",
+                }}
+              >
                 Phone Number: {recipientPhoneNumber}
               </h3>
-              <h3 className="chat-content">ID Number: {recipientIdNumber}</h3>
+              <h3
+                className="chat-content"
+                style={{
+                  marginTop: "0px",
+                  marginBottom: "0px",
+                }}
+              >
+                ID Number: {recipientIdNumber}
+              </h3>
             </>
           )}
           {auth.currentUser.uid === recipient ? (
@@ -317,13 +375,29 @@ function ChatModal({ isOpen, onClose }) {
               {auth.currentUser.displayName === message.sender ? (
                 <>
                   <div className="sender">
-                    <p className="message-text">{message.text}</p>
+                    <p
+                      className="message-text"
+                      style={{
+                        marginTop: "0px",
+                        marginBottom: "0px",
+                      }}
+                    >
+                      {message.text}
+                    </p>
                   </div>
                 </>
               ) : (
                 <>
                   <div className="recipient">
-                    <p className="message-text">{message.text}</p>
+                    <p
+                      className="message-text"
+                      style={{
+                        marginTop: "0px",
+                        marginBottom: "0px",
+                      }}
+                    >
+                      {message.text}
+                    </p>
                   </div>
                 </>
               )}
