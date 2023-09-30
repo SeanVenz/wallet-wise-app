@@ -79,7 +79,9 @@ const LogIn = () => {
               />
             </div>
           </div>
-          <div className="login-error-message">{error && <p>{error}</p>}</div>
+          <div className="flex w-full justify-center text-red-600">
+            {error && <p>{error}</p>}
+          </div>
 
           <div className="w-full flex flex-col justify-center items-center">
             <button
