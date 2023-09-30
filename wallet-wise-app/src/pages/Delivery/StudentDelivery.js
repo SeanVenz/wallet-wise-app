@@ -275,7 +275,7 @@ function StudentDelivery() {
                         </div>
                       </>
                     ) : (
-                      <p>Order is already accepted</p>
+                      <p className="order-not-accepted">Order is already accepted</p>
                     )}
                   </>
                 )}
