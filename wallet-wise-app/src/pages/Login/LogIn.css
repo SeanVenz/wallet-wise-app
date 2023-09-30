@@ -1,0 +1,122 @@
+.login-parent {
+  justify-content: center;
+  background-color: #f9f2e2;
+  display: contents;
+  height: 100%;
+  width: 100%;
+}
+
+.main-box {
+  justify-content: center;
+}
+
+.text-box1 {
+  width: fit-content;
+  height: fit-content;
+  font-size: 30px;
+  font-family: junge;
+  margin-top: 35px;
+}
+
+.text-box2 {
+  font-size: 120px;
+  font-family: julius-sans-one;
+  letter-spacing: 15px;
+}
+
+.text-box3 {
+  font-size: 100px;
+  font-family: monoton;
+  bottom: 40px;
+}
+
+.login-form {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  background-color: #f9f2e2;
+  align-items: center;
+  align-content: center;
+}
+
+@font-face {
+  font-family: monoton;
+  src: url("/src/pages/Login/Fonts/Monoton-regular.woff");
+}
+
+@font-face {
+  font-family: junge;
+  src: url("/src/pages/Login/Fonts/Junge-Regular.woff");
+}
+@font-face {
+  font-family: julius-sans-one;
+  src: url("/src/pages/Login/Fonts/JuliusSansOne-Regular.woff");
+}
+
+@font-face {
+  font-family: source-code-pro;
+  src: url("/src/pages/Login/Fonts/SourceCodePro-Bold.woff");
+}
+
+.login-email {
+  width: 70%;
+  height: 60px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 30px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.login-password {
+  width: 70%;
+  height: 60px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 33px;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+button[type="login-submit"] {
+  background-color: #f9f2e2;
+  color: black;
+  font-family: source-code-pro;
+  font-size: 30px;
+  border: rgba(233, 78, 115, 0.6);
+  border-style: solid;
+  margin-top: 40px;
+  position: relative;
+  bottom: 25px;
+}
+
+button[type="login-submit"]:hover {
+  background-color: rgba(233, 78, 115, 0.6);
+  border-color: black;
+}
+
+.login-forgot-password:hover {
+  text-decoration: underline;
+  color: red;
+}
+
+a {
+  color: black;
+  text-decoration: solid;
+  font-family: source-code-pro;
+  font-size: 22px;
+  margin-left: 373px;
+  position: relative;
+  bottom: 20px;
+}
+
+.login-error-message {
+  margin-left: 280px;
+  font-family: source-code-pro;
+  color: red;
+  font-size: 18px;
+  position: relative;
+  bottom: 30px;
+}
