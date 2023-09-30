@@ -28,7 +28,7 @@ function App() {
   const [user, loading, error] = useAuthState(auth);
 
   if (loading) {
-    return <Spinner/>;
+    return <Spinner />;
   }
 
   if (error) {
