@@ -15,6 +15,9 @@ import {
 import { auth, db } from "../../utils/firebase";
 import "./ChatModal.scss";
 import close from "../../images/close.png";
+import sendMessagePic from "../../images/send-message.png";
+import { compose } from "redux";
+import Spinner from "../Spinner/Spiner";
 
 function ChatModal({ isOpen, onClose }) {
   const [message, setMessage] = useState("");
@@ -30,6 +33,9 @@ function ChatModal({ isOpen, onClose }) {
   const [senderIdNumber, setSenderIdNumber] = useState();
   const [recipientPhoneNumber, setRecipientPhoneNumber] = useState();
   const [recipientIdNumber, setRecipientIdNumber] = useState();
+  const [orderReceived, setOrderReceived] = useState();
+  const [deliveryReceived, setDeliveryReceived] = useState();
+  const [isLoading, setIsLoading] = useState(true);
 
   const addDeliveryHIstory = async (uid, orderId) => {
     const userCollectionRef = collection(db, "users", uid, "deliveries");
@@ -55,6 +61,7 @@ function ChatModal({ isOpen, onClose }) {
   };
 
   useEffect(() => {
+    setIsLoading(false);
     const fetchRoomData = async () => {
       try {
         const user = auth.currentUser.uid;
@@ -70,6 +77,7 @@ function ChatModal({ isOpen, onClose }) {
         }
       } catch (error) {
         console.error("Error fetching rooms:", error);
+        setIsLoading(false);
       }
     };
 
@@ -109,16 +117,6 @@ function ChatModal({ isOpen, onClose }) {
     return null;
   };
 
-  const deleteMessagesRef = async () => {
-    const chatRoomRef = getChatroomRef();
-    const messageCollectionRef = collection(chatRoomRef, "messages");
-    const messageQuerySnapshot = await getDocs(messageCollectionRef);
-
-    messageQuerySnapshot.forEach(async (doc) => {
-      await deleteDoc(doc.ref);
-    });
-  };
-
   const getParticipants = async () => {
     try {
       const chatroomRef = getChatroomRef();
@@ -137,13 +135,30 @@ function ChatModal({ isOpen, onClose }) {
     }
   };
 
+  const checkReceivedAndDelivered = async () => {
+    try {
+      const info = getChatroomRef();
+      const docSnapshot = await getDoc(info);
+      const docData = docSnapshot.data();
+
+      docData.orderIsAccepted === true
+        ? setOrderReceived(true)
+        : setOrderReceived(false);
+      docData.orderIsDelivered === true
+        ? setDeliveryReceived(true)
+        : setDeliveryReceived(false);
+      console.log(orderReceived);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    console.log(courierName);
-    console.log(ordererName);
-    console.log(auth.currentUser.displayName);
     const fetchParticipants = async () => {
       await getParticipants();
     };
+
+    checkReceivedAndDelivered();
 
     fetchParticipants();
 
@@ -219,6 +234,16 @@ function ChatModal({ isOpen, onClose }) {
     }
   };
 
+  const deleteMessagesRef = async () => {
+    const chatRoomRef = getChatroomRef();
+    const messageCollectionRef = collection(chatRoomRef, "messages");
+    const messageQuerySnapshot = await getDocs(messageCollectionRef);
+
+    messageQuerySnapshot.forEach(async (doc) => {
+      await deleteDoc(doc.ref);
+    });
+  };
+
   const deleteChatroomAndClose = async () => {
     try {
       const info = getChatroomRef();
@@ -244,6 +269,7 @@ function ChatModal({ isOpen, onClose }) {
   };
 
   const handleOrderAccepted = async () => {
+    checkReceivedAndDelivered();
     updateHasCurrentOrder(recipient);
     const chatRoomRef = getChatroomRef();
     await updateDoc(chatRoomRef, { orderIsAccepted: true });
@@ -252,6 +278,7 @@ function ChatModal({ isOpen, onClose }) {
   };
 
   const handleOrderDelivered = async () => {
+    checkReceivedAndDelivered();
     updateHasCurrentDelivery(currentUser);
     const chatRoomRef = getChatroomRef();
     await deleteChatroomAndClose();
@@ -263,158 +290,185 @@ function ChatModal({ isOpen, onClose }) {
   return (
     <div className={`chat-modal ${isOpen ? "open" : "closed"}`}>
       <div className="chat-modal-content">
-        <div className="chat-header-data">
-          {auth.currentUser.uid === recipient ? (
-            <>
-              <h3
-                style={{
-                  marginTop: "0px",
-                  marginBottom: "0px",
-                }}
-              >
-                {" "}
-                {courierName}
-              </h3>
-              <img
-                className="close-chat"
-                onClick={onClose}
-                alt="close"
-                src={close}
-              ></img>
-            </>
-          ) : null}
-        </div>
-
-        <div className="chat-header">
-          {auth.currentUser.uid === recipient ? (
-            <>
-              <h3
-                className="chat-content"
-                style={{
-                  marginTop: "0px",
-                  marginBottom: "0px",
-                }}
-              >
-                Phone Number: {senderPhoneNumber}
-              </h3>
-              <h3
-                className="chat-content"
-                style={{
-                  marginTop: "0px",
-                  marginBottom: "0px",
-                }}
-              >
-                ID Number: {senderIdNumber}
-              </h3>
-            </>
-          ) : (
-            <>
-              <div className="chat-header-other">
-                <h3
-                  style={{
-                    marginTop: "0px",
-                    marginBottom: "0px",
-                  }}
-                >
-                  {ordererName}
-                </h3>
-                <img
-                  className="close-chat-other"
-                  onClick={onClose}
-                  alt="close"
-                  src={close}
-                ></img>
-              </div>
-              <h3
-                className="chat-content"
-                style={{
-                  marginTop: "0px",
-                  marginBottom: "0px",
-                }}
-              >
-                Phone Number: {recipientPhoneNumber}
-              </h3>
-              <h3
-                className="chat-content"
-                style={{
-                  marginTop: "0px",
-                  marginBottom: "0px",
-                }}
-              >
-                ID Number: {recipientIdNumber}
-              </h3>
-            </>
-          )}
-          {auth.currentUser.uid === recipient ? (
-            <>
-              <div className="order-accepted-parent">
-                <button
-                  className="order-accepted"
-                  onClick={handleOrderAccepted}
-                >
-                  Order Accepted
-                </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <div className="order-delivered-parent">
-                <button
-                  className="order-delivered"
-                  onClick={handleOrderDelivered}
-                >
-                  Order Delivered
-                </button>
-              </div>
-            </>
-          )}
-        </div>
-        <div className="chat-messages">
-          {chatMessages.map((message, index) => (
-            <div key={index} className="message">
-              {auth.currentUser.displayName === message.sender ? (
+        {isLoading ? (
+          <Spinner></Spinner>
+        ) : (
+          <>
+            <div className="chat-header-data">
+              {auth.currentUser.uid === recipient ? (
                 <>
-                  <div className="sender">
-                    <p
-                      className="message-text"
-                      style={{
-                        marginTop: "0px",
-                        marginBottom: "0px",
-                      }}
-                    >
-                      {message.text}
-                    </p>
-                  </div>
+                  <h3
+                    style={{
+                      marginTop: "0px",
+                      marginBottom: "0px",
+                    }}
+                  >
+                    {" "}
+                    {courierName}
+                  </h3>
+                  <img
+                    className="close-chat"
+                    onClick={onClose}
+                    alt="close"
+                    src={close}
+                  ></img>
+                </>
+              ) : null}
+            </div>
+
+            <div className="chat-header">
+              {auth.currentUser.uid === recipient ? (
+                <>
+                  <h3
+                    className="chat-content"
+                    style={{
+                      marginTop: "0px",
+                      marginBottom: "0px",
+                    }}
+                  >
+                    Phone Number: {senderPhoneNumber}
+                  </h3>
+                  <h3
+                    className="chat-content"
+                    style={{
+                      marginTop: "0px",
+                      marginBottom: "0px",
+                    }}
+                  >
+                    ID Number: {senderIdNumber}
+                  </h3>
                 </>
               ) : (
                 <>
-                  <div className="recipient">
-                    <p
-                      className="message-text"
+                  <div className="chat-header-other">
+                    <h3
                       style={{
                         marginTop: "0px",
                         marginBottom: "0px",
                       }}
                     >
-                      {message.text}
-                    </p>
+                      {ordererName}
+                    </h3>
+                    <img
+                      className="close-chat-other"
+                      onClick={onClose}
+                      alt="close"
+                      src={close}
+                    ></img>
                   </div>
+                  <h3
+                    className="chat-content"
+                    style={{
+                      marginTop: "0px",
+                      marginBottom: "0px",
+                    }}
+                  >
+                    Phone Number: {recipientPhoneNumber}
+                  </h3>
+                  <h3
+                    className="chat-content"
+                    style={{
+                      marginTop: "0px",
+                      marginBottom: "0px",
+                    }}
+                  >
+                    ID Number: {recipientIdNumber}
+                  </h3>
+                </>
+              )}
+              {auth.currentUser.uid === recipient ? (
+                <>
+                  {orderReceived === true ? (
+                    <p className="order-received-message">
+                      Waiting for confirmation from courier
+                    </p>
+                  ) : (
+                    <div className="order-accepted-parent">
+                      <button
+                        className="order-accepted"
+                        onClick={handleOrderAccepted}
+                      >
+                        Order Accepted
+                      </button>
+                    </div>
+                  )}
+                </>
+              ) : (
+                <>
+                  {deliveryReceived === true ? (
+                    <p className="delivery-success-message">
+                      Waiting for confirmation from orderer
+                    </p>
+                  ) : (
+                    <div className="order-delivered-parent">
+                      <button
+                        className="order-delivered"
+                        onClick={handleOrderDelivered}
+                      >
+                        Order Delivered
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
             </div>
-          ))}
-        </div>
-        <div className="chat-input">
-          <form onSubmit={(e) => sendMessage(e)}>
-            <input
-              type="text"
-              placeholder="Type your message..."
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <button>Send</button>
-          </form>
-        </div>
+            <div className="chat-messages">
+              {chatMessages.map((message, index) => (
+                <div key={index} className="message">
+                  {auth.currentUser.displayName === message.sender ? (
+                    <>
+                      <div className="sender">
+                        <p
+                          className="message-text"
+                          style={{
+                            marginTop: "0px",
+                            marginBottom: "0px",
+                          }}
+                        >
+                          {message.text}
+                        </p>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="recipient">
+                        <p
+                          className="message-text"
+                          style={{
+                            marginTop: "0px",
+                            marginBottom: "0px",
+                          }}
+                        >
+                          {message.text}
+                        </p>
+                      </div>
+                    </>
+                  )}
+                </div>
+              ))}
+            </div>
+            <div className="chat-input">
+              <form>
+                <div className="textarea-container">
+                  <textarea
+                    type="text"
+                    placeholder="Start a conversation..."
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                  />
+                </div>
+                <div className="send-message-container">
+                  <img
+                    type
+                    src={sendMessagePic}
+                    alt="send"
+                    onClick={(e) => sendMessage(e)}
+                  />
+                </div>
+              </form>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

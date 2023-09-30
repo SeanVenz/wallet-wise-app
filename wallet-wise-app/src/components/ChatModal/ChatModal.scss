@@ -24,6 +24,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    border-bottom: 1px solid black;
+    padding-bottom: 5px;
   }
 
   .close-chat {
@@ -86,13 +88,11 @@
   .chat-messages {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    height: 200px;
+    height: 350px;
     overflow-y: auto;
     border: 1px solid #ccc;
     width: 500px;
     padding: 10px;
-    // background-color: black;
   }
 
   .sender {
@@ -124,11 +124,71 @@
     flex-direction: row;
     justify-content: space-between;
 
-    img{
+    img {
       width: 5%;
       height: 5%;
       cursor: pointer;
       margin-top: 0px;
     }
+  }
+  .chat-input {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+
+    img {
+      width: 80%;
+      height: 80%;
+      cursor: pointer;
+      margin-top: 0px;
+      margin-bottom: 0px;
+
+      &:hover{
+        background-color: black;
+        padding: 5px;
+        border-radius: 100px;
+      }
+    }
+
+    form {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .send-message-container{
+      width: 10%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+  }
+  textarea {
+    display: flex;
+    width: 450px;
+    height: 60px;
+    border-radius: 15px;
+    font-family: source-code-pro;
+    font-size: 20px;
+    word-wrap: break-word;
+    align-items: center;
+    &::placeholder {
+      font-family: source-code-pro;
+      font-size: 20px;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  .order-received-message{
+    text-align: center;
+    color: red;
+  }
+  .delivery-success-message{
+    text-align: center;
+    color: red;
   }
 }
