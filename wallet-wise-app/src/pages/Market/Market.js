@@ -86,10 +86,6 @@ const StudentMarket = () => {
       <div className="foods">
         {foods &&
           foods
-            .filter(
-              (food) =>
-                food.FoodType === selectedFoodType || selectedFoodType === ""
-            )
             .filter((food) => food.Price <= maxPrice)
             .filter((food) => food.isAvailable === true)
             .filter((food) => food.Quantity > 0)
