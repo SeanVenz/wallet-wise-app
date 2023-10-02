@@ -22,3 +22,11 @@ export function groupItemsByStore(deliveryItems) {
   });
   return storeItemsMap;
 }
+
+export function calculatePerPersonTotal(items) {
+  let total = 0;
+  items.forEach((item) => {
+    total += item.totalPrice;
+  });
+  return total;
+}
