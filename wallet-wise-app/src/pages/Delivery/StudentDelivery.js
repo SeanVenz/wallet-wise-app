@@ -41,7 +41,7 @@ function StudentDelivery() {
   }
 
   useEffect(() => {
-    console.log(deliveries)
+    console.log(deliveries);
     // Reference to the "deliveries" collection
     const deliveryCollectionRef = collection(db, "orders");
 
@@ -219,10 +219,12 @@ function StudentDelivery() {
                     <p className="store-name">{storeName}</p>
                     <ul>
                       {storeItems.map((item, itemIndex) => (
-                        <li key={itemIndex} className="order-list">
-                          {item.itemName} - x{item.quantity} ₱
-                          {item.totalPrice.toFixed(2)}
-                        </li>
+                        <div className="order-list">
+                          <li key={itemIndex}>
+                            {item.itemName} ({item.quantity}) ₱
+                            {item.totalPrice.toFixed(2)}
+                          </li>
+                        </div>
                       ))}
                     </ul>
                   </div>
