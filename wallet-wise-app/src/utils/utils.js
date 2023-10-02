@@ -10,3 +10,15 @@ export function formatTimestamp(timestamp) {
   });
   return formattedDate;
 }
+
+export function groupItemsByStore(deliveryItems) {
+  const storeItemsMap = new Map();
+  deliveryItems.forEach((item) => {
+    const storeName = item.storeName;
+    if (!storeItemsMap.has(storeName)) {
+      storeItemsMap.set(storeName, []);
+    }
+    storeItemsMap.get(storeName).push(item);
+  });
+  return storeItemsMap;
+}
