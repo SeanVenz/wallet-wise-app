@@ -61,6 +61,7 @@ export const FoodCard = (props) => {
             totalPrice: price * quantity,
             storeName: storeName,
             number: number,
+            img: img
           });
         }
   
