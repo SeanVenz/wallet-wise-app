@@ -21,6 +21,14 @@
     }
   }
 
+  .store-name{
+    text-align: center;
+  }
+
+  .ul-holder{
+    padding-bottom: 3%;
+  }
+
   .orders-header {
     display: flex;
     justify-content: center;
@@ -45,7 +53,7 @@
     list-style: none;
     border: 1px solid black;
     width: 350px;
-    height: 380px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -88,15 +96,18 @@
   .scrollable-list {  
     display: flex;
     align-items: center;
-    
     flex-direction: column;
-    height: 100px;
+    height: 150px;
     overflow-y: scroll;
     border: 1px solid #ccc;
-    width: 330px;
+    width: 100%;
     padding: 10px;
 
     .order-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       p {
         display: flex;
         padding: 0;
