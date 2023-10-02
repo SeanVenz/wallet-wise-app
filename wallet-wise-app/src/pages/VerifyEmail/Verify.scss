@@ -1,0 +1,105 @@
+.verify-parent {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    overflow-x: hidden;
+    height: 100%;
+    width: 100%;
+
+    @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
+
+  .potato-box {
+    height: 800px;
+    width: 700px;
+    position: absolute;
+    margin-top: 50px;
+    padding-right: 70px;
+    background-image: url("../../images/potato-support.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    margin-right: 20px;
+  }
+
+  .verify-right {
+    top: 8%;
+    width: 51%;
+    height: 70%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-left: 800px;
+    background-color: #f9f2e2;
+    position: absolute;
+    margin-top: 25px;
+  }
+
+  .verify-words {
+    text-align: center;
+    margin-top: 10%;
+  }
+  .verify-wallet {
+    font-family: Julius;
+    letter-spacing: 0.3em;
+    font-size: 80px;
+    height: fit-content;
+    margin-bottom: -25px;
+    font-weight: 900;
+  }
+  .verify-wise {
+    font-family: Monoton;
+    font-size: 550%;
+  }
+  .message{
+    font-family: Junge;
+    text-align: center;
+    
+    p{
+        font-size: 30px;
+    }
+  }
+  .button{
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    padding-top: 2%;
+    button{
+        background-color:#F9F2E2;
+        color:black;
+        font-family: Source Code Pro;
+        font-size: 20px;
+        font-weight: 800;
+        border: rgba(233, 78, 115, 0.6);;
+        border-style: solid;
+        justify-content: center;
+        padding: 15px 32px;
+        border-radius: 10px;
+    
+    &:hover{
+        background-color: rgba(233, 78, 115, 0.6);
+        border-color: #F9F2E2;
+    }
+  }
+  }
+
+  .submitting-message{
+    font-family: Source Code Pro;
+    color: black;
+    position: relative;
+    font-size: 23.5px;
+  }
+
+  .error-message-verify{
+    font-family: Source Code Pro;
+    padding-top: 3%;
+    font-weight: 800;
+    font-size: 20px;
+    color: red;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    text-align: center;
+  }
+}

@@ -1,7 +1,6 @@
 ﻿using FirebaseAdmin;
 using Google.Apis.Auth.OAuth2;
 using Google.Cloud.Firestore;
-using Microsoft.Extensions.Configuration;
 
 public class FirestoreContext
 {
@@ -9,8 +8,8 @@ public class FirestoreContext
 
     public FirestoreContext(IConfiguration configuration)
     {
-        string pathToServiceAccountKey = configuration["Firebase:ServiceAccountKey"];
-        string projectId = configuration["Firebase:ProjectId"];
+        string pathToServiceAccountKey = configuration["Firebase:ServiceAccountKey"]!;
+        string projectId = configuration["Firebase:ProjectId"]!;
 
         FirebaseApp app = FirebaseApp.DefaultInstance;
 
