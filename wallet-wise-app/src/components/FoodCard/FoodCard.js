@@ -43,8 +43,11 @@ export const FoodCard = (props) => {
             foundExistingItem = true;
   
             const existingQuantity = doc.data().quantity;
+            const existingPrice = doc.data().unitPrice
+            const existingTotalPrice = doc.data().totalPrice;
             await updateDoc(cartDocRef, {
               quantity: existingQuantity + quantity,
+              totalPrice : existingTotalPrice + (existingPrice * quantity),
             });
           }
         });
