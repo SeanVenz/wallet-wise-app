@@ -121,12 +121,13 @@ function Cart() {
   }, []);
 
   return (
-    <div>
+    <div className='cart'>
       <h2>Your Cart</h2>
       <ul>
         {cartItems.map((item, index) => (
           <div>
           <li key={index}>
+            <img src={item.img} alt={item.name} />
             {item.name} - Quantity: {item.quantity}, Total Price: ₱{item.totalPrice.toFixed(2)}
             <button onClick={() => removeItemFromCart(item.id)}>Remove</button>
             <button onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>-</button>
