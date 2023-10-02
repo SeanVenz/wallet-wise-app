@@ -68,6 +68,10 @@ function Cart() {
   // Function to update the quantity of an item in the cart and Firestore
   const updateItemQuantity = async (itemId, newQuantity) => {
     try {
+      if(newQuantity === 0){
+        removeItemFromCart(itemId);
+        return false;
+      }
       const user = auth.currentUser;
       var unitPrice = 0;
       var newTotalPrice = 0;
