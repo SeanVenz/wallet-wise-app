@@ -12,6 +12,7 @@ import {
 import ChatModal from "../../components/ChatModal/ChatModal";
 import authService from "../../utils/auth";
 import "./Delivery.scss";
+import { calculatePerPersonTotal, formatTimestamp, groupItemsByStore } from "utils/utils";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
@@ -28,6 +29,7 @@ function StudentDelivery() {
   };
 
   useEffect(() => {
+    console.log(deliveries);
     // Reference to the "deliveries" collection
     const deliveryCollectionRef = collection(db, "orders");
 
@@ -178,15 +180,6 @@ function StudentDelivery() {
     }
   };
 
-  function calculatePerPersonTotal(items) {
-    let total = 0;
-    items.forEach((item) => {
-      total += item.totalPrice;
-    });
-    console.log(deliveries[0]);
-    return total;
-  }
-
   return (
     <div className="orders-student-delivery">
       <h2 className="orders-header">Orders</h2>
@@ -196,16 +189,27 @@ function StudentDelivery() {
             <h3 className="text"> {delivery.userName}</h3>
             <p className="text">ID Number: {delivery.idNumber}</p>
             <p className="text">Phone Number: {delivery.phoneNumber}</p>
+            <p className="text">Time: {formatTimestamp(delivery.timestamp)}</p>
             <h4>Order Summary:</h4>
-            <ul className="scrollable-list">
-              {delivery.items.map((item, index) => (
-                <li key={index} className="order-list">
-                  {item.itemName} - x{item.quantity} ₱
-                  {item.totalPrice.toFixed(2)}
-                  <p>Store: {item.storeName}</p>
-                </li>
-              ))}
-            </ul>
+            <div className="scrollable-list">
+              {Array.from(groupItemsByStore(delivery.items)).map(
+                ([storeName, storeItems], index) => (
+                  <div key={index} className="ul-holder">
+                    <p className="store-name">{storeName}</p>
+                    <ul>
+                      {storeItems.map((item, itemIndex) => (
+                        <div className="order-list">
+                          <li key={itemIndex}>
+                            {item.itemName} ({item.quantity}) ₱
+                            {item.totalPrice.toFixed(2)}
+                          </li>
+                        </div>
+                      ))}
+                    </ul>
+                  </div>
+                )
+              )}
+            </div>
             <p className="total">
               Total: ₱{calculatePerPersonTotal(delivery.items).toFixed(2)}
             </p>
