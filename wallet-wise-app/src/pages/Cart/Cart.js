@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db, auth } from '../../utils/firebase';
 import { collection, query, getDocs, deleteDoc, doc, getDoc, updateDoc } from 'firebase/firestore';
 import Checkout from '../../components/Checkout/Checkout';
+import { calculatePerPersonTotal } from 'utils/utils';
 function Cart() {
 
   const [cartItems, setCartItems] = useState([]);
@@ -13,13 +14,12 @@ function Cart() {
   const [number, setNumber] = useState([]);
   const [quantity, setQuantity] = useState([]);
 
-  //Function to fetch cart items based on the user's UID
   const fetchCartItems = async (userId) => {
     try {
       const cartCollectionRef = collection(db, 'carts', userId, 'items');
       const cartQuery = query(cartCollectionRef);
       const cartSnapshot = await getDocs(cartQuery);
-      const items = cartSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()})); // Include document ID
+      const items = cartSnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data()})); 
 
       const fetchedFoodIds = [];
       const fetchedNumbers = [];
@@ -42,20 +42,16 @@ function Cart() {
     }
   };
 
-  // Function to remove an item from the cart
   const removeItemFromCart = async (itemId) => {
     try {
       const user = auth.currentUser;
       if (user) {
         const userId = user.uid;
 
-        // Reference to the specific item in the cart
         const cartItemRef = doc(db, 'carts', userId, 'items', itemId);
 
-        // Delete the item document
         await deleteDoc(cartItemRef);
 
-        // Fetch the updated cart items
         fetchCartItems(userId);
       } else {
         console.error('User is not authenticated.');
@@ -65,7 +61,6 @@ function Cart() {
     }
   };
 
-  // Function to update the quantity of an item in the cart and Firestore
   const updateItemQuantity = async (itemId, newQuantity) => {
     try {
       if(newQuantity === 0){
@@ -78,7 +73,6 @@ function Cart() {
       if (user) {
         const userId = user.uid;
 
-        // Reference to the specific item in the cart
         const cartItemRef = doc(db, 'carts', userId, 'items', itemId);
 
         const itemRefSnapshot = await getDoc(cartItemRef);
@@ -88,10 +82,8 @@ function Cart() {
           newTotalPrice = unitPrice * newQuantity;
         }
 
-        // Update the quantity in Firestore
         await updateDoc(cartItemRef, { quantity: newQuantity, totalPrice: newTotalPrice });
 
-        // Fetch the updated cart items
         fetchCartItems(userId);
       } else {
         console.error('User is not authenticated.');
@@ -113,7 +105,6 @@ function Cart() {
         const userId = user.uid;
         fetchCartItems(userId);
 
-        // Fetch user information from Firestore
         const userDocRef = doc(db, "users", userId);
         const docSnap = await getDoc(userDocRef);
 
@@ -134,14 +125,17 @@ function Cart() {
       <h2>Your Cart</h2>
       <ul>
         {cartItems.map((item, index) => (
+          <div>
           <li key={index}>
-            {item.name} - Quantity: {item.quantity}, Price: ₱{item.totalPrice.toFixed(2)}
+            {item.name} - Quantity: {item.quantity}, Total Price: ₱{item.totalPrice.toFixed(2)}
             <button onClick={() => removeItemFromCart(item.id)}>Remove</button>
             <button onClick={() => updateItemQuantity(item.id, item.quantity - 1)}>-</button>
             <button onClick={() => updateItemQuantity(item.id, item.quantity + 1)}>+</button>
           </li> 
+          </div>
         ))}
       </ul>
+      <h3>Total: {calculatePerPersonTotal(cartItems).toFixed(2)}</h3>
       <Checkout
         cartItems={cartItems}
         fullName={fullName}
