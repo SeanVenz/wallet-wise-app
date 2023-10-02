@@ -12,7 +12,7 @@ import {
 import ChatModal from "../../components/ChatModal/ChatModal";
 import authService from "../../utils/auth";
 import "./Delivery.scss";
-import { formatTimestamp, groupItemsByStore } from "utils/utils";
+import { calculatePerPersonTotal, formatTimestamp, groupItemsByStore } from "utils/utils";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
@@ -179,15 +179,6 @@ function StudentDelivery() {
       console.log(error);
     }
   };
-
-  function calculatePerPersonTotal(items) {
-    let total = 0;
-    items.forEach((item) => {
-      total += item.totalPrice;
-    });
-    console.log(deliveries[0]);
-    return total;
-  }
 
   return (
     <div className="orders-student-delivery">
