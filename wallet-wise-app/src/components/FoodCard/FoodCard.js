@@ -66,11 +66,9 @@ export const FoodCard = (props) => {
   
         console.log("Item added to cart with ID:", itemId);
   
-        // Reset form fields and options
         setQuantity(1);
         setShowModal(false);
       } else {
-        // Handle the case where the user is not authenticated
         console.error("User is not authenticated.");
       }
     } catch (error) {
