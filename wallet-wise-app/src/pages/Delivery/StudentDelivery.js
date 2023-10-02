@@ -12,7 +12,7 @@ import {
 import ChatModal from "../../components/ChatModal/ChatModal";
 import authService from "../../utils/auth";
 import "./Delivery.scss";
-import { formatTimestamp } from "utils/utils";
+import { formatTimestamp, groupItemsByStore } from "utils/utils";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
@@ -27,18 +27,6 @@ function StudentDelivery() {
   const openChat = async () => {
     setChatOpen(true);
   };
-
-  function groupItemsByStore(deliveryItems) {
-    const storeItemsMap = new Map();
-    deliveryItems.forEach((item) => {
-      const storeName = item.storeName;
-      if (!storeItemsMap.has(storeName)) {
-        storeItemsMap.set(storeName, []);
-      }
-      storeItemsMap.get(storeName).push(item);
-    });
-    return storeItemsMap;
-  }
 
   useEffect(() => {
     console.log(deliveries);
