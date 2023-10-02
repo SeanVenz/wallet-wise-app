@@ -91,6 +91,7 @@ export const FoodCard = (props) => {
             <label>Quantity:</label>
             <input
               type="number"
+              min={1}
               value={quantity}
               onChange={(e) => setQuantity(parseInt(e.target.value))}
             />
