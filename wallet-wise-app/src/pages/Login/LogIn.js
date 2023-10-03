@@ -12,9 +12,11 @@ const LogIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleLogIn = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true);
     try {
       await authService.logIn(email, password);
       const user = authService.getCurrentUser();
@@ -28,7 +30,9 @@ const LogIn = () => {
 
         role === "vendor" ? navigate("/vendor") : navigate("/student");
       }
+      setIsSubmitting(false);
     } catch (err) {
+      setIsSubmitting(false);
       setError(err.message);
     }
   };
