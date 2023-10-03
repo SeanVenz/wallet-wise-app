@@ -12,7 +12,12 @@ import {
 import ChatModal from "../../components/ChatModal/ChatModal";
 import authService from "../../utils/auth";
 import "./Delivery.scss";
-import { calculatePerPersonTotal, formatTimestamp, groupItemsByStore } from "utils/utils";
+import {
+  calculatePerPersonTotal,
+  formatTimestamp,
+  groupItemsByStore,
+  handleCancelOrder,
+} from "utils/utils";
 
 function StudentDelivery() {
   const [deliveries, setDeliveries] = useState([]);
@@ -232,7 +237,12 @@ function StudentDelivery() {
                 ) : (
                   <>
                     <div className="order-not-accepted">
-                      <p>Your order is not yet accepted</p>
+                      <button
+                        className="cancel-order"
+                        onClick={() => handleCancelOrder(delivery.userId, delivery.id)}
+                      >
+                        Cancel Order
+                      </button>
                     </div>
                   </>
                 )}

@@ -149,6 +149,19 @@
     padding-bottom: 20px;
   }
 
+  .cancel-order{
+    padding: 15px 32px;
+    background-color: #ff93ad;
+    color: black;
+    border: 1px solid black;
+    border-radius: 10px;
+
+    &:hover{
+      background-color: red;
+      border: 1px solid #ff93ad;
+    }
+  }
+
   .chat {
     background-color: #ff93ad;
     color: black;
