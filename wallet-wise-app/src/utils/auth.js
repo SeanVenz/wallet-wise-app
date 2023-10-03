@@ -17,6 +17,30 @@ const signUp = async (email, password, fullName, idNumber, phoneNumber, role) =>
   return user;
 };
 
+const signUpVendor = async (email, password, fullName, idNumber, phoneNumber, role, latitude, longitude) => {
+  const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+  const user = userCredential.user;
+  
+  // Update the user's profile with the full name
+  await updateProfile(user, { displayName: fullName });
+  
+  // Store the ID number, latitude, longitude in Firestore
+  const userData = {
+    idNumber,
+    phoneNumber,
+    role,
+    latitude, // Add latitude
+    longitude, // Add longitude
+  };
+
+  const userDocRef = doc(db, 'users', user.uid);
+  await setDoc(userDocRef, userData);
+  
+  await sendEmailVerification(user);
+  return user;
+};
+
+
 const sendVerificationEmail = async (user) => {
   if (user) {
     console.log('Sending verification email to:', user.email);  // Log the email being sent to

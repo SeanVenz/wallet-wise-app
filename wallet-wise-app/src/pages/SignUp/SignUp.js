@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../utils/auth";
 import "./SignUp.css";
+import MapboxMap from "components/Mapbox/Mapbox";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -9,35 +10,49 @@ const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [role, setRole] = useState("student"); // Default role is student
-  const [idNumber, setIdNumber] = useState(""); // Add idNumber state
-  const [storeName, setStoreName] = useState(""); // New state for store name
+  const [idNumber, setIdNumber] = useState("");
+  const [storeName, setStoreName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showMap, setShowMap] = useState(false); 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
   const handleSignUp = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Start loading effect
+    setIsSubmitting(true);
 
     try {
-      // Determine whether to store ID number or store name based on the role
       const idOrStoreName = role === "vendor" ? storeName : idNumber;
 
-      // Sign up the user and set their role or store name as part of the account creation
+      // Include latitude and longitude when the role is "vendor"
+      const roleSpecificData =
+        role === "vendor" ? { latitude, longitude } : {};
+
       await authService.signUp(
         email,
         password,
         fullName,
         idOrStoreName,
         phoneNumber,
-        role
+        role,
+        roleSpecificData.latitude, // Pass latitude
+        roleSpecificData.longitude // Pass longitude
       );
-      setIsSubmitting(false); // Stop loading effect
+
+      setIsSubmitting(false);
       navigate("/verify-email");
     } catch (err) {
-      setIsSubmitting(false); // Stop loading effect on error
+      setIsSubmitting(false);
       setError(err.message);
     }
+  };
+
+  const handleMapClose = (e) => {
+    e.stopPropagation(); // Prevent click event propagation
+    setShowMap(false); // Close the map
   };
 
   return (
@@ -102,8 +117,34 @@ const SignUp = () => {
             </select>
           </label>
         </div>
+        {role === "vendor" && (
+          <div>
+            {/* Toggle the map visibility */}
+            <button onClick={() => setShowMap(!showMap)}>
+              {showMap ? "Close Map" : "Open Map"}
+            </button>
+            {/* Show the MapboxMap component when showMap is true */}
+            {showMap && (
+              <MapboxMap
+                setLatitude={setLatitude}
+                setLongitude={setLongitude}
+                onClose={(e) => {handleMapClose(e)}}
+              />
+            )}
+          </div>
+        )}
+
+        {/* ... other form elements ... */}
         <div className="signup-submit"></div>
-        {isSubmitting ? <><div className="success-message"><h3>"Signing up..." </h3></div></>: <button type="signup-submit">Sign up</button>}
+        {isSubmitting ? (
+          <div className="success-message">
+            <h3>"Signing up..." </h3>
+          </div>
+        ) : (
+          <button type="submit" className="signup-submit">
+            Sign up
+          </button>
+        )}
         <div className="error-message">{error && <p>{error}</p>}</div>
       </form>
       <div className="potato-box"></div>
