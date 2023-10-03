@@ -160,7 +160,6 @@ function StudentDelivery() {
       if (!hasCurrentDelivery && !hasCurrentOrder) {
         setOrdererName(ordererName);
 
-        //update not accepted order to accepted order
         const orderRef = doc(db, "orders", orderId);
         await updateDoc(orderRef, { isOrderAccepted: true });
 
@@ -170,7 +169,6 @@ function StudentDelivery() {
 
         addHasCurrentDelivery(senderUID);
 
-        // Create a chatroom document in Firestore if it doesn't exist
         await setDoc(chatroomRef, {
           sender: senderUID,
           recipient: recipientId,
