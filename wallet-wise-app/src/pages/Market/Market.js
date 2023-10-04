@@ -15,6 +15,7 @@ const StudentMarket = () => {
   const [storeNames, setStoreNames] = useState([]);
 
   useEffect(() => {
+    console.log(foods);
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser(user);
@@ -103,6 +104,8 @@ const StudentMarket = () => {
                 number={food.Quantity}
                 storeName={food.StoreName}
                 id={food.id}
+                longitude = {food.Longitude}
+                latitude = {food.Latitude}
               />
             ))}
       </div>
