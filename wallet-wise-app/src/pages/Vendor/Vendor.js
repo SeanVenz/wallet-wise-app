@@ -12,6 +12,8 @@ function Vendor() {
   const [successMessage, setSuccessMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [foods, setFoods] = useState([]);
+  const [longitude, setLongitude] = useState();
+  const [latitude, setLatitude] = useState();
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -21,6 +23,8 @@ function Vendor() {
 
       if (docSnap.exists()) {
         setStoreName(docSnap.data().idNumber);
+        setLongitude(docSnap.data().longitude);
+        setLatitude(docSnap.data().latitude);
       } else {
         console.log("No such document!");
       }
@@ -37,6 +41,8 @@ function Vendor() {
     foodType: 0,
     quantity: "",
     storeName: storeName,
+    longitude: longitude,
+    latitude: latitude,
   });
 
   // Fetch all foods from the Firestore using FoodService
@@ -60,6 +66,8 @@ function Vendor() {
     setFoodData({
       ...foodData,
       storeName: storeName,
+      longitude: longitude,
+      latitude: latitude,
       [name]: type === "checkbox" ? event.target.checked : value,
     });
   };
@@ -83,7 +91,9 @@ function Vendor() {
       await addFood({
         ...foodData,
         storeName: storeName,
-        userId: userId, // Include the userId when calling addFood
+        userId: userId,
+        longitude: longitude,
+      latitude: latitude,
       });
 
       // Fetch the updated list of foods again
@@ -100,6 +110,8 @@ function Vendor() {
         image: null,
         foodType: "",
         quantity: 0,
+        longitude: longitude,
+        latitude: latitude,
       });
     } catch (error) {
       console.error("Error creating food:", error);
@@ -119,6 +131,8 @@ function Vendor() {
       Price: 0,
       Quantity: 0,
       File: null,
+      longitude: longitude,
+      latitude: latitude,
     });
     setCreatedFood(null);
     setSuccessMessage("");
