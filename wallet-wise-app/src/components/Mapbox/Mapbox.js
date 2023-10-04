@@ -16,15 +16,14 @@ const MapboxMap = ({ setLatitude, setLongitude, onClose }) => {
       const mapInstance = new mapboxgl.Map({
         container: 'map',
         style: 'mapbox://styles/mapbox/streets-v11',
-        center: [123.88037053743659, 10.29551334740033], // Default center
+        center: [123.88037053743659, 10.29551334740033], 
         zoom: 17, // Default zoom
       });
 
       mapInstance.on('load', () => {
-        setMap(mapInstance); // Set the map instance when it's loaded
+        setMap(mapInstance); 
       });
 
-      // Clean up when unmounting
       return () => {
         if (mapInstance) {
           mapInstance.remove();
@@ -33,15 +32,13 @@ const MapboxMap = ({ setLatitude, setLongitude, onClose }) => {
     };
 
     initializeMap();
-  }, []); // Only run this effect once
+  }, []); 
 
   useEffect(() => {
-    // Add a click event listener to the map
     if (map) {
       map.on('click', handleMapClick);
     }
 
-    // Clean up the event listener when unmounting
     return () => {
       if (map) {
         map.off('click', handleMapClick);
@@ -53,18 +50,14 @@ const MapboxMap = ({ setLatitude, setLongitude, onClose }) => {
     if (map) {
       const { lng, lat } = e.lngLat;
 
-      // Remove the active marker if it exists
       if (activeMarker) {
         activeMarker.remove();
       }
 
-      // Create a new marker instance and add it to the map
       const newMarker = new mapboxgl.Marker().setLngLat([lng, lat]).addTo(map);
 
-      // Update the activeMarker state
       setActiveMarker(newMarker);
 
-      // Set latitude and longitude
       setLatitude(lat);
       setLongitude(lng);
     }
