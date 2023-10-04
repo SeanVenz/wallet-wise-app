@@ -27,20 +27,31 @@ const SignUp = () => {
     try {
       const idOrStoreName = role === "vendor" ? storeName : idNumber;
 
-      // Include latitude and longitude when the role is "vendor"
       const roleSpecificData =
         role === "vendor" ? { latitude, longitude } : {};
 
-      await authService.signUp(
-        email,
-        password,
-        fullName,
-        idOrStoreName,
-        phoneNumber,
-        role,
-        roleSpecificData.latitude, // Pass latitude
-        roleSpecificData.longitude // Pass longitude
-      );
+        role === "vendor" ? (
+          await authService.signUpVendor(
+            email,
+            password,
+            fullName,
+            idOrStoreName,
+            phoneNumber,
+            role,
+            roleSpecificData.latitude, 
+            roleSpecificData.longitude 
+          )
+        ) : (
+          await authService.signUp(
+            email,
+            password,
+            fullName,
+            idOrStoreName,
+            phoneNumber,
+            role,
+          )
+        )
+      
 
       setIsSubmitting(false);
       navigate("/verify-email");
@@ -117,10 +128,22 @@ const SignUp = () => {
             </select>
           </label>
         </div>
-        {role === "vendor" && (
+        <div className="signup-submit"></div>
+        {isSubmitting ? (
+          <div className="success-message">
+            <h3>"Signing up..." </h3>
+          </div>
+        ) : (
+          <button type="signup-submit"> 
+            Sign up
+          </button>
+        )}
+        <div className="error-message">{error && <p>{error}</p>}</div>
+      </form>
+      {role === "vendor" && (
           <div>
             {/* Toggle the map visibility */}
-            <button onClick={() => setShowMap(!showMap)}>
+            <button onClickCapture={() => setShowMap(!showMap)}>
               {showMap ? "Close Map" : "Open Map"}
             </button>
             {/* Show the MapboxMap component when showMap is true */}
@@ -133,20 +156,6 @@ const SignUp = () => {
             )}
           </div>
         )}
-
-        {/* ... other form elements ... */}
-        <div className="signup-submit"></div>
-        {isSubmitting ? (
-          <div className="success-message">
-            <h3>"Signing up..." </h3>
-          </div>
-        ) : (
-          <button type="submit" className="signup-submit">
-            Sign up
-          </button>
-        )}
-        <div className="error-message">{error && <p>{error}</p>}</div>
-      </form>
       <div className="potato-box"></div>
     </div>
   );
