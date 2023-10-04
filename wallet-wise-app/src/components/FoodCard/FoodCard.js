@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./FoodCard.css";
 import cart from "../../images/cart.png";
 import map from "../../images/location.png";
 import { db } from "../../utils/firebase";
 import { collection, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import authService from "../../utils/auth";
+import MapboxMarker from "components/Mapbox/MapBoxMarker";
 
 export const FoodCard = (props) => {
-  const { img, name, price, number, storeName, id } = props;
+  const { img, name, price, number, storeName, id, latitude, longitude } = props;
   const [showModal, setShowModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [errorMsg, setErrorMsg] = useState("");
+  const [showMap, setShowMap] = useState(false);
+
+  const handleOpenMap = () => {
+    setShowMap(true);
+  };
+
+  const handleCloseMap = () => {
+    setShowMap(false);
+  };
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -99,7 +109,7 @@ export const FoodCard = (props) => {
 
         <div className="bottom">
           <img src={cart} alt="cart" onClick={handleOpenModal} />
-          <img src={map} alt="map" />
+          <img src={map} alt="map" onClick={handleOpenMap}/>
         </div>
 
       </div>
@@ -124,6 +134,14 @@ export const FoodCard = (props) => {
             </div>
 
           </div>
+        </div>
+      )}
+      {showMap && (
+        <div className="map-container">
+          <button onClick={handleCloseMap} className="close-button">
+            Close Map
+          </button>
+          <MapboxMarker latitude={latitude} longitude={longitude} />
         </div>
       )}
     </div>
