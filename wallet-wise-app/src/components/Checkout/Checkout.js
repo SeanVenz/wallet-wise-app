@@ -146,102 +146,102 @@ function Checkout({
   });
 
   const handleCheckout = async () => {
-    if (hasOrder || hasDelivery || isLoading) {
-      // Do not proceed if hasOrder or hasDelivery is true, or if it's already loading
-      return;
-    }
-
     try {
-      setIsLoading(true); // Set loading state to true
       const user = authService.getCurrentUser();
-      const userId = user.uid;
+      const hasCurrentOrder = await checkHasCurrentOrder(user.uid);
+      const hasCurrentDelivery = await checkHasCurrentDelivery(user.uid);
+      setHasOrder(hasCurrentOrder); // Update the state with the result
+      setHasDelivery(hasCurrentDelivery);
+      if (user && !hasCurrentOrder && !hasCurrentDelivery) {
+        const userId = user.uid;
 
-      const deliveryCollectionRef = collection(db, "orders");
-      const deliveryHistoryCollectionRef = collection(db, "orders-history");
+        const deliveryCollectionRef = collection(db, "orders");
+        const deliveryHistoryCollectionRef = collection(db, "orders-history");
 
-      const itemsToCheckout = cartItems.map((item) => ({
-        itemName: item.name,
-        quantity: item.quantity,
-        totalPrice: item.totalPrice,
-        storeName: item.storeName,
-      }));
+        const itemsToCheckout = cartItems.map((item) => ({
+          itemName: item.name,
+          quantity: item.quantity,
+          totalPrice: item.totalPrice,
+          storeName: item.storeName,
+        }));
 
-      // Create a delivery document with user information, items, and location
-      await addDoc(deliveryCollectionRef, {
-        userId: userId,
-        userName: fullName,
-        idNumber: idNumber,
-        phoneNumber: phoneNumber,
-        items: itemsToCheckout,
-        timestamp: Date.now(),
-        longitude: longitude, // Include longitude
-        latitude: latitude, // Include latitude
-      });
+        // Create a delivery document with user information and items
+        await addDoc(deliveryCollectionRef, {
+          userId: userId,
+          userName: fullName,
+          idNumber: idNumber,
+          phoneNumber: phoneNumber,
+          items: itemsToCheckout,
+          timestamp: Date.now(),
+        });
 
-      await addDoc(deliveryHistoryCollectionRef, {
-        userId: userId,
-        userName: fullName,
-        idNumber: idNumber,
-        phoneNumber: phoneNumber,
-        items: itemsToCheckout,
-        timestamp: Date.now(),
-      });
+        await addDoc(deliveryHistoryCollectionRef, {
+          userId: userId,
+          userName: fullName,
+          idNumber: idNumber,
+          phoneNumber: phoneNumber,
+          items: itemsToCheckout,
+          timestamp: Date.now(),
+        });
 
-      addHasCurrentOrder(userId);
+        addHasCurrentOrder(userId);
 
-      updateFoodQuantity();
+        updateFoodQuantity();
 
-      // Delete cart items
-      deleteCartItems(userId);
+        // Delete cart items
+        deleteCartItems(userId);
 
-      // Close the modal
-      handleCloseModal();
+        // Close the modal
+        handleCloseModal();
+      }
     } catch (error) {
       console.error("Error during checkout:", error);
-    } finally {
-      setIsLoading(false); // Set loading state back to false
     }
   };
 
   return (
     <div className="checkout">
       <img src={bottomLogo} alt="logo" />
-      <div className="total-container">
-        <p>Total : ₱ {total}</p>
-      </div>
       <div className="checkout-button">
+        <div className="total">
+          <p>Total : ₱ {total}</p>
+        </div>
         <button onClick={handleOpenModal} disabled={hasOrder || hasDelivery}>
           {isLoading ? "Loading..." : "Check Out"}
         </button>
       </div>
 
       {showModal && (
-        <div className="modal">
-          <div className="modal-content">
+        <div className="checkout-modal">
+          <div className="checkout-modal-content">
             {!locationPermissionGranted ? (
               <>
-                <p>
+                <p className="confirmation">
                   Do you want to use your current location as the delivery
                   destination?
                 </p>
-                {isGetting ? (
-                  "Getting Current Location"
-                ) : (
-                  <button onClick={handleUseCurrentLocation}>Confirm</button>
-                )}
+                <div className="first-questions">
+                  {isGetting ? (
+                    "Getting Current Location"
+                  ) : (
+                    <button onClick={handleUseCurrentLocation}>Confirm</button>
+                  )}
 
-                <button onClick={handleCloseModal}>No</button>
+                  <button onClick={handleCloseModal}>No</button>
+                </div>
               </>
             ) : (
               <>
                 <h2>Confirm Checkout</h2>
                 {hasOrder || hasDelivery ? (
-                  <p>Finish your current transaction first</p>
+                  <p className="error">Finish your current transaction first</p>
                 ) : null}
-                <button onClick={handleCheckout} disabled={isLoading}>
-                  {isLoading ? "Loading..." : "Confirm"}
-                </button>
-                <button onClick={handleCloseModal}>Cancel</button>
+                <div className="first-questions">
+                  <button onClick={handleCheckout} disabled={isLoading}>
+                    {isLoading ? "Loading..." : "Confirm"}
+                  </button>
+                  <button onClick={handleCloseModal}>Cancel</button>
+                </div>
               </>
             )}
           </div>

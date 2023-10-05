@@ -138,7 +138,7 @@ function Cart() {
   return (
     <div className="cart">
       <div className="cart-header">
-        <img src={cart} alt={cart} />
+        {/* <img src={cart} alt={cart} /> */}
         <h2>Cart</h2>
       </div>
       <ul className="cart-holder">
