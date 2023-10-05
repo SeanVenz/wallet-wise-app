@@ -5,13 +5,26 @@ import { mapBoxToken } from "utils/firebase";
 mapboxgl.accessToken = mapBoxToken;
 
 const MapboxMarker = ({ latitude, longitude }) => {
-    useEffect(() => {
+    useEffect(() => { 
       const map = new mapboxgl.Map({
         container: "map", // HTML element ID where the map will be rendered
-        style: "mapbox://styles/mapbox/streets-v11",
+        style: "mapbox://styles/mapbox/streets-v12",
         center: [longitude, latitude], // Set the initial center based on latitude and longitude
         zoom: 17, // Set an initial zoom level
       });
+
+      map.addControl(
+        new mapboxgl.GeolocateControl({
+          positionOptions: {
+            enableHighAccuracy: true,
+          },
+          // When active, the map will receive updates to the device's location as it changes.
+          trackUserLocation: true,
+          // Draw an arrow next to the location dot to indicate which direction the device is heading.
+          showUserHeading: true,
+          
+        })
+      );
   
       // Create a marker at the specified latitude and longitude
       new mapboxgl.Marker().setLngLat([longitude, latitude]).addTo(map);
