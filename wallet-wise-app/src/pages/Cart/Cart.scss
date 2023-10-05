@@ -1,0 +1,136 @@
+.cart {
+  @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  font-family: Source Code Pro;
+  align-items: center;
+  gap: 1%;
+
+  .cart-holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .sticky-checkout {
+    position: sticky;
+    bottom: 0;
+    background-color: white; /* Add a background color if needed */
+    z-index: 1; /* Make sure it's above other content */
+  }
+  
+
+  .cart-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-size: 30px;
+    background-color: #f3b0b6;
+    padding: 25px;
+    width: 100%;
+
+    img {
+      width: 5%;
+      height: auto;
+    }
+  }
+
+  .cart-card {
+    max-height: 180px;
+    width: 95%;
+    display: flex;
+    flex-direction: row;
+    background-color: #f9f2e2;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    .quantity {
+      background-color: white;
+      padding: 15px 32px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      border-radius: 10px;
+      border: 1px solid black;
+      font-weight: 900;
+    }
+
+    .add {
+      &:hover {
+        background-color: #00ff00;
+      }
+    }
+
+    .minus {
+      &:hover {
+        background-color: #f08080;
+      }
+    }
+
+    .name {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      width: 30%;
+      font-size: 20px;
+    }
+
+    .quantity-control {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      width: 25%;
+      gap: 5%;
+
+      button {
+        padding: 15px 32px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
+    }
+
+    img {
+      max-width: 15%;
+      height: auto;
+      margin: 0;
+      padding: 10px;
+      object-fit: cover;
+    }
+
+    .cart-components {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+    }
+
+    li {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+    }
+
+    .cart-end {
+      width: 25%;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 5%;
+
+      p {
+        font-weight: 900;
+        font-size: 20px;
+      }
+
+      button {
+        padding: 15px 32px;
+        background-color: white;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+      }
+    }
+  }
+}

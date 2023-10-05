@@ -11,6 +11,8 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import authService from "../../utils/auth";
+import { calculatePerPersonTotal } from "utils/utils";
+import './Checkout.scss'
 
 function Checkout({
   cartItems,
@@ -30,6 +32,7 @@ function Checkout({
   const [longitude, setLongitude] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isGetting, setIsGetting] = useState(false);
+  const [total, setTotal] = useState();
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -137,6 +140,10 @@ function Checkout({
     }
   };
 
+  useEffect(() => {
+    setTotal(calculatePerPersonTotal(cartItems).toFixed(2));
+  })
+
   const handleCheckout = async () => {
     if (hasOrder || hasDelivery || isLoading) {
       // Do not proceed if hasOrder or hasDelivery is true, or if it's already loading
@@ -196,8 +203,9 @@ function Checkout({
   };
 
   return (
-    <div>
+    <div className="checkout">
       <h2>Checkout</h2>
+      <p>Total : {total}</p>
       <button onClick={handleOpenModal} disabled={hasOrder || hasDelivery}>
         {isLoading ? "Loading..." : "Checkout"}
       </button>
