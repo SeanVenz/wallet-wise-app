@@ -216,7 +216,7 @@ function Vendor() {
         </Modal.Header>
         <Modal.Body>
           <form className="modal-form">
-            <div className="input-group input-food-type">
+            <div className="input-group">
               <label>
                 Type of Food:
                 <select
