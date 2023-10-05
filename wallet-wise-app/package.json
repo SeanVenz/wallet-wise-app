@@ -9,6 +9,7 @@
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.4.0",
     "bootstrap": "^5.3.1",
+    "bootstrap-icons": "^1.11.1",
     "firebase": "^9.22.2",
     "mapbox-gl": "^2.15.0",
     "postcss-cli": "^10.1.0",
