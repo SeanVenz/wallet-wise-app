@@ -19,6 +19,7 @@ const VendorSidebar = () => {
         position: "sticky",
         zIndex: "1",
         paddingLeft: "20px",
+        fontSize: "3rem",
       }}
     >
       <img
