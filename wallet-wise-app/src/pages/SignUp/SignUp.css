@@ -1,11 +1,21 @@
 .signup-parent{
     overflow: auto;
     display: flex;
+    align-items: center;
     justify-content: space-between;
-    flex-direction: column;
     overflow-x: hidden;
     height: 100%;
     width: 100%;
+    padding: 3%;
+}
+
+.potato-box{  
+    height: 800px;
+    width: 700px;
+    background-image: url('/src/images/candy-potato.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
 }
 
 .signup-email{
@@ -40,90 +50,129 @@
 
 .signup-text{
     width: 650px;
-    height: 70px;
+    height: 50px;
     padding: 10px;
-    margin: 5px 0;
-    margin-left: 150px;
+    margin: 3px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
     box-sizing: border-box;
-    font-size: 30px;
+    font-size: 20px;
     text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    position: relative;
-    top: 250px;
 }
-
-.signup-form{
-    width: 51%;
-    height: 91%;
-    padding: 20px;
+.sign-form{
+    width: 50%;
+    height: 800px;
     border: 1px solid #ccc;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-left: 800px;
     background-color: #F9F2E2;
-    position: absolute;
-    margin-top: 25px;
+}
+
+.inputs{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 label {
-    display: inline-block;
+    display: flex;
+    align-items: center ;
     font-weight: bold;
     margin-bottom: 5px;
     position: relative;
-    top: 255px;
     font-family:source-code-pro;
-    font-size: 22px;
+    font-size: 20px;
 }
 
-.text-box{
-    height: 10px;
-    width: 500px;
+.signup-txtbox{
+    display: flexbox;
+    height:fit-content;
+    width: 100%;
 }
 
+.signup-txtbox1 {
+    text-align: center;
+    font-size: 30px;
+    font-family: junge;
+}
+  
+  .signup-txtbox2 {
+    text-align: center;
+    font-size: 100px;
+    font-family: julius-sans-one;
+    letter-spacing: 15px;
+}
+  
+.signup-txtbox3 {
+    text-align: center;
+    font-size: 80px;
+    font-family: monoton;
+    bottom: 40px;
+}
+
+.signup-submit{
+    width: 100%;
+    height: fit-content;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
 button[type="signup-submit"]{
+    height: 50px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     background-color:#F9F2E2;
     color:black;
     font-family:source-code-pro;
-    font-size: 33px;
+    font-size: 30px;
     border: rgba(233, 78, 115, 0.6);;
     border-style: solid;
-    margin-left:375px;
-    position: relative;
-    top:250px;
+    border-radius: 10px;
 }
 
 button[type="signup-submit"]:hover{
     background-color: rgba(233, 78, 115, 0.6);
     border-color: black;
 }
-
-.potato-box{  
-    height: 800px;
-    width: 700px;
-    position: absolute;
-    margin-top: 50px;
-    padding-right: 70px;
-    background-image: url('/src/images/candy-potato.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    margin-right: 20px;
-}
-
 .error-message{
-    margin-left: 310px;
+    text-align: center;
     font-family: source-code-pro;
     color: red;
-    position: relative;
-    top: 120px;
 }
 
 .success-message{
-    margin-left: 310px;
+    text-align: center;
     font-family: source-code-pro;
     color: black;
-    position: relative;
-    top: 250px;
-    left: 85px
 }
+
+/* fonts */
+@font-face {
+    font-family: monoton;
+    src: url("/src/pages/Login/Fonts/Monoton-regular.woff");
+  }
+  
+  @font-face {
+    font-family: junge;
+    src: url("/src/pages/Login/Fonts/Junge-Regular.woff");
+  }
+  @font-face {
+    font-family: julius-sans-one;
+    src: url("/src/pages/Login/Fonts/JuliusSansOne-Regular.woff");
+  }
+  
+  @font-face {
+    font-family: source-code-pro;
+    src: url("/src/pages/Login/Fonts/SourceCodePro-Bold.woff");
+  }
