@@ -57,36 +57,36 @@ function Landing() {
           />
         </div>
         {/* Images */}
-        <div className="h-auto w-full flex flex-wrap py-10 px-[100px] justify-center items-center gap-3 md:gap-5 lg:gap-10">
-          <div className="w-[70px] h-[70px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
+        <div className="h-auto w-full flex flex-wrap py-10 md:px-[100px] justify-center items-center gap-3 md:gap-5 lg:gap-10">
+          <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Lumpia}
               alt="Lumpia"
               className="w-full h-full rounded-[50%] border-[2px] border-black"
             />
           </div>
-          <div className="w-[70px] h-[70px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
+          <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Adobo}
               alt="Adobo"
               className="w-full h-full rounded-[50%] border-[2px] border-black"
             />
           </div>
-          <div className="w-[70px] h-[70px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
+          <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Ginabot}
               alt="Ginabot"
               className="w-full h-full rounded-[50%] border-[2px] border-black"
             />
           </div>
-          <div className="w-[70px] h-[70px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
+          <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Siomai}
               alt="Siomai"
               className="w-full h-full rounded-[50%] border-[2px] border-black"
             />
           </div>
-          <div className="w-[70px] h-[70px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
+          <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Chicken}
               alt="Chicken"
