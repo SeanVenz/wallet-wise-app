@@ -15,6 +15,8 @@
   height: fit-content;
   font-size: 30px;
   font-family: junge;
+  margin-top: 35px;
+
 }
 
 .text-box2 {
@@ -30,6 +32,7 @@
 }
 
 .login-form {
+
   display: flex;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -38,6 +41,7 @@
   align-items: center;
   align-content: center;
   justify-content: center;
+
 }
 
 @font-face {
@@ -69,6 +73,8 @@
   font-size: 30px;
   text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
   margin-left: 10px;
+
+
 }
 
 .login-password {
@@ -107,6 +113,7 @@ button[type="login-submit"]:hover {
 }
 
 
+
 .login-error-message {
   margin-left: 230px;
   font-family: source-code-pro;
@@ -116,11 +123,13 @@ button[type="login-submit"]:hover {
   bottom: 30px;
 }
 
+
 a {
   color: black;
   text-decoration: solid;
   font-family: source-code-pro;
   font-size: 22px;
+
   margin-left: 495px;
   position: relative;
   bottom: 15px;
@@ -133,3 +142,18 @@ a {
   margin-top: 10px;
   margin-bottom: 20px;
 }
+
+  margin-left: 373px;
+  position: relative;
+  bottom: 20px;
+}
+
+.login-error-message {
+  margin-left: 280px;
+  font-family: source-code-pro;
+  color: red;
+  font-size: 18px;
+  position: relative;
+  bottom: 30px;
+}
+
