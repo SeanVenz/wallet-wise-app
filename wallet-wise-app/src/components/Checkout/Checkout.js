@@ -12,7 +12,8 @@ import {
 } from "firebase/firestore";
 import authService from "../../utils/auth";
 import { calculatePerPersonTotal } from "utils/utils";
-import './Checkout.scss'
+import "./Checkout.scss";
+import bottomLogo from "../../images/bottom-logo.png";
 
 function Checkout({
   cartItems,
@@ -142,7 +143,7 @@ function Checkout({
 
   useEffect(() => {
     setTotal(calculatePerPersonTotal(cartItems).toFixed(2));
-  })
+  });
 
   const handleCheckout = async () => {
     if (hasOrder || hasDelivery || isLoading) {
@@ -204,11 +205,16 @@ function Checkout({
 
   return (
     <div className="checkout">
-      <h2>Checkout</h2>
-      <p>Total : {total}</p>
-      <button onClick={handleOpenModal} disabled={hasOrder || hasDelivery}>
-        {isLoading ? "Loading..." : "Checkout"}
-      </button>
+      <img src={bottomLogo} alt="logo" />
+      <div className="total-container">
+        <p>Total : ₱ {total}</p>
+      </div>
+      <div className="checkout-button">
+        <button onClick={handleOpenModal} disabled={hasOrder || hasDelivery}>
+          {isLoading ? "Loading..." : "Check Out"}
+        </button>
+      </div>
+
       {showModal && (
         <div className="modal">
           <div className="modal-content">

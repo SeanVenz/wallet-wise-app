@@ -5,7 +5,8 @@
   width: 100%;
   font-family: Source Code Pro;
   align-items: center;
-  gap: 1%;
+  gap: 20px;
+  min-height: 100vh;
 
   .cart-holder {
     display: flex;
@@ -15,10 +16,10 @@
   }
 
   .sticky-checkout {
-    position: sticky;
-    bottom: 0;
-    background-color: white; /* Add a background color if needed */
-    z-index: 1; /* Make sure it's above other content */
+    width: 100%;
+    
+    background-color: #F3B0B6;
+    margin-top: auto;
   }
   
 

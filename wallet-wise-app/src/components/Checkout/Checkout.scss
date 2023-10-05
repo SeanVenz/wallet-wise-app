@@ -1,5 +1,19 @@
-// .checkout{
-//     top: 150px;
-//     bottom: 0;
-//     position: sticky;
-// }
+.checkout {
+    @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
+    display: flex;
+
+
+    img{
+        width: 15%;
+    }
+    button{
+        background-color: #DADEFF;
+        font-family: Source Code Pro;
+        font-size: 30px;
+        font-weight: 800;
+        padding: 15px 32px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+    }
+  }
+  
