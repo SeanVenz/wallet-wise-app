@@ -18,7 +18,6 @@ const LogIn = () => {
   const handleLogIn = async (e) => {
     e.preventDefault();
     setIsSubmittingLogin(true); // Start loading effect
-
     try {
       await authService.logIn(email, password);
       const user = authService.getCurrentUser();

@@ -12,20 +12,18 @@ const StudentMarket = () => {
   const [selectedFoodType, setSelectedFoodType] = useState("");
   const [storeName, setStoreName] = useState("");
   const [currentUser, setCurrentUser] = useState(null);
+  const [storeNames, setStoreNames] = useState([]);
 
   useEffect(() => {
-    // Listen for authentication state changes using Firebase's onAuthStateChanged
+    console.log(foods);
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
-        // If a user is logged in, set the currentUser state 
         setCurrentUser(user);
       } else {
-        // If no user is logged in, set currentUser to null
         setCurrentUser(null);
       }
     });
-  
-    // Cleanup the subscription when the component unmounts
+
     return () => unsubscribe();
   }, []);
 
@@ -33,13 +31,16 @@ const StudentMarket = () => {
     console.log(selectedFoodType);
   }, [selectedFoodType]);
 
-  // Fetch all foods from the API
   useEffect(() => {
     const fetchFoods = async () => {
       try {
         const foodsData = await getAllFoods();
         setFoods(foodsData);
-        console.log(foodsData);
+
+        const uniqueStoreNames = [
+          ...new Set(foodsData.map((food) => food.StoreName)),
+        ];
+        setStoreNames(uniqueStoreNames);
       } catch (error) {
         console.error("Error fetching all foods:", error);
       }
@@ -69,26 +70,30 @@ const StudentMarket = () => {
         </div>
         <div className="shop-filter">
           SHOP:
-          <input
-            type="text"
+          <select
             className="custom-input-shop"
             defaultValue={"All"}
             onChange={(e) => setStoreName(e.target.value)}
-          />
+          >
+            <option value="All">All</option>
+            {storeNames.map((storeName, index) => (
+              <option key={index} value={storeName}>
+                {storeName}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
       <div className="foods">
         {foods &&
           foods
-            .filter(
-              (food) =>
-                food.FoodType === selectedFoodType || selectedFoodType === ""
-            )
             .filter((food) => food.Price <= maxPrice)
             .filter((food) => food.isAvailable === true)
             .filter((food) => food.Quantity > 0)
-            .filter((food) => 
-              storeName === "All" || food.StoreName.toLowerCase().includes(storeName.toLowerCase())
+            .filter(
+              (food) =>
+                storeName === "All" ||
+                food.StoreName.toLowerCase().includes(storeName.toLowerCase())
             )
             .map((food, index) => (
               <FoodCard
@@ -96,9 +101,11 @@ const StudentMarket = () => {
                 name={food.Name}
                 img={food.ImageUrl}
                 price={food.Price}
-                number = {food.Quantity}
-                storeName = {food.StoreName}
-                id = {food.id}
+                number={food.Quantity}
+                storeName={food.StoreName}
+                id={food.id}
+                longitude = {food.Longitude}
+                latitude = {food.Latitude}
               />
             ))}
       </div>

@@ -1,16 +1,26 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./FoodCard.css";
 import cart from "../../images/cart.png";
 import map from "../../images/location.png";
 import { db } from "../../utils/firebase";
-import { doc, setDoc } from "firebase/firestore";
+import { collection, doc, getDoc, getDocs, setDoc, updateDoc } from "firebase/firestore";
 import authService from "../../utils/auth";
+import MapboxMarker from "components/Mapbox/MapBoxMarker";
 
 export const FoodCard = (props) => {
-  const { img, name, price, number, storeName, id } = props;
+  const { img, name, price, number, storeName, id, latitude, longitude } = props;
   const [showModal, setShowModal] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [errorMsg, setErrorMsg] = useState("");
+  const [showMap, setShowMap] = useState(false);
+
+  const handleOpenMap = () => {
+    setShowMap(true);
+  };
+
+  const handleCloseMap = () => {
+    setShowMap(false);
+  };
 
   const handleOpenModal = () => {
     setShowModal(true);
@@ -28,35 +38,55 @@ export const FoodCard = (props) => {
       }
       const user = authService.getCurrentUser();
       if (user) {
-        const userId = user.uid; // Get the user's UID
-        const itemId = `${userId}-${name}-${Date.now()}`;
-
-        // Reference to the user-specific cart collection
+        const userId = user.uid;
+        const itemId = `${userId}-${name}-${id}`;
+  
         const cartDocRef = doc(db, "carts", userId, "items", itemId);
-
-        await setDoc(cartDocRef, {
-          foodId: id,
-          name: name,
-          unitPrice: price,
-          quantity: quantity,
-          totalPrice: price * quantity,
-          storeName: storeName,
-          number: number
+  
+        const cartCollection = collection(db, "carts", userId, "items");
+        const querySnapshot = await getDocs(cartCollection);
+  
+        let foundExistingItem = false;
+  
+        querySnapshot.forEach(async (doc) => {
+          if (doc.data().foodId === id) {
+            foundExistingItem = true;
+  
+            const existingQuantity = doc.data().quantity;
+            const existingPrice = doc.data().unitPrice
+            const existingTotalPrice = doc.data().totalPrice;
+            await updateDoc(cartDocRef, {
+              quantity: existingQuantity + quantity,
+              totalPrice : existingTotalPrice + (existingPrice * quantity),
+            });
+          }
         });
-
+  
+        if (!foundExistingItem) {
+          await setDoc(cartDocRef, {
+            foodId: id,
+            name: name,
+            unitPrice: price,
+            quantity: quantity,
+            totalPrice: price * quantity,
+            storeName: storeName,
+            number: number,
+            img: img
+          });
+        }
+  
         console.log("Item added to cart with ID:", itemId);
-
-        // Reset form fields and options
+  
         setQuantity(1);
         setShowModal(false);
       } else {
-        // Handle the case where the user is not authenticated
         console.error("User is not authenticated.");
       }
     } catch (error) {
       console.error("Error adding item to cart:", error);
     }
   };
+  
 
   return (
     <div>
@@ -79,7 +109,7 @@ export const FoodCard = (props) => {
 
         <div className="bottom">
           <img src={cart} alt="cart" onClick={handleOpenModal} />
-          <img src={map} alt="map" />
+          <img src={map} alt="map" onClick={handleOpenMap}/>
         </div>
 
       </div>
@@ -91,6 +121,7 @@ export const FoodCard = (props) => {
             <label>Quantity:</label>
             <input
               type="number"
+              min={1}
               value={quantity}
               onChange={(e) => setQuantity(parseInt(e.target.value))}
             />
@@ -103,6 +134,14 @@ export const FoodCard = (props) => {
             </div>
 
           </div>
+        </div>
+      )}
+      {showMap && (
+        <div className="map-container">
+          <button onClick={handleCloseMap} className="close-button">
+            Close Map
+          </button>
+          <MapboxMarker latitude={latitude} longitude={longitude} />
         </div>
       )}
     </div>

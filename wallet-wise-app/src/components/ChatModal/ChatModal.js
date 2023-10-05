@@ -18,6 +18,7 @@ import close from "../../images/close.png";
 import sendMessagePic from "../../images/send-message.png";
 import { compose } from "redux";
 import Spinner from "../Spinner/Spiner";
+import MapboxMarker from "components/Mapbox/MapBoxMarker";
 
 function ChatModal({ isOpen, onClose }) {
   const [message, setMessage] = useState("");
@@ -36,6 +37,14 @@ function ChatModal({ isOpen, onClose }) {
   const [orderReceived, setOrderReceived] = useState();
   const [deliveryReceived, setDeliveryReceived] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const [longitude, setLongitude] = useState();
+  const [latitude, setLatitude] = useState();
+  const [showOrdererLocation, setShowOrdererLocation] = useState(false);
+  const [showMapModal, setShowMapModal] = useState(false);
+
+  const toggleMapModal = () => {
+    setShowMapModal(!showMapModal);
+  };
 
   const addDeliveryHIstory = async (uid, orderId) => {
     const userCollectionRef = collection(db, "users", uid, "deliveries");
@@ -287,6 +296,34 @@ function ChatModal({ isOpen, onClose }) {
     onClose();
   };
 
+  const handleOpenOrdererLocation = async () => {
+    try {
+      const info = getChatroomRef();
+      const docSnapshot = await getDoc(info);
+      const docData = docSnapshot.data();
+      const orderId = docData.orderId;
+
+      // Get the order information using the orderId
+      const orderRef = doc(db, "orders", orderId);
+      const orderSnapshot = await getDoc(orderRef);
+
+      if (orderSnapshot.exists()) {
+        const orderData = orderSnapshot.data();
+        const longitude = orderData.longitude;
+        const latitude = orderData.latitude;
+        setLongitude(longitude);
+        setLatitude(latitude);
+
+        // Show the orderer location modal
+        setShowMapModal(true);
+      } else {
+        console.log("Order not found");
+      }
+    } catch (error) {
+      console.error("Error getting order information:", error);
+    }
+  };
+
   return (
     <div className={`chat-modal ${isOpen ? "open" : "closed"}`}>
       <div className="chat-modal-content">
@@ -374,6 +411,26 @@ function ChatModal({ isOpen, onClose }) {
                   >
                     ID Number: {recipientIdNumber}
                   </h3>
+                  <div className="order-accepted-parent">
+                    <button
+                      className="order-accepted"
+                      onClick={handleOpenOrdererLocation}
+                    >
+                      Open Orderer Location
+                    </button>
+                  </div>
+
+                  {showMapModal && (
+                    <div className="map-modal">
+                      <MapboxMarker latitude={latitude} longitude={longitude} />
+                      <button
+                        className="close-map-modal"
+                        onClick={() => setShowMapModal(false)}
+                      >
+                        Close Map
+                      </button>
+                    </div>
+                  )}
                 </>
               )}
               {auth.currentUser.uid === recipient ? (

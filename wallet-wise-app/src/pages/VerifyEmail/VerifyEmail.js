@@ -32,8 +32,8 @@ const VerifyEmail = () => {
         setEmailSent(true); // Set emailSent to true
       }
     } catch (error) {
-      console.error(error);
-      setError(error.message);
+      const slicedMessage = error.message.slice(9);
+      setError(slicedMessage);
       setIsSubmitting(false); // Ensure that isSubmitting is set to false in case of an error
     }
   };
@@ -58,12 +58,9 @@ const VerifyEmail = () => {
               <h3>Sending Verification Email...</h3>
             </div>
           ) : emailSent ? (
-            // Display "Verification email sent" message
             <div className="success-message-verify">
-              {/* <p>Verification email sent</p> */}
             </div>
           ) : (
-            // Display the button to resend the email
             <button className="verify-message" onClick={resendEmail}>
               Resend Verification Email
             </button>

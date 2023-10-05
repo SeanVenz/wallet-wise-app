@@ -40,7 +40,9 @@ export const addFood = async ({
   image,
   foodType,
   quantity,
-  userId, // Add a userId parameter
+  userId,
+  longitude,
+  latitude
 }) => {
   try {
     const storageRef = ref(storage, `foodImages/${image.name}`);
@@ -60,6 +62,8 @@ export const addFood = async ({
       ImageUrl: imageUrl,
       FoodType: foodType,
       Quantity: quantity,
+      Longitude: longitude,
+      Latitude: latitude
     });
 
     console.log("Food item added with ID:", foodId);
@@ -79,7 +83,7 @@ export const getAllFoods = async () => {
   }));
 };
  
-export const addAllFood = async ({ foodName, price, isAvailable, image, foodType, quantity, storeName }) => {
+export const addAllFood = async ({ foodName, price, isAvailable, image, foodType, quantity, storeName, latitude, longitude }) => {
 
   const storageRef = ref(storage, `images/${image.name}`);
   await uploadBytes(storageRef, image);
@@ -95,5 +99,7 @@ export const addAllFood = async ({ foodName, price, isAvailable, image, foodType
     FoodType: foodType,
     Quantity: quantity,
     StoreName: storeName,
+    Latitude: latitude,
+    Longitude: longitude
   });
 };
