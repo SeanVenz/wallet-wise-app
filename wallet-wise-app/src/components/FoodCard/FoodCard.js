@@ -13,6 +13,15 @@ export const FoodCard = (props) => {
   const [quantity, setQuantity] = useState(1);
   const [errorMsg, setErrorMsg] = useState("");
   const [showMap, setShowMap] = useState(false);
+  const [showMapModal, setShowMapModal] = useState(false);
+
+  const handleOpenMapModal = () => {
+    setShowMapModal(true);
+  };
+
+  const handleCloseMapModal = () => {
+    setShowMapModal(false);
+  };
 
   const handleOpenMap = () => {
     setShowMap(true);
@@ -91,7 +100,7 @@ export const FoodCard = (props) => {
   return (
     <div>
       <div className="card">
-        
+   
         <div className="top foodname">
           <img src={img} alt="Food" className="image" />
           
@@ -109,16 +118,17 @@ export const FoodCard = (props) => {
 
         <div className="bottom">
           <img src={cart} alt="cart" onClick={handleOpenModal} />
-          <img src={map} alt="map" onClick={handleOpenMap}/>
+          <img src={map} alt="map" onClick={handleOpenMapModal}/>
         </div>
 
       </div>
       {showModal && (
         <div className="modal">
           <div className="modal-content addToCart-Modal">
-            <h2>ADD TO CART</h2>
-            <h2>{name}</h2>
-            <label>Quantity:</label>
+            <h2 className="add-to-cart-label">ADD TO CART</h2>
+            <h2 className="item-name-label">Item Name:</h2>
+            <h2 className="item-name">{name}</h2>
+            <h2 className="quantity-label">Quantity:</h2>
             <input
               type="number"
               min={1}
@@ -129,20 +139,25 @@ export const FoodCard = (props) => {
             
             <hr></hr>
             <div>
-              <button className="btn" onClick={handleAddToCart}>ADD TO CART</button>
-              <button className="btn" onClick={handleCloseModal}>CANCEL</button>
+              <button className="add-btn" onClick={handleAddToCart}>ADD TO CART</button>
+              <button className="cancel-btn" onClick={handleCloseModal}>CANCEL</button>
             </div>
 
           </div>
         </div>
       )}
-      {showMap && (
-        <div className="map-container">
-          <button onClick={handleCloseMap} className="close-button">
-            Close Map
-          </button>
-          <MapboxMarker latitude={latitude} longitude={longitude} />
-        </div>
+      {showMapModal && (
+        <div className = "modal">
+          <div className = "mapModal">
+           <h2>MAP</h2>
+           <div className="map-container">
+            <MapboxMarker latitude={latitude} longitude={longitude} />
+            </div>
+            <button onClick={handleCloseMapModal} className="close-button">
+              Close Map
+              </button>
+            </div>
+          </div>
       )}
     </div>
   );
