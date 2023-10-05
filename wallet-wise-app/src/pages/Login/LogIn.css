@@ -102,15 +102,6 @@ button[type="login-submit"]:hover {
   color: red;
 }
 
-a {
-  color: black;
-  text-decoration: solid;
-  font-family: source-code-pro;
-  font-size: 22px;
-  margin-left: 373px;
-  position: relative;
-  bottom: 20px;
-}
 
 .login-error-message {
   margin-left: 280px;
@@ -119,4 +110,22 @@ a {
   font-size: 18px;
   position: relative;
   bottom: 30px;
+}
+
+a {
+  color: black;
+  text-decoration: solid;
+  font-family: source-code-pro;
+  font-size: 22px;
+  margin-left: 490px;
+  position: relative;
+  bottom: 15px;
+}
+
+.success-message-login{
+  font-family: source-code-pro;
+  color: black;
+  font-size: 18px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
