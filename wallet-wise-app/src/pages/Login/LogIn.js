@@ -95,9 +95,6 @@ const LogIn = () => {
 
           {isSubmittingLogin ? <><div className="success-message-login"><h3>"Logging in..." </h3></div></>:
           <button
-
-            <button
-
               type="login-submit"
               className="bg-[#f9f2e2] text-black shadow-md rounded-lg border-[10px] border-black flex items-center w-auto px-10 text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 mt-6 h-[50px] text-[source-code-pro] font-semibold"
             >
