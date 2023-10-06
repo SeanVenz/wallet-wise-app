@@ -12,14 +12,16 @@ const LogIn = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmittingLogin, setIsSubmittingLogin] = useState(false);
+
 
   const handleLogIn = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setIsSubmittingLogin(true); // Start loading effect
     try {
       await authService.logIn(email, password);
       const user = authService.getCurrentUser();
+      setIsSubmittingLogin(false);
 
       if (!user.emailVerified) {
         setError("Please verify your email first.");
@@ -30,9 +32,9 @@ const LogIn = () => {
 
         role === "vendor" ? navigate("/vendor") : navigate("/student");
       }
-      setIsSubmitting(false);
+
     } catch (err) {
-      setIsSubmitting(false);
+      setIsSubmittingLogin(false); // Stop loading effect on error
       setError(err.message);
     }
   };
@@ -90,12 +92,19 @@ const LogIn = () => {
           </div>
 
           <div className="w-full flex flex-col justify-center items-center">
+
+          {isSubmittingLogin ? <><div className="success-message-login"><h3>"Logging in..." </h3></div></>:
+          <button
+
             <button
+
               type="login-submit"
               className="bg-[#f9f2e2] text-black shadow-md rounded-lg border-[10px] border-black flex items-center w-auto px-10 text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 mt-6 h-[50px] text-[source-code-pro] font-semibold"
             >
               LOGIN
-            </button>
+
+            </button>}
+
             <div className="flex w-full items-center justify-start -ml-[180px]">
               <Link to="/forgot-password" className="login-forgot-password">
                 Forgot password?

@@ -32,8 +32,8 @@ const VerifyEmail = () => {
         setEmailSent(true); // Set emailSent to true
       }
     } catch (error) {
-      console.error(error);
-      setError(error.message);
+      const slicedMessage = error.message.slice(9);
+      setError(slicedMessage);
       setIsSubmitting(false); // Ensure that isSubmitting is set to false in case of an error
     }
   };
