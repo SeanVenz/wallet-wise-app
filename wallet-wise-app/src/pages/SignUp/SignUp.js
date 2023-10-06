@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../utils/auth";
-import "./SignUp.css";
+import "./SignUp.scss";
 import MapboxMap from "components/Mapbox/Mapbox";
 
 const SignUp = () => {
@@ -13,7 +13,7 @@ const SignUp = () => {
   const [idNumber, setIdNumber] = useState("");
   const [storeName, setStoreName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showMap, setShowMap] = useState(false); 
+  const [showMap, setShowMap] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -27,31 +27,27 @@ const SignUp = () => {
     try {
       const idOrStoreName = role === "vendor" ? storeName : idNumber;
 
-      const roleSpecificData =
-        role === "vendor" ? { latitude, longitude } : {};
+      const roleSpecificData = role === "vendor" ? { latitude, longitude } : {};
 
-        role === "vendor" ? (
-          await authService.signUpVendor(
+      role === "vendor"
+        ? await authService.signUpVendor(
             email,
             password,
             fullName,
             idOrStoreName,
             phoneNumber,
             role,
-            roleSpecificData.latitude, 
-            roleSpecificData.longitude 
+            roleSpecificData.latitude,
+            roleSpecificData.longitude
           )
-        ) : (
-          await authService.signUp(
+        : await authService.signUp(
             email,
             password,
             fullName,
             idOrStoreName,
             phoneNumber,
-            role,
-          )
-        )
-      
+            role
+          );
 
       setIsSubmitting(false);
       navigate("/verify-email");
@@ -69,10 +65,10 @@ const SignUp = () => {
   return (
     <div className="signup-parent">
       <form onSubmit={handleSignUp} className="signup-form">
-        <div className="text-box">
-          <div className="text-box1">Welcome to</div>
-          <div className="text-box2">WALLET</div>
-          <div className="text-box3">WISE</div>
+        <div className="signup-txtbox">
+          <div className="signup-txtbox1">Welcome to</div>
+          <div className="signup-txtbox2">WALLET</div>
+          <div className="signup-txtbox3">WISE</div>
         </div>
         <input
           className="signup-text"
@@ -134,16 +130,23 @@ const SignUp = () => {
             <h3>"Signing up..." </h3>
           </div>
         ) : (
-          <button type="signup-submit"> 
+          <button
+            style={{ top: "0px", padding: "15px 32px", zIndex: "4" }}
+            type="signup-submit"
+          >
             Sign up
           </button>
         )}
         <div className="error-message">{error && <p>{error}</p>}</div>
       </form>
-      {role === "vendor" && (
+      <div className="signup-map">
+        {role === "vendor" && (
           <div>
             {/* Toggle the map visibility */}
-            <button onClickCapture={() => setShowMap(!showMap)}>
+            <button
+              className="open-map"
+              onClickCapture={() => setShowMap(!showMap)}
+            >
               {showMap ? "Close Map" : "Open Map"}
             </button>
             {/* Show the MapboxMap component when showMap is true */}
@@ -151,11 +154,14 @@ const SignUp = () => {
               <MapboxMap
                 setLatitude={setLatitude}
                 setLongitude={setLongitude}
-                onClose={(e) => {handleMapClose(e)}}
+                onClose={(e) => {
+                  handleMapClose(e);
+                }}
               />
             )}
           </div>
         )}
+      </div>
       <div className="potato-box"></div>
     </div>
   );
