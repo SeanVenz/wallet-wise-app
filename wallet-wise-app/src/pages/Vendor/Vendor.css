@@ -45,7 +45,7 @@ table {
   text-decoration: none;
   text-align: center;
   color: #000;
-  font-family: Source Code Pro;
+  font-family: 'Source Code Pro';
   font-size: 20px;
   font-style: normal;
   font-weight: 800;
@@ -78,6 +78,22 @@ table {
   transition-duration: 0.4s;
   border-radius: 10px !important;
 } 
+
+.modal-button {
+  margin-left: 20px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding: 10px 30px;
+  box-sizing: border-box;
+  appearance: none;
+  background-color: transparent;
+  font-family: 'Source Code Pro';
+  border: 2px solid pink;
+  border-radius: 0.6em;
+  color: black;
+  border-radius: 5px;
+  cursor: pointer;
+}
 
 .modal-button:hover {
   background-color: white !important;
@@ -115,7 +131,6 @@ table {
 .modal-form .input-group input[type="file"],
 .modal-form .input-group select {
   width: 100%;
-  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
@@ -148,4 +163,22 @@ table {
 
 .foodAvailableInDB {
   background-color: white;
+}
+
+a {
+  margin-left: 0px;
+}
+
+label {
+  top:0px;
+  font-size: 20px;
+}
+
+.modal-content input {
+  top:0px;
+  height: 0px;
+}
+
+.modal-content {
+  width: 700px;
 }
