@@ -17,7 +17,7 @@ const MapboxMap = ({ setLatitude, setLongitude, onClose }) => {
         container: "map",
         style: "mapbox://styles/mapbox/streets-v11",
         center: [123.88037053743659, 10.29551334740033],
-        zoom: 17, // Default zoom
+        zoom: 16, // Default zoom
       });
 
       mapInstance.on("load", () => {

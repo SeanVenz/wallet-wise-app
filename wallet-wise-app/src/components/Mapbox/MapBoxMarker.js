@@ -11,7 +11,7 @@ const MapboxMarker = ({ latitude, longitude }) => {
       container: "map", // HTML element ID where the map will be rendered
       style: "mapbox://styles/mapbox/streets-v12",
       center: [longitude, latitude], // Set the initial center based on latitude and longitude
-      zoom: 17, // Set an initial zoom level
+      zoom: 16, // Set an initial zoom level
     });
 
     map.addControl(
