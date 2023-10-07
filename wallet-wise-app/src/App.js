@@ -17,7 +17,7 @@ import Vendor from "./pages/Vendor/Vendor";
 import Student from "./pages/Student/Student";
 import StudentSidebar from "./pages/Student/StudentSidebar";
 import StudentMarket from "./pages/Market/Market";
-import StudentProfile from "./pages/Student/Profile";
+import StudentProfile from "./pages/Profile/Profile";
 import StudentDelivery from "./pages/Delivery/StudentDelivery";
 import Dashboard from "./pages/Dashboard";
 import VendorSidebar from "./pages/Vendor/VendorSidebar";

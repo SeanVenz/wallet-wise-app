@@ -11,6 +11,7 @@ import {
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import profile from "../../images/profile.png";
+import "./Profile.scss";
 
 const StudentProfile = () => {
   const navigate = useNavigate();
@@ -103,6 +104,12 @@ const StudentProfile = () => {
     }
   };
 
+  const handleButtonClick = () => {
+    // Trigger file input click when the button is clicked
+    const fileInput = document.getElementById("profileImageInput");
+    fileInput.click();
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       // Fetch full name from the user profile
@@ -142,43 +149,67 @@ const StudentProfile = () => {
   };
 
   return (
-    <div>
-      <h1>Profile</h1>
-      <img src={newProfileImage} alt="Profile" />
-      <h3>Change Profile Picture</h3>
-      <form>
-        <input type="file" accept="image/*" onChange={handleImageChange} />
-      </form>
-      <p>Full Name: {fullName}</p>
-      <p>ID Number: {idNumber}</p>
-      <p>Phone Number: {phoneNumber}</p>
-      <button onClick={handleLogOut}>Log Out</button>
-
+    <div className="profile">
+      <div className="logout-button">
+        <button onClick={handleLogOut}>Log Out</button>
+      </div>
+      <div className="details">
+        <form>
+          <div className="pp-img">
+            <img src={newProfileImage} alt="Profile" />
+          </div>
+          <input
+            id="profileImageInput"
+            type="file"
+            accept="image/*"
+            style={{ display: "none" }}
+            onChange={handleImageChange}
+          />
+          <button type="button" onClick={handleButtonClick}>
+            Choose Profile Picture
+          </button>
+        </form>
+        <div className="info">
+          <p> {fullName}</p>
+          <p> {idNumber}</p>
+          <p> {phoneNumber}</p>
+        </div>
+      </div>
+      <div className="orders-container">
       {deliveries.length > 0 && (
         <>
-          <h3>Accepted Orders:</h3>
-          {deliveries.map((food, index) => (
-            <ul>
-              <li class="order" key={index}>
-                Order # {food.OrderId}
-              </li>
-            </ul>
-          ))}
+          <div className="accepted-orders">
+            <h3>Accepted Orders:</h3>
+            {deliveries.map((food, index) => (
+              <ul>
+                <div className="list">
+                  <li class="order" key={index}>
+                    <button>Order#{food.OrderId}</button>
+                  </li>
+                </div>
+              </ul>
+            ))}
+          </div>
         </>
       )}
 
       {orders.length > 0 && (
         <>
-          <h3>My Orders:</h3>
-          {orders.map((food, index) => (
-            <ul>
-              <li class="order" key={index}>
-                Order # {food.OrderId}
-              </li>
-            </ul>
-          ))}
+          <div className="my-orders">
+            <h3>My Orders:</h3>
+            {orders.map((food, index) => (
+              <ul>
+                <div className="list">
+                <li class="order" key={index}>
+                  <button>Order#{food.OrderId}</button>
+                </li>
+                </div>
+              </ul>
+            ))}
+          </div>
         </>
       )}
+      </div>
     </div>
   );
 };
