@@ -112,9 +112,19 @@ function App() {
             )
           }
         />
+        <Route path="/404" element={<PageNotFound />} />
+          	<Route path="*" element={<Navigate to="/404" />} />
       </Routes>
       <Outlet />
     </Router>
+  );
+}
+
+function PageNotFound() {
+  return (
+    <div>
+        <p>404 Page not found</p>
+    </div>
   );
 }
 
