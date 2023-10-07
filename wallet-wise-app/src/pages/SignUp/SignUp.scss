@@ -1,206 +1,204 @@
 @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
 
 .signup-parent {
-  overflow: auto;
   display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  overflow-x: hidden;
-  height: 100%;
-  width: 100%;
+  height: 90%;
+  padding-top: 3%;
 
-  .signup-text {
-    top: 0;
-  }
+  .potato-box {
+    display: flex;
+    width: 45%;
 
-  button {
-    top: 0;
-    border-radius: 10px;
-    font-family: Source Code Pro;
-    font-weight: 800;
-  }
-
-  .signup-submit {
-    top: 0;
-  }
-
-  label {
-    top: 0;
-  }
-
-  input {
-    z-index: 2;
-  }
-}
-
-.signup-map {
-  z-index: 1;
-  button {
-    background-color: transparent;
-    padding: 15px 32px;
-    border: 1px solid rgba(233, 78, 115, 0.6);
-    margin-top: 810px;
-    margin-left: 860px;
-    z-index: 999999999999;
-    &:hover {
-      background-color: rgba(233, 78, 115, 0.6);
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
     }
   }
 
-  .open-map {
-    margin-bottom: 100px;
-  }
+  .bg-holder {
+    display: flex;
+    width: 50%;
+    background-color: #f9f2e2;
+    flex-direction: column;
+    height: 100%;
 
-  .map-close-button {
-    button {
-      margin-top: 0;
-      margin-left: 0;
+    .signup-txtbox {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      padding-top: 5%;
+    }
+
+    .signup-txtbox1 {
+      font-family: Junge;
+      width: 43%;
+      display: flex;
+      justify-content: end;
+      font-size: 40px;
+    }
+
+    .signup-txtbox2 {
+      font-family: Julius Sans One;
+      width: 100%;
+      display: flex;
+      font-size: 110px;
+      justify-content: center;
+      margin-top: -5%;
+      letter-spacing: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    }
+
+    .signup-txtbox3 {
+      font-family: Monoton;
+      font-size: 100px;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      margin-top: -8%;
+    }
+
+    .signup-form {
+      display: flex;
+      width: 100%;
+      justify-content: center;
+      flex-direction: column;
+      align-items: center;
+      form {
+        width: 60%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        input {
+          box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+          width: 100%;
+          align-self: center;
+          height: 60px;
+          font-family: Source Code Pro;
+          font-size: 20px;
+          margin-bottom: 2%;
+          &::placeholder {
+            text-align: center;
+            font-family: Source Code Pro;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            letter-spacing: 2px;
+          }
+        }
+
+        label {
+          font-family: Source Code Pro;
+          font-weight: 800;
+          font-size: 1.2em;
+        }
+
+        select {
+          box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+          width: 25%;
+          align-self: center;
+          height: 30px;
+          font-family: Source Code Pro;
+          font-size: 20px;
+          margin-bottom: 2%;
+        }
+
+        .signup-button{
+          display: flex;
+          justify-content: center;
+        }
+
+        button {
+          background-color: transparent;
+          color: black;
+          width: 50%;
+          border: 1px solid black;
+          box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+          border: 1px solid #ff93ad;
+          font-family: Source Code Pro;
+          font-weight: 800;
+          font-size: 25px;
+          padding: 15px 32px;
+          border-radius: 10px;
+          margin-bottom: 5%;
+          &:hover {
+            background-color: #ff93ad;
+            border: 1px solid #f9f2e2;
+          }
+        }
+      }
+    }
+
+    .success-message {
+      text-align: center;
+      font-family: Source Code Pro;
+      font-size: 30px;
+      font-weight: 700;
+      padding: 22px 32px;
+    }
+
+    .error-message {
+      color: red;
+      font-family: Source Code Pro;
+      margin-bottom: 2%;
+      font-weight: 800;
+      font-size: 20px;
+      text-align: center;
+    }
+
+    .signup-map {
+      width: 100%;
+      padding: 20px;
+      button {
+        background-color: transparent;
+        color: black;
+        border: 1px solid black;
+        box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+        border: 1px solid #ff93ad;
+        font-family: Source Code Pro;
+        font-weight: 800;
+        font-size: 25px;
+        padding: 15px 32px;
+        border-radius: 10px;
+        &:hover {
+          background-color: #ff93ad;
+          border: 1px solid #f9f2e2;
+        }
+      }
     }
   }
-}
+  .signup-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(
+      0,
+      0,
+      0,
+      0.5
+    ); /* Semi-transparent background overlay */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure the modal is on top of other elements */
+  }
 
-.signup-email {
-  width: 650px;
-  height: 70px;
-  padding: 10px;
-  margin: 5px 0;
-  margin-left: 150px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 30px;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  position: relative;
-  top: 250px;
-}
+  /* Modal content */
+  .signup-modal-content {
+    display: flex;
+    flex-direction: column;
+    font-family: "Source Code Pro", sans-serif;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    width: 100%;
+    text-align: center;
+  }
 
-.signup-password {
-  width: 650px;
-  height: 70px;
-  padding: 10px;
-  margin: 5px 0;
-  margin-left: 150px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 30px;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  position: relative;
-  top: 250px;
-}
-
-.signup-text {
-  width: 650px;
-  height: 70px;
-  padding: 10px;
-  margin: 5px 0;
-  margin-left: 150px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-  font-size: 30px;
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-  position: relative;
-  top: 250px;
-}
-
-.signup-form {
-  width: 51%;
-  //   height: 91%;
-  padding: 20px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  margin-left: 800px;
-  background-color: #f9f2e2;
-  position: absolute;
-  margin-top: 25px;
-}
-
-label {
-  display: inline-block;
-  font-weight: bold;
-  margin-bottom: 5px;
-  position: relative;
-  top: 255px;
-  font-family: Source Code Pro;
-  font-size: 22px;
-}
-
-.signup-txtbox {
-  display: flexbox;
-  height: fit-content;
-  width: 100%;
-}
-
-.signup-txtbox1 {
-  text-align: center;
-  font-size: 30px;
-  font-family: Junge;
-}
-
-.signup-txtbox2 {
-  text-align: center;
-  font-size: 100px;
-  font-family: Julius Sans One;
-  letter-spacing: 15px;
-}
-
-.signup-txtbox3 {
-  text-align: center;
-  font-size: 80px;
-  font-family: Monoton;
-  bottom: 40px;
-}
-
-.text-box {
-  height: 10px;
-  width: 500px;
-}
-
-button[type="signup-submit"] {
-  background-color: #f9f2e2;
-  color: black;
-  font-family: Source Code Pro;
-  font-size: 33px;
-  border: rgba(233, 78, 115, 0.6);
-  border-style: solid;
-  margin-left: 375px;
-  position: relative;
-  top: 250px;
-}
-
-button[type="signup-submit"]:hover {
-  background-color: rgba(233, 78, 115, 0.6);
-  border-color: black;
-}
-
-.potato-box {
-  height: 800px;
-  width: 700px;
-  position: absolute;
-  margin-top: 50px;
-  padding-right: 70px;
-  background-image: url("../../images/candy-potato.png");
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  margin-right: 20px;
-}
-
-.error-message {
-  margin-left: 310px;
-  font-family: Source Code Pro;
-  color: red;
-  position: relative;
-  top: 120px;
-}
-
-.success-message {
-  margin-left: 310px;
-  font-family: Source Code Pro;
-  color: black;
-  position: relative;
-  top: 250px;
-  left: 85px;
+  .close-modal {
+    margin-top: 2%;
+  }
 }
