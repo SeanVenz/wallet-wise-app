@@ -17,15 +17,38 @@ import Vendor from "./pages/Vendor/Vendor";
 import Student from "./pages/Student/Student";
 import StudentSidebar from "./pages/Student/StudentSidebar";
 import StudentMarket from "./pages/Market/Market";
-import StudentProfile from "./pages/Student/Profile";
+import StudentProfile from "./pages/Profile/Profile";
 import StudentDelivery from "./pages/Delivery/StudentDelivery";
 import Dashboard from "./pages/Dashboard";
 import VendorSidebar from "./pages/Vendor/VendorSidebar";
 import Cart from "./pages/Cart/Cart";
 import Spinner from "./components/Spinner/Spiner";
+import { useEffect, useState } from "react";
+import PageNotFound from "./pages/NotFound/PageNotFound";
+import NoInternetError from "pages/NoInternetError/NoInternetError";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    window.addEventListener("online", handleNetworkChange);
+    window.addEventListener("offline", handleNetworkChange);
+
+    return () => {
+      window.removeEventListener("online", handleNetworkChange);
+      window.removeEventListener("offline", handleNetworkChange);
+    };
+  }, []);
+
+  function handleNetworkChange() {
+    setIsOnline(navigator.onLine);
+  }
+
+  if (!isOnline) {
+    // Display a "No Internet Connection" page
+    return <NoInternetError />;
+  }
 
   if (loading) {
     return <Spinner />;
@@ -112,6 +135,8 @@ function App() {
             )
           }
         />
+        <Route path="/404" element={<PageNotFound />} />
+        <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
       <Outlet />
     </Router>

@@ -75,6 +75,7 @@ const getUserRoleFromFirestore = async (uid) => {
 
 const authService = {
   signUp,
+  signUpVendor,
   sendVerificationEmail,
   logIn,
   logOut,
