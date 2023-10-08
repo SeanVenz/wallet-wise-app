@@ -84,8 +84,61 @@
     }
   }
   h3{
-    font &{
-        family: Source Code Pro;
+    font-family: Source Code Pro;
+    font-weight: 800;
+    font-size: 24px;
+  }
+
+  .order-heading{
+    padding-left: 25%;
+    display: flex;
+    justify-content: start;
+  }
+
+  .accepted-orders{
+    padding-top: 5%;
+  }
+
+  .list{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .deets{
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2%;
+
+      .order{
+        width: 100%;
+      }
     }
+
+    button{
+      width: 100%;
+      box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+      border: 1px solid black;
+      padding: 15px 32px;
+      border-radius: 10px;
+      background-color: white;
+    }
+  }
+
+  .ul-parent{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+    flex-direction: column;
+
+    ul{
+      width: 100%;
+    }
+  }
+
+  .my-orders{
+    padding-top: 3%;
   }
 }

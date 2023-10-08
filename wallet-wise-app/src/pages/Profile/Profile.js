@@ -12,6 +12,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 import profile from "../../images/profile.png";
 import "./Profile.scss";
+import OrderModal from "components/OrderModal/OrderModal";
 
 const StudentProfile = () => {
   const navigate = useNavigate();
@@ -21,6 +22,8 @@ const StudentProfile = () => {
   const [newProfileImage, setNewProfileImage] = useState(profile);
   const [deliveries, setDeliveries] = useState([]);
   const [orders, setOrders] = useState([]);
+  const [orderData, setOrderData] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const getProfilePicture = async (uid) => {
     const profile = await doc(db, "users", uid);
@@ -148,6 +151,19 @@ const StudentProfile = () => {
     handleUpdateProfileImage(imageFile);
   };
 
+  const showOrderHistory = async (orderId) => {
+    const ref = doc(db, "orders-history", orderId);
+    const snap = await getDoc(ref);
+    if (snap.exists()) {
+      setOrderData(snap.data());
+      setIsModalOpen(true); // Open the modal when data is available
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false); // Close the modal
+  };
+
   return (
     <div className="profile">
       <div className="logout-button">
@@ -176,38 +192,63 @@ const StudentProfile = () => {
         </div>
       </div>
       <div className="orders-container">
-      {deliveries.length > 0 && (
-        <>
-          <div className="accepted-orders">
-            <h3>Accepted Orders:</h3>
-            {deliveries.map((food, index) => (
-              <ul>
-                <div className="list">
-                  <li class="order" key={index}>
-                    <button>Order#{food.OrderId}</button>
-                  </li>
-                </div>
-              </ul>
-            ))}
-          </div>
-        </>
-      )}
+        {deliveries.length > 0 && (
+          <>
+            <div className="accepted-orders">
+              <div className="order-heading">
+                <h3>Accepted Orders:</h3>
+              </div>
 
-      {orders.length > 0 && (
-        <>
-          <div className="my-orders">
-            <h3>My Orders:</h3>
-            {orders.map((food, index) => (
-              <ul>
-                <div className="list">
-                <li class="order" key={index}>
-                  <button>Order#{food.OrderId}</button>
-                </li>
-                </div>
-              </ul>
-            ))}
-          </div>
-        </>
+              <div className="ul-parent">
+                {deliveries.map((food, index) => (
+                  <ul>
+                    <div className="list">
+                      <div className="deets">
+                        <li class="order" key={index}>
+                          <button
+                            onClick={() => showOrderHistory(food.OrderId)}
+                          >
+                            Order#{food.OrderId}
+                          </button>
+                        </li>
+                      </div>
+                    </div>
+                  </ul>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
+        {orders.length > 0 && (
+          <>
+            <div className="my-orders">
+              <div className="order-heading">
+                <h3>My Orders:</h3>
+              </div>
+
+              <div className="ul-parent">
+                {orders.map((food, index) => (
+                  <ul>
+                    <div className="list">
+                      <div className="deets">
+                        <li class="order" key={index}>
+                          <button
+                            onClick={() => showOrderHistory(food.OrderId)}
+                          >
+                            Order#{food.OrderId}
+                          </button>
+                        </li>
+                      </div>
+                    </div>
+                  </ul>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+        {isModalOpen && (
+        <OrderModal orderData={orderData} onClose={handleCloseModal} />
       )}
       </div>
     </div>
