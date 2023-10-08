@@ -156,7 +156,6 @@ function Checkout({
         const userId = user.uid;
 
         const deliveryCollectionRef = collection(db, "orders");
-        const deliveryHistoryCollectionRef = collection(db, "orders-history");
 
         const itemsToCheckout = cartItems.map((item) => ({
           itemName: item.name,
@@ -167,15 +166,6 @@ function Checkout({
 
         // Create a delivery document with user information and items
         await addDoc(deliveryCollectionRef, {
-          userId: userId,
-          userName: fullName,
-          idNumber: idNumber,
-          phoneNumber: phoneNumber,
-          items: itemsToCheckout,
-          timestamp: Date.now(),
-        });
-
-        await addDoc(deliveryHistoryCollectionRef, {
           userId: userId,
           userName: fullName,
           idNumber: idNumber,
