@@ -271,7 +271,9 @@ function ChatModal({ isOpen, onClose }) {
         await setDoc(deliveryHistoryCollectionRef, {
           ...data, 
           courierName: courierName,
-          courierId: currentUser 
+          courierId: currentUser,
+          courierIdNumber: senderIdNumber,
+          recipientIdNumber: recipientIdNumber 
         });
   
         addDeliveryHistory(currentUser, orderId);

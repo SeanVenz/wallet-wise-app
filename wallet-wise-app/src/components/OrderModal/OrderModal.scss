@@ -52,11 +52,53 @@
     .foods {
       display: flex;
       flex-direction: column;
+      padding-top: 5%;
+      .food-heading{
+        display: flex;
+        width: 50%;
+        justify-content: start;
+        margin-bottom: -4%;
+      }
 
       .scrollable {
         height: 150px;
         overflow-y: scroll;
         border: 1px solid black;
+        width: 50%;
+        font-family: Source Code Pro;
+
+        ul{
+          display: flex;
+          flex-direction: column;
+          gap: 5px;
+        }
+        .deets{
+          width: 100%;
+          display: flex;
+          flex-direction: row;
+
+          p{
+            font-size: 20px;
+          }
+          .total{
+            font-weight: 800;
+          }
+          li{
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+          }
+        }
+      }
+
+      .order-total{
+        margin-top: -3%;
+        width: 50%;
+        display: flex;
+        justify-content: end;
+        font-family: Source Code Pro;
+        font-weight: 800;
+        font-size: 26px;
       }
     }
     .name {
@@ -64,7 +106,8 @@
       font-family: Source Code Pro;
       font-size: 20px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 }
