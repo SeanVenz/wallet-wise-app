@@ -24,6 +24,8 @@ import VendorSidebar from "./pages/Vendor/VendorSidebar";
 import Cart from "./pages/Cart/Cart";
 import Spinner from "./components/Spinner/Spiner";
 import { useEffect, useState } from "react";
+import PageNotFound from "./pages/NotFound/PageNotFound";
+import NoInternetError from "pages/NoInternetError/NoInternetError";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -134,27 +136,10 @@ function App() {
           }
         />
         <Route path="/404" element={<PageNotFound />} />
-          	<Route path="*" element={<Navigate to="/404" />} />
+        <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
       <Outlet />
     </Router>
-  );
-}
-
-function PageNotFound() {
-  return (
-    <div>
-        <p>404 Page not found</p>
-    </div>
-  );
-}
-
-function NoInternetError() {
-  return (
-    <div>
-      <p>No Internet Connection</p>
-      <p>Please check your internet connection and try again.</p>
-    </div>
   );
 }
 
