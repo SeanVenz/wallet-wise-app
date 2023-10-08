@@ -46,7 +46,7 @@ function ChatModal({ isOpen, onClose }) {
     setShowMapModal(!showMapModal);
   };
 
-  const addDeliveryHIstory = async (uid, orderId) => {
+  const addDeliveryHistory = async (uid, orderId) => {
     const userCollectionRef = collection(db, "users", uid, "deliveries");
     await addDoc(userCollectionRef, {
       OrderId: orderId,
@@ -260,12 +260,21 @@ function ChatModal({ isOpen, onClose }) {
       const docData = docSnapshot.data();
       const orderId = docData.orderId;
       const orderInfo = await doc(db, "orders", orderId);
-
+      const orderData = await getDoc(orderInfo);
+      const data = orderData.data();
       if (
         docData.orderIsAccepted === true &&
         docData.orderIsDelivered === true
       ) {
-        addDeliveryHIstory(currentUser, orderId);
+        const deliveryHistoryCollectionRef = doc(db, "orders-history", orderId);
+        
+        await setDoc(deliveryHistoryCollectionRef, {
+          ...data, 
+          courierName: courierName,
+          courierId: currentUser 
+        });
+  
+        addDeliveryHistory(currentUser, orderId);
         addOrderHistory(recipient, orderId);
         await deleteDoc(orderInfo);
         await deleteDoc(info);
@@ -276,6 +285,7 @@ function ChatModal({ isOpen, onClose }) {
       console.log(error);
     }
   };
+  
 
   const handleOrderAccepted = async () => {
     checkReceivedAndDelivered();
