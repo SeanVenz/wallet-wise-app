@@ -172,6 +172,8 @@ function Checkout({
           phoneNumber: phoneNumber,
           items: itemsToCheckout,
           timestamp: Date.now(),
+          latitude: latitude,
+          longitude: longitude
         });
 
         addHasCurrentOrder(userId);
