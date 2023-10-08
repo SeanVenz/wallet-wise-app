@@ -23,9 +23,30 @@ import Dashboard from "./pages/Dashboard";
 import VendorSidebar from "./pages/Vendor/VendorSidebar";
 import Cart from "./pages/Cart/Cart";
 import Spinner from "./components/Spinner/Spiner";
+import { useEffect, useState } from "react";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    window.addEventListener("online", handleNetworkChange);
+    window.addEventListener("offline", handleNetworkChange);
+
+    return () => {
+      window.removeEventListener("online", handleNetworkChange);
+      window.removeEventListener("offline", handleNetworkChange);
+    };
+  }, []);
+
+  function handleNetworkChange() {
+    setIsOnline(navigator.onLine);
+  }
+
+  if (!isOnline) {
+    // Display a "No Internet Connection" page
+    return <NoInternetError />;
+  }
 
   if (loading) {
     return <Spinner />;
@@ -124,6 +145,15 @@ function PageNotFound() {
   return (
     <div>
         <p>404 Page not found</p>
+    </div>
+  );
+}
+
+function NoInternetError() {
+  return (
+    <div>
+      <p>No Internet Connection</p>
+      <p>Please check your internet connection and try again.</p>
     </div>
   );
 }
