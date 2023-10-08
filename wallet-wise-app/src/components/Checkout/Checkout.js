@@ -173,7 +173,7 @@ function Checkout({
           items: itemsToCheckout,
           timestamp: Date.now(),
           latitude: latitude,
-          longitude: longitude
+          longitude: longitude,
         });
 
         addHasCurrentOrder(userId);
@@ -196,11 +196,20 @@ function Checkout({
       <img src={bottomLogo} alt="logo" />
       <div className="checkout-button">
         <div className="total">
-          <p>Total : ₱ {total}</p>
+          {cartItems && cartItems.length > 0 ? (
+            <>
+              <p>Total : ₱ {total}</p>
+              <button
+                onClick={handleOpenModal}
+                disabled={hasOrder || hasDelivery}
+              >
+                {isLoading ? "Loading..." : "Check Out"}
+              </button>
+            </>
+          ) : (
+            <p>No Orders Yet</p>
+          )}
         </div>
-        <button onClick={handleOpenModal} disabled={hasOrder || hasDelivery}>
-          {isLoading ? "Loading..." : "Check Out"}
-        </button>
       </div>
 
       {showModal && (
