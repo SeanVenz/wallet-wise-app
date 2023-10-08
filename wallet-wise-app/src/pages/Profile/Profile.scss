@@ -1,0 +1,146 @@
+@import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
+
+.profile {
+  width: 100%;
+  background-color: #f9f2e2;
+  .logout-button {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    padding-top: 1%;
+    padding-right: 1%;
+    button {
+      background-color: transparent;
+      color: black;
+      border: 1px solid black;
+      box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+      border: 1px solid #ff93ad;
+      font-family: Source Code Pro;
+      font-weight: 800;
+      font-size: 20px;
+      padding: 10px 26px;
+      border-radius: 10px;
+      &:hover {
+        background-color: #ff93ad;
+        border: 1px solid #f9f2e2;
+      }
+    }
+  }
+  .details {
+    display: flex;
+    width: 60%;
+    justify-content: center;
+    align-items: center;
+    object-fit: contain;
+
+    .pp-img {
+      object-fit: contain;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+    .info {
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+      justify-content: center;
+      font-family: Source Code Pro;
+      font-weight: 900;
+      font-size: 24px;
+      margin-top: -6%;
+    }
+
+    img {
+      width: 70%;
+      border: 1px solid black;
+      border-radius: 50%;
+      margin-top: 0;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      width: 30%;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+
+      button {
+        background-color: transparent;
+        color: black;
+        box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+        border: 1px solid #ff93ad;
+        font-family: Source Code Pro;
+        font-weight: 800;
+        font-size: 14px;
+        padding: 6px 5px;
+        border-radius: 10px;
+        width: 80%;
+        &:hover {
+          background-color: #ff93ad;
+          border: 1px solid #f9f2e2;
+        }
+      }
+    }
+  }
+  h3{
+    font-family: Source Code Pro;
+    font-weight: 800;
+    font-size: 24px;
+  }
+
+  .order-heading{
+    padding-left: 25%;
+    display: flex;
+    justify-content: start;
+  }
+
+  .accepted-orders{
+    padding-top: 5%;
+  }
+
+  .list{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+
+    .deets{
+      width: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 2%;
+
+      .order{
+        width: 100%;
+      }
+    }
+
+    button{
+      width: 100%;
+      box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+      border: 1px solid black;
+      padding: 15px 32px;
+      border-radius: 10px;
+      background-color: white;
+      font-family: Source Code Pro;
+      font-size: 24px;
+    }
+  }
+
+  .ul-parent{
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+    flex-direction: column;
+
+    ul{
+      width: 100%;
+    }
+  }
+
+  .my-orders{
+    padding-top: 3%;
+  }
+}

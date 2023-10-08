@@ -1,9 +1,9 @@
 // MapboxMap.js
-import React, { useEffect, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { mapBoxToken } from 'utils/firebase';
-import './Mapbox.scss'
+import React, { useEffect, useState } from "react";
+import mapboxgl from "mapbox-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { mapBoxToken } from "utils/firebase";
+import "./Mapbox.scss";
 
 mapboxgl.accessToken = mapBoxToken;
 
@@ -14,14 +14,14 @@ const MapboxMap = ({ setLatitude, setLongitude, onClose }) => {
   useEffect(() => {
     const initializeMap = () => {
       const mapInstance = new mapboxgl.Map({
-        container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [123.88037053743659, 10.29551334740033], 
-        zoom: 17, // Default zoom
+        container: "map",
+        style: "mapbox://styles/mapbox/streets-v11",
+        center: [123.88037053743659, 10.29551334740033],
+        zoom: 16, // Default zoom
       });
 
-      mapInstance.on('load', () => {
-        setMap(mapInstance); 
+      mapInstance.on("load", () => {
+        setMap(mapInstance);
       });
 
       return () => {
@@ -32,16 +32,16 @@ const MapboxMap = ({ setLatitude, setLongitude, onClose }) => {
     };
 
     initializeMap();
-  }, []); 
+  }, []);
 
   useEffect(() => {
     if (map) {
-      map.on('click', handleMapClick);
+      map.on("click", handleMapClick);
     }
 
     return () => {
       if (map) {
-        map.off('click', handleMapClick);
+        map.off("click", handleMapClick);
       }
     };
   }, [map]);
@@ -65,10 +65,14 @@ const MapboxMap = ({ setLatitude, setLongitude, onClose }) => {
 
   return (
     <div className="map-container">
-      <button className="map-close-button" onClick={onClose}>
+      {/* <button
+        className="map-close-button"
+        style={{ marginTop: "0px" }}
+        onClick={onClose}
+      >
         Close
-      </button>
-      <div id="map" style={{ width: '100%', height: '300px' }} />
+      </button> */}
+      <div id="map" style={{ width: "100%", height: "300px" }} />
     </div>
   );
 };
