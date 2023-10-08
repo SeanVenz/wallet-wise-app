@@ -46,7 +46,6 @@ function App() {
   }
 
   if (!isOnline) {
-    // Display a "No Internet Connection" page
     return <NoInternetError />;
   }
 
