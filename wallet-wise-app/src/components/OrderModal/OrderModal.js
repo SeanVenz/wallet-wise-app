@@ -2,6 +2,7 @@
 import React from "react";
 import "./OrderModal.scss";
 import { auth } from "utils/firebase";
+import { calculatePerPersonTotal } from "utils/utils";
 
 const OrderModal = ({ orderData, onClose }) => {
   console.log(orderData.items[0].itemName);
@@ -16,27 +17,38 @@ const OrderModal = ({ orderData, onClose }) => {
           {auth.currentUser.uid === orderData.userId ? (
             <div className="name">
               <p>Courier Name: {orderData.courierName}</p>
+              <p>ID Number: {orderData.courierIdNumber}</p>
             </div>
           ) : (
             <div className="name">
               <p>Buyer Name: {orderData.userName}</p>
+              <p>ID Number: {orderData.recipientIdNumber}</p>
             </div>
           )}
 
           <div className="foods">
             {orderData.items && orderData.items.length > 0 && (
               <>
-                <h3>ORDER SUBTOTAL:</h3>
+                <div className="food-heading">
+                  <h3>ORDER SUBTOTAL:</h3>
+                </div>
                 <div className="scrollable">
                   <ul>
                     {orderData.items.map((item, index) => (
-                      <li key={index}>
-                        <p>{item.itemName}</p>
-                        <p>{item.quantity}</p>
-                        <p>{item.totalPrice}</p>
-                      </li>
+                      <>
+                        <div className="deets">
+                          <li key={index}>
+                            <p>{item.itemName}</p>
+                            <p>x{item.quantity}</p>
+                            <p className="total">₱{item.totalPrice}</p>
+                          </li>
+                        </div>
+                      </>
                     ))}
                   </ul>
+                </div>
+                <div className="order-total">
+                  <p>₱{calculatePerPersonTotal(orderData.items)}</p>
                 </div>
               </>
             )}
