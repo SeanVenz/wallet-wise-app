@@ -12,7 +12,7 @@ function PageNotFound() {
         <img src={potatoMagni} alt="Logo"></img>
         <img src={potatoMagni} alt="Logo"></img>
       </div>
-      <p>
+      <p className="pad-left">
         Looks like this page already finished its Thesis and went on vacation.
       </p>
       <p>
