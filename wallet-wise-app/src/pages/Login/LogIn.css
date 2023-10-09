@@ -21,7 +21,12 @@
 
 .text-box2 {
   font-family: Julius Sans One;
-  letter-spacing: 15px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: -5%;
+  letter-spacing: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .text-box3 {

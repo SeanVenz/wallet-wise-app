@@ -59,7 +59,7 @@ const LogIn = () => {
           onSubmit={handleLogIn}
           className="flex flex-col w-full h-full justify-start"
         >
-          <div className="text-box2 flex justify-center w-full text-[junge] item-center lg:-mt-7 font-bold text-[50px] md:text-[100px] lg:text-[120px]">
+          <div className="text-box2 flex justify-center w-full text-[junge] item-center lg:-mt-7 text-[50px] md:text-[100px] lg:text-[120px]">
             WALLET
           </div>
           <div className="text-box3 w-full flex justify-center lg:-mt-10 text-[40px] lg:text-[100px] md:text-[70px]">
@@ -78,7 +78,7 @@ const LogIn = () => {
             </div>
             <div className="flex w-full justify-center">
               <input
-                className="login-password flex w-[70%] h-[40px] md:h-[50px] text-[15px] md:text-[30px] pl-2"
+                className="login-password flex w-[70%] md:h-[50px] text-[15px] md:text-[30px] pl-2"
                 type="password"
                 placeholder="Enter Password"
                 value={password}
