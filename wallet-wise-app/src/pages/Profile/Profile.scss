@@ -3,6 +3,7 @@
 .profile {
   width: 100%;
   background-color: #f9f2e2;
+  height: 100vh; //change to 100% in case makalimtan
   .logout-button {
     display: flex;
     width: 100%;
@@ -83,40 +84,40 @@
       }
     }
   }
-  h3{
+  h3 {
     font-family: Source Code Pro;
     font-weight: 800;
     font-size: 24px;
   }
 
-  .order-heading{
+  .order-heading {
     padding-left: 25%;
     display: flex;
     justify-content: start;
   }
 
-  .accepted-orders{
+  .accepted-orders {
     padding-top: 5%;
   }
 
-  .list{
+  .list {
     width: 100%;
     display: flex;
     justify-content: center;
 
-    .deets{
+    .deets {
       width: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 2%;
 
-      .order{
+      .order {
         width: 100%;
       }
     }
 
-    button{
+    button {
       width: 100%;
       box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
       border: 1px solid black;
@@ -128,19 +129,68 @@
     }
   }
 
-  .ul-parent{
+  .ul-parent {
     display: flex;
     justify-content: center;
     width: 100%;
     gap: 20px;
     flex-direction: column;
 
-    ul{
+    ul {
       width: 100%;
     }
   }
 
-  .my-orders{
+  .my-orders {
     padding-top: 3%;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .profile {
+    .details {
+      width: 100%;
+    }
+    .deets {
+      width: 55% !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .profile {
+    .details {
+      width: 100%;
+      flex-direction: column;
+    }
+    .deets {
+      width: 90% !important;
+    }
+    .logout-button {
+      padding-bottom: 8%;
+    }
+
+    .info{
+      align-items: center !important;
+      margin-top: 2% !important;
+      p {
+        font-size: 18px;
+      }
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+    button {
+      font-size: 16px !important;
+    }
+
+    form{
+      width: 80% !important;
+    }
+
+    img{
+      width: 50% !important;
+    }
   }
 }
