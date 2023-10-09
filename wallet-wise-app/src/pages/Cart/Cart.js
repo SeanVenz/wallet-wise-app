@@ -167,12 +167,12 @@ function Cart() {
               </div>
               <div className="cart-end">
                 <p>₱ {item.totalPrice.toFixed(2)}</p>
-                <button
+                {/* <button
                   className="minus"
                   onClick={() => removeItemFromCart(item.id)}
                 >
                   Remove
-                </button>
+                </button> */}
               </div>
             </li>
           </div>
