@@ -41,7 +41,10 @@ function Landing() {
             alt="titlePpotato"
             className="flex w-auto h-[100px] md:h-[200px] lg:h-[320px]"
           />
-          <div className="flex flex-col justify-center items-center md:gap-[50px] lg:gap-[100px]">
+          <div className="flex flex-col justify-center items-center md:gap-[30px] lg:gap-[70px] md:mb-5">
+            <div className="text-box1 flex text-[15px] md:text-[30px] lg:text-[45px] font-[junge]">
+              Welcome to
+            </div>
             <div className="font-[julius] text-3xl md:text-[70px] lg:text-[140px] tracking-[0.2em]">
               WALLET
             </div>
