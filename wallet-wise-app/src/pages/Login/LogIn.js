@@ -39,12 +39,14 @@ const LogIn = () => {
 
   return (
     <div className="flex bg-gray-100 w-screen h-screen items-center lg:justify-between lg:px-20">
-      <Image
-        src={PotatoMagni}
-        alt="Magnifying glass"
-        className="w-[500px] h-[500px] hidden lg:block"
-      />
-      <div className="login-form flex flex-col bg-[#F9F2E2] p-5 shadow-md rounded-lg border w-full h-full lg:h-[90%] lg:w-[60%]">
+      <div className=" w-full hidden lg:flex justify-center">
+        <Image
+          src={PotatoMagni}
+          alt="Magnifying glass"
+          className="w-[500px] h-[500px] hidden lg:block"
+        />
+      </div>
+      <div className="login-form flex flex-col bg-[#F9F2E2] p-5 shadow-md rounded-lg border w-full h-full lg:h-[80%]">
         <div className="lg:hidden flex w-full items-center justify-center">
           <Image
             src={PotatoMagni}
@@ -55,12 +57,9 @@ const LogIn = () => {
 
         <form
           onSubmit={handleLogIn}
-          className="flex flex-col w-full h-full justify-start lg:justify-center"
+          className="flex flex-col w-full h-full justify-start"
         >
-          <div className="text-box1 flex lg:ml-[18%] text-[25px] md:text-[35px] lg:text-[45px]">
-            Welcome to
-          </div>
-          <div className="text-box2 flex justify-center w-full item-center lg:-mt-7 font-bold text-[50px] md:text-[100px] lg:text-[120px]">
+          <div className="text-box2 flex justify-center w-full text-[junge] item-center lg:-mt-7 font-bold text-[50px] md:text-[100px] lg:text-[120px]">
             WALLET
           </div>
           <div className="text-box3 w-full flex justify-center lg:-mt-10 text-[40px] lg:text-[100px] md:text-[70px]">

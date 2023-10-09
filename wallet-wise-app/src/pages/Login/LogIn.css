@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
+
 .login-parent {
   justify-content: center;
   background-color: #f9f2e2;
@@ -18,7 +20,7 @@
 }
 
 .text-box2 {
-  font-family: julius-sans-one;
+  font-family: Julius Sans One;
   letter-spacing: 15px;
 }
 
