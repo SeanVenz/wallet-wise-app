@@ -79,7 +79,6 @@ const SignUp = () => {
       </div>
       <div className="bg-holder">
         <div className="signup-txtbox">
-          <div className="signup-txtbox1">Welcome to</div>
           <div className="signup-txtbox2">WALLET</div>
           <div className="signup-txtbox3">WISE</div>
         </div>
