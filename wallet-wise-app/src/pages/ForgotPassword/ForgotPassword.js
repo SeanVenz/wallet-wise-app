@@ -20,7 +20,7 @@ const ForgotPassword = () => {
       const slicedMessage = err.message.slice(9);
       setError(slicedMessage);
     } finally {
-      setIsSendingEmail(false);
+      setIsSendingEmail(false); 
     }
   };
 
