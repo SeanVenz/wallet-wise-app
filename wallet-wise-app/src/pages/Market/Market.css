@@ -118,8 +118,6 @@
 }
 
 .foods {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Add this line */
   row-gap: 30px;
   justify-items: center; /* This will center the items horizontally */
   width: 100%;
@@ -127,4 +125,3 @@
   justify-content: center;
   margin-bottom: 100px;
 }
-

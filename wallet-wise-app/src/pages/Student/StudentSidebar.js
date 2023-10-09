@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import Logo from "../../images/logo.png";
 import { BsList } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
@@ -24,7 +24,6 @@ const StudentSidebar = () => {
           zIndex: "1",
           paddingLeft: "20px",
           fontSize: "3rem",
-          display: "flex",
         }}
         className="lg:flex hidden"
       >
@@ -33,7 +32,7 @@ const StudentSidebar = () => {
           width={100}
           height={100}
           alt="logo"
-          style={{ height: "200px", width: "200px" }}
+          className="h-[150px] w-[150px] "
         />
         <ul className="student-side-ul gap-10">
           <li>
@@ -95,13 +94,15 @@ const StudentSidebar = () => {
         </ul>
         <Outlet />
       </div>
-      <div className="lg:hidden flex bg-red-400 text-[50px] p-5 mt-4">
-        <button className="flex" onClick={() => setIsVisible(true)}>
-          <BsList />
+
+      {/* MOBILE */}
+      <div className="lg:hidden absolute p-5 mt-4 bg-transparent h-10 bg-red-500">
+        <button className="flex bg-bue-500" onClick={() => setIsVisible(true)}>
+          =
         </button>
       </div>
       {isVisible && (
-        <div className="transition-opacity duration-500 opacity-100 bg-blue-400 left-0 absolute h-full">
+        <div className="student-fadeIn bg-blue-400 left-0 absolute h-full z-[100]">
           This div will fade in.
           <button onClick={() => setIsVisible(false)}>
             <AiOutlineClose />

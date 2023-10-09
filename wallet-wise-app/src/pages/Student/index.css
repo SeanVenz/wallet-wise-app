@@ -5,6 +5,13 @@
   height: 200px;
 }
 
+.student-fadeIn {
+  opacity: 0;
+  transform: translate3d(-50px, 0, 0); /* ADDED - start x position as -50px */
+  cursor: pointer;
+  transition: 0.25s all ease-in-out;
+}
+
 .student-side-ul {
   list-style-type: none;
   padding: 0;

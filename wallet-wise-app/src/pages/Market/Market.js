@@ -84,7 +84,7 @@ const StudentMarket = () => {
           </select>
         </div>
       </div>
-      <div className="foods">
+      <div className="foods flex flex-wrap gap-[60px] p-10">
         {foods &&
           foods
             .filter((food) => food.Price <= maxPrice)
@@ -104,8 +104,8 @@ const StudentMarket = () => {
                 number={food.Quantity}
                 storeName={food.StoreName}
                 id={food.id}
-                longitude = {food.Longitude}
-                latitude = {food.Latitude}
+                longitude={food.Longitude}
+                latitude={food.Latitude}
               />
             ))}
       </div>

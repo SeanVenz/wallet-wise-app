@@ -1,31 +1,20 @@
-@import url('https://fonts.cdnfonts.com/css/source-code-pro');
+@import url("https://fonts.cdnfonts.com/css/source-code-pro");
 
 .card {
-  width: 400px;
-  height: 400px;
+  width: 320px;
+  height: 320px;
   background: rgb(255, 255, 255);
   box-shadow: rgba(40, 40, 40, 0.4) 0px 2px 4px,
     rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   border-radius: 20px;
   padding: 10px;
-  margin-top: 0px;
   position: relative;
 }
 
-.image {
-  width: 130px;
-  height: 130px;
+.market-food-image {
+  width: 100px;
+  height: 100px;
   object-fit: cover;
-}
-
-.top {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 img {
@@ -39,8 +28,7 @@ img {
   justify-self: end !important;
   justify-content: space-between;
   align-self: stretch;
-  position: relative;
-  top: 60px
+  top: 60px;
 }
 
 .bottom img {
@@ -59,7 +47,12 @@ img {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background overlay */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Semi-transparent background overlay */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,7 +63,7 @@ img {
 .modal-content {
   display: flex;
   flex-direction: column;
-  font-family: 'Source Code Pro', sans-serif;
+  font-family: "Source Code Pro", sans-serif;
   background-color: #fff;
   padding: 15px;
   border-radius: 5px;
@@ -93,13 +86,13 @@ img {
 
 /* Add to cart Modal Buttons */
 
-.add-btn{
+.add-btn {
   margin-top: 10px;
   padding: 10px 20px;
   box-sizing: border-box;
   appearance: none;
   background-color: transparent;
-  font-family: 'Source Code Pro';
+  font-family: "Source Code Pro";
   border: 2px solid pink;
   border-radius: 0.6em;
   color: black;
@@ -108,13 +101,13 @@ img {
   margin-right: 10px;
 }
 
-.cancel-btn{
+.cancel-btn {
   margin-top: 10px;
   padding: 10px 20px;
   box-sizing: border-box;
   appearance: none;
   background-color: transparent;
-  font-family: 'Source Code Pro';
+  font-family: "Source Code Pro";
   border: 2px solid pink;
   border-radius: 0.6em;
   color: black;
@@ -122,8 +115,6 @@ img {
   cursor: pointer;
   margin-right: 10px;
 }
-
-
 
 .modal-content button:hover {
   box-shadow: 0 0 40px 40px rgba(233, 78, 115, 0.6) inset;
@@ -142,7 +133,6 @@ img {
   line-height: 1;
 }
 
-
 /* Checkbox */
 .modal-content input {
   height: 30px !important;
@@ -151,8 +141,7 @@ img {
   align-self: center;
 }
 
-
-.foodname{
+.foodname {
   color: #000;
   text-align: center;
   font-family: Source Code Pro;
@@ -173,11 +162,10 @@ hr {
   border-top: 3px solid pink;
 }
 
- 
-.mapModal{
+.mapModal {
   display: flex;
   flex-direction: column;
-  font-family: 'Source Code Pro', sans-serif;
+  font-family: "Source Code Pro", sans-serif;
   background-color: #fff;
   padding: 15px;
   border-radius: 5px;
@@ -197,34 +185,34 @@ hr {
   box-sizing: border-box;
   appearance: none;
   background-color: transparent;
-  font-family: 'Source Code Pro';
+  font-family: "Source Code Pro";
   border: 2px solid pink;
   border-radius: 0.6em;
   color: black;
   border-radius: 5px;
   cursor: pointer;
-
-}.mapModal button:hover {
+}
+.mapModal button:hover {
   box-shadow: 0 0 40px 40px rgba(233, 78, 115, 0.6) inset;
   border: 2px solid black;
   color: black;
 }
 
-.quantity-label{
+.quantity-label {
   font-family: source-code-pro;
   font-size: 17px;
   align-self: center;
   letter-spacing: -1px;
 }
 
-.add-to-cart-label{
+.add-to-cart-label {
   font-family: source-code-pro;
   font-size: 33px;
   align-self: center;
   letter-spacing: -1px;
 }
 
-.item-name-label{
+.item-name-label {
   font-family: source-code-pro;
   font-size: 25px;
   align-self: center;
@@ -232,19 +220,17 @@ hr {
   margin-top: 20px;
 }
 
-.item-name{
+.item-name {
   font-family: source-code-pro;
-  font-size: 23px;
+  font-size: 15px;
   align-self: center;
   letter-spacing: -1px;
   margin-top: 20px;
-  color: red;;
-
+  color: red;
 }
 
-.detailsFood{
+.detailsFood {
   font-family: source-code-pro;
-  font-size: 20px;
-  position: relative;
-  top: 30px;
+  font-style: normal;
+  margin-top: 10px;
 }

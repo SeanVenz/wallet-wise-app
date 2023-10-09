@@ -119,7 +119,7 @@ function App() {
           path="/student/*"
           element={
             user && user.emailVerified ? (
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", background: "#fff4e4" }}>
                 <StudentSidebar />
                 <Routes>
                   <Route index={true} element={<StudentMarket />} />
