@@ -192,5 +192,11 @@
     img{
       width: 50% !important;
     }
+    .order-heading{
+      width: 100% !important;
+      display: flex;
+      justify-content: center;
+      padding-left: 0 !important;
+    }
   }
 }
