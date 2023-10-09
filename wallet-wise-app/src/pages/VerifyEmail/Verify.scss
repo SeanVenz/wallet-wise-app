@@ -1,105 +1,184 @@
-.verify-parent {
-    overflow: auto;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: column;
-    overflow-x: hidden;
-    height: 100%;
-    width: 100%;
+@import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
 
-    @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
+.verify-parent {
+  display: flex;
+  flex-direction: row;
+  height: 80%;
+  justify-content: center;
+  align-items: center;
+  padding-top: 5%;
 
   .potato-box {
-    height: 800px;
-    width: 700px;
-    position: absolute;
-    margin-top: 50px;
-    padding-right: 70px;
-    background-image: url("../../images/potato-support.png");
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    margin-right: 20px;
+    display: flex;
+    width: 45%;
+    height: 100%;
+    padding-top: 5%;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 80%;
+      height: auto;
+      object-fit: contain;
+    }
   }
 
   .verify-right {
-    top: 8%;
-    width: 51%;
-    height: 70%;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    margin-left: 800px;
     background-color: #f9f2e2;
-    position: absolute;
-    margin-top: 25px;
-  }
-
-  .verify-words {
-    text-align: center;
-    margin-top: 10%;
+    width: 50%;
+    padding-top: 5% ;
+    padding-bottom: 10%;
   }
   .verify-wallet {
-    font-family: Julius;
-    letter-spacing: 0.3em;
-    font-size: 80px;
-    height: fit-content;
-    margin-bottom: -25px;
-    font-weight: 900;
-  }
-  .verify-wise {
-    font-family: Monoton;
-    font-size: 550%;
-  }
-  .message{
-    font-family: Junge;
-    text-align: center;
-    
-    p{
-        font-size: 30px;
-    }
-  }
-  .button{
-    justify-content: center;
     display: flex;
-    align-items: center;
-    padding-top: 2%;
-    button{
-        background-color:#F9F2E2;
-        color:black;
-        font-family: Source Code Pro;
-        font-size: 20px;
-        font-weight: 800;
-        border: rgba(233, 78, 115, 0.6);;
-        border-style: solid;
-        justify-content: center;
-        padding: 15px 32px;
-        border-radius: 10px;
-    
-    &:hover{
-        background-color: rgba(233, 78, 115, 0.6);
-        border-color: #F9F2E2;
-    }
-  }
+    justify-content: center;
+    font-family: Julius Sans One;
+    font-weight: 400 !important;
+    font-size: 120px;
+    letter-spacing: 20px !important;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-align: center;
   }
 
-  .submitting-message{
-    font-family: Source Code Pro;
-    color: black;
-    position: relative;
-    font-size: 23.5px;
+  .verify-wise {
+    display: flex;
+    justify-content: center;
+    font-family: Monoton;
+    font-size: 100px;
+    letter-spacing: 10px;
+    margin-top: -5%;
+    padding-bottom: 2%;
+  }
+
+  .message{
+    display: flex;
+    justify-content: center;
+    font-family: Junge;
+    padding-bottom: 2%;
+    font-size: 30px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .button{
+    display: flex;
+    justify-content: center;
+    font-family: Junge;
+    padding-bottom: 2%;
+    font-size: 30px;
+    align-items: center;
+    text-align: center;
   }
 
   .error-message-verify{
+    color: red;
     font-family: Source Code Pro;
-    padding-top: 3%;
+    margin-bottom: 2%;
     font-weight: 800;
     font-size: 20px;
-    color: red;
-    display: flex;
-    justify-content: center;
-    position: relative;
     text-align: center;
+  }
+
+  button {
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ff93ad;
+    font-family: Source Code Pro;
+    font-weight: 800;
+    font-size: 25px;
+    padding: 15px 32px;
+    border-radius: 10px;
+    &:hover {
+      background-color: #ff93ad;
+      border: 1px solid #f9f2e2;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .verify-parent {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f2e2;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+    height: 100vh;
+
+    .potato-box{
+      padding-top: 0;
+      height: 30%;
+      margin-top: -8%;
+    }
+
+    .verify-right{
+      padding-top: 0;
+      margin-top: -8%;
+      width: 80%;
+    }
+
+    .verify-wallet{
+      font-size: 60px !important;
+      letter-spacing: 10px !important;
+      font-weight: 800 !important;
+    }
+
+    .verify-wise{
+      font-size: 60px !important;
+      margin-top: -2% !important;
+    }
+
+    button{
+      padding-top: 3%;
+      width: 70%;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .verify-parent {
+    display: flex;
+    flex-direction: column;
+    background-color: #f9f2e2;
+    justify-content: center;
+    align-items: center;
+    padding-top: 0;
+    height: 100vh;
+
+    .verify-wallet{
+      font-size: 40px !important;
+      letter-spacing: 10px !important;
+      font-weight: 800 !important;
+    }
+
+    .verify-wise{
+      font-size: 40px !important;
+      margin-top: -2% !important;
+    }
+
+    .message{
+      font-size: 20px;
+    }
+
+    .submitting-message{
+      font-size: 20px;
+    }
+
+    .verify-right{
+      width: 80%;
+      padding-top: 0;
+    }
+
+    .potato-box{
+      height: 30%;
+      margin-top: -50%;
+    }
+
+    button {
+      font-size: 16px !important;
+      padding: 10px 20px;
+      width: 80% !important;
+    }
   }
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../utils/auth";
 import "./Verify.scss";
+import potatoImg from '../../images/potato-support.png'
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -38,8 +39,11 @@ const VerifyEmail = () => {
     }
   };
 
-  return (
+  return ( 
     <div id="verify" className="verify-parent">
+      <div className="potato-box">
+        <img src={potatoImg} alt="Potato Logo" />
+      </div>
       <div className="verify-right">
         <div className="verify-words">
           <div className="verify-wallet">WALLET</div>
@@ -68,7 +72,7 @@ const VerifyEmail = () => {
         </div>
         <div className="error-message-verify">{error && <p>{error}</p>}</div>
       </div>
-      <div className="potato-box"></div>
+      
     </div>
   );
 };
