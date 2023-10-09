@@ -193,12 +193,14 @@ function Checkout({
 
   return (
     <div className="checkout">
-      <img src={bottomLogo} alt="logo" />
+      <div className="img-holder">
+        <img src={bottomLogo} alt="logo" />
+      </div>
       <div className="checkout-button">
         <div className="total">
           {cartItems && cartItems.length > 0 ? (
             <>
-              <p>Total : ₱ {total}</p>
+              <p>Total : ₱{total}</p>
               <button
                 onClick={handleOpenModal}
                 disabled={hasOrder || hasDelivery}

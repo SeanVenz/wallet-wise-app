@@ -111,7 +111,7 @@
     }
   }
   button {
-    background-color: transparent;
+    background-color: #ff93ad !important;
     color: black;
     border: 1px solid black;
     box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
@@ -122,8 +122,58 @@
     padding: 10px 26px;
     border-radius: 10px;
     &:hover {
-      background-color: #ff93ad;
+      background-color: transparent;
       border: 1px solid #f9f2e2;
+    }
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .order-modal{
+    .order-modal-content{
+      width: 60% !important;
+    }
+
+    .deets{
+      width: 100% !important;
+    }
+
+    .scrollable{
+      width: 60% !important;
+      justify-content: space-between !important;
+    }
+
+    .order-total{
+      width: 60% !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .order-modal{
+    .order-modal-content{
+      width: 100% !important;
+      height: 100% !important;
+    }
+
+    .deets{
+      width: 100% !important;
+    }
+
+    .scrollable{
+      width: 80% !important;
+      justify-content: space-between !important;
+    }
+
+    .order-total{
+      width: 80% !important;
+    }
+    h2{
+      padding-top: 8%;
+      font-size: 30px;
+    }
+    .order-close-button{
+      margin-top: 2%;
     }
   }
 }

@@ -5,7 +5,6 @@ import { auth } from "utils/firebase";
 import { calculatePerPersonTotal } from "utils/utils";
 
 const OrderModal = ({ orderData, onClose }) => {
-  console.log(orderData.items[0].itemName);
   return (
     <div className="order-modal">
       <div className="order-modal-content">
@@ -36,7 +35,7 @@ const OrderModal = ({ orderData, onClose }) => {
                   <ul>
                     {orderData.items.map((item, index) => (
                       <>
-                        <div className="deets">
+                        <div className="deets" key={index}>
                           <li key={index}>
                             <p>{item.itemName}</p>
                             <p>x{item.quantity}</p>
@@ -48,7 +47,7 @@ const OrderModal = ({ orderData, onClose }) => {
                   </ul>
                 </div>
                 <div className="order-total">
-                  <p>₱{calculatePerPersonTotal(orderData.items)}</p>
+                  <p>Total: ₱{calculatePerPersonTotal(orderData.items)}</p>
                 </div>
               </>
             )}

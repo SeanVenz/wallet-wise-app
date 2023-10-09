@@ -85,7 +85,7 @@ function App() {
               user && !user.emailVerified ? (
                 <VerifyEmail />
               ) : (
-                <Navigate to="/login" />
+                <Navigate to="/signup" />
               )
             }
           />
@@ -139,11 +139,12 @@ function App() {
               )
             }
           />
+          <Route path="/404" element={<PageNotFound />} />
+          <Route path="*" element={<Navigate to="/404" />} />
         </Routes>
         <Outlet />
       </Router>
     </div>
-
   );
 }
 
