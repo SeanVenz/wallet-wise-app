@@ -97,8 +97,11 @@ const StudentSidebar = () => {
 
       {/* MOBILE */}
       <div className="lg:hidden absolute p-5 mt-4 bg-transparent h-10 bg-red-500">
-        <button className="flex bg-bue-500" onClick={() => setIsVisible(true)}>
-          =
+        <button
+          className="flex bg-bue-500 text-[30px]"
+          onClick={() => setIsVisible(true)}
+        >
+          <BsList />
         </button>
       </div>
       {isVisible && (
