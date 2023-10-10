@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   background-color: #f9f2e2;
+  height: 100vh;
 
   @mixin glowing-box {
     transition: box-shadow 0.3s ease-in-out;
@@ -42,7 +43,9 @@
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
-    margin-left:1%;
+    // margin-left:1%;
+    justify-content: center;
+    align-items: center;
   }
 
   h4{
