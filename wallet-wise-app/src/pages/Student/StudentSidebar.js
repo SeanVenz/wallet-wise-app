@@ -134,8 +134,8 @@ const StudentSidebar = () => {
                 onClick={() => navigate("/student/market")}
                 activeStyle={{
                   fontWeight: "bold",
-                  backgroundColor: "white", // Background color on click
-                  color: "black", // Text color on click
+                  backgroundColor: "white",
+                  color: "black",
                 }}
                 style={{
                   textDecoration: "none",
