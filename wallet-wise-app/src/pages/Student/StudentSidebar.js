@@ -10,7 +10,7 @@ const StudentSidebar = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   return (
-    <>
+    <div className="">
       <div
         style={{
           top: 0,
@@ -96,23 +96,20 @@ const StudentSidebar = () => {
       </div>
 
       {/* MOBILE */}
-      <div className="lg:hidden absolute p-5 mt-4 bg-transparent h-10 bg-red-500">
-        <button
-          className="flex bg-bue-500 text-[30px]"
-          onClick={() => setIsVisible(true)}
-        >
+      <div className="lg:hidden absolute p-5 mt-4 bg-transparent h-10">
+        <button className="flex text-[30px]" onClick={() => setIsVisible(true)}>
           <BsList />
         </button>
       </div>
       {isVisible && (
-        <div className="student-fadeIn bg-blue-400 left-0 absolute h-full z-[100]">
+        <div className="student-fadeIn bg-blue-400 left-0 absolute h-full z-10">
           This div will fade in.
           <button onClick={() => setIsVisible(false)}>
             <AiOutlineClose />
           </button>
         </div>
       )}
-    </>
+    </div>
   );
 };
 

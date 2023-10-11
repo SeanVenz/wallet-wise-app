@@ -48,7 +48,7 @@ const StudentMarket = () => {
   return (
     <div className="market-parent">
       {/* MARKET FILTER */}
-      <div className="market-filter flex-wrap w-[80%] lg:w-[90%] gap-2 lg:bg-[#eae2f3] top-10 md:top-0">
+      <div className="market-filter flex-wrap w-[80%] lg:w-[90%] gap-2 md:bg-[#eae2f3] top-10 md:top-0 md:sticky">
         <div className="budget-filter text-[20px] md:text-25[px] lg:text-[30px]">
           <div className="php-logo left-[100px] md:left-[150px]">
             <img src={PHP} alt="php" className="php" />
