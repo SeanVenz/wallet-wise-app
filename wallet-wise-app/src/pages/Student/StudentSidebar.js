@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from "react-router-dom";
 import Logo from "../../images/logo.png";
 import { BsList } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
+import { motion } from "framer-motion";
 
 import "./index.css";
 
@@ -10,7 +11,7 @@ const StudentSidebar = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
   return (
-    <div className="">
+    <div>
       <div
         style={{
           top: 0,
@@ -102,12 +103,109 @@ const StudentSidebar = () => {
         </button>
       </div>
       {isVisible && (
-        <div className="student-fadeIn bg-blue-400 left-0 absolute h-full z-10">
-          This div will fade in.
-          <button onClick={() => setIsVisible(false)}>
-            <AiOutlineClose />
-          </button>
-        </div>
+        <motion.div
+          key={isVisible}
+          className="bg-[#f8b4b4] left-0 absolute h-full z-10 w-[80%] flex flex-col"
+          initial={{ x: -20, opacity: 0 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.5 }}
+          exit={{ x: 20, opacity: 0 }}
+        >
+          <div className="w-full flex items-start justify-end h-auto">
+            <button
+              onClick={() => setIsVisible(false)}
+              className="text-[20px] p-3"
+            >
+              <AiOutlineClose />
+            </button>
+          </div>
+          <div className="w-full flex justify-center">
+            <img
+              src={Logo}
+              width={100}
+              height={100}
+              alt="logo"
+              className="h-[150px] w-[150px] "
+            />
+          </div>
+          <ul className="student-side-ul gap-10">
+            <li>
+              <div
+                onClick={() => navigate("/student/market")}
+                activeStyle={{
+                  fontWeight: "bold",
+                  backgroundColor: "white", // Background color on click
+                  color: "black", // Text color on click
+                }}
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  width: "100%",
+                }}
+              >
+                <div className="student-side-category font-semibold">
+                  Market
+                </div>
+              </div>
+            </li>
+            <li>
+              <div
+                onClick={() => navigate("/student/orders")}
+                activeStyle={{
+                  fontWeight: "bold",
+                  backgroundColor: "white", // Background color on click
+                  color: "black", // Text color on click
+                }}
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  width: "100%",
+                }}
+              >
+                <div className="student-side-category font-semibold">
+                  Orders
+                </div>
+              </div>
+            </li>
+            <li>
+              <div
+                onClick={() => navigate("/student/profile")}
+                activeStyle={{
+                  fontWeight: "bold",
+                  backgroundColor: "white", // Background color on click
+                  color: "black", // Text color on click
+                }}
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  width: "100%",
+                }}
+              >
+                <div className="student-side-category font-semibold">
+                  Profile
+                </div>
+              </div>
+            </li>
+            <li>
+              <div
+                onClick={() => navigate("/student/cart")}
+                activeStyle={{
+                  fontWeight: "bold",
+                  backgroundColor: "white", // Background color on click
+                  color: "black", // Text color on click
+                }}
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  width: "100%",
+                }}
+              >
+                <div className="student-side-category font-semibold">Cart</div>
+              </div>
+            </li>
+          </ul>
+          <Outlet />
+        </motion.div>
       )}
     </div>
   );
