@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
 import { auth, db } from "../../utils/firebase";
-import "./Vendor.css";
+import "./Vendor.scss";
 import { doc, getDoc, updateDoc } from "@firebase/firestore";
 
 function Vendor() {
@@ -93,7 +93,7 @@ function Vendor() {
         storeName: storeName,
         userId: userId,
         longitude: longitude,
-      latitude: latitude,
+        latitude: latitude,
       });
 
       // Fetch the updated list of foods again
@@ -143,15 +143,15 @@ function Vendor() {
       const user = auth.currentUser;
       if (user) {
         const userId = user.uid;
-  
+
         // Reference to the specific item in the cart
-        const vendorFoodRef = doc(db, 'vendors', userId, 'foods', itemId);
-  
+        const vendorFoodRef = doc(db, "vendors", userId, "foods", itemId);
+
         const vendorRefSnapshot = await getDoc(vendorFoodRef);
-  
+
         if (vendorRefSnapshot.exists()) {
           await updateDoc(vendorFoodRef, { Quantity: newQuantity });
-          
+
           // Update the quantity in the local state
           const updatedFoods = foods.map((food) => {
             if (food.id === itemId) {
@@ -163,11 +163,15 @@ function Vendor() {
           setFoods(updatedFoods);
         }
       } else {
-        console.error('User is not authenticated.');
+        console.error("User is not authenticated.");
       }
     } catch (error) {
-      console.error('Error updating item quantity:', error);
+      console.error("Error updating item quantity:", error);
     }
+  };
+
+  const customModalStyles = {
+    display: showModal ? "block" : "none",
   };
 
   return (
@@ -197,8 +201,20 @@ function Vendor() {
                     <img src={food.ImageUrl} alt={food.Name} />
                   </td>
                   <td>{food.Quantity}</td>
-                  <button onClick={() => updateItemQuantity(food.id, food.Quantity - 1)}>-</button>
-                 <button onClick={() => updateItemQuantity(food.id, food.Quantity + 1)}>+</button>
+                  <button
+                    onClick={() =>
+                      updateItemQuantity(food.id, food.Quantity - 1)
+                    }
+                  >
+                    -
+                  </button>
+                  <button
+                    onClick={() =>
+                      updateItemQuantity(food.id, food.Quantity + 1)
+                    }
+                  >
+                    +
+                  </button>
                 </tr>
               ))}
             </tbody>
@@ -208,109 +224,101 @@ function Vendor() {
         )}
       </div>
       <div className="my-button">
-        <Button onClick={handleNewFoodClick}>ADD FOOD</Button>
+        <button onClick={handleNewFoodClick}>ADD FOOD</button>
       </div>
-      <Modal show={showModal}>
-        <Modal.Header>
-          <Modal.Title className="modal-title-centered">Add Food</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form className="modal-form">
-            <div className="input-group input-food-type">
-              <label>
-                Type of Food:
-                <select
-                  name="foodType"
-                  value={foodData.foodType}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select option ...</option>
-                  <option value="Main Dish">Main Dish</option>
-                  <option value="Kakanin">Kakanin</option>
-                  <option value="Snacks">Snacks</option>
-                  <option value="Drinks">Drinks</option>
-                </select>
-              </label>
-            </div>
-            <div className="input-group input-name">
-              <label>
-                Food Name:
-                <input
-                  type="text"
-                  name="foodName"
-                  value={foodData.foodName}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-            </div>
-            <div className="input-group input-price">
-              <label>
-                Price:
-                <input
-                  type="number"
-                  name="price"
-                  value={foodData.price}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-            </div>
-            <div className="input-group input-price">
-              <label>
-                Quantity:
-                <input
-                  type="number"
-                  name="quantity"
-                  value={foodData.quantity}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-            </div>
-            <div className="input-group input-available">
-              <label>
-                <span>Is it Available?</span>
-                <input
-                  type="checkbox"
-                  name="isAvailable"
-                  checked={foodData.isAvailable}
-                  onChange={handleChange}
-                />
-              </label>
-            </div>
-            <div className="input-group input-img">
-              <label>
-                Image:
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="image"
-                  onChange={handleImageChange}
-                  required
-                />
-              </label>
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            className="modal-button"
-            variant="secondary"
-            onClick={handleCloseModal}
-          >
-            Close
-          </Button>
-          <Button
-            className="modal-button"
-            variant="primary"
-            onClick={handleSubmit}
-          >
-            Add Food
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <div className="vendor-custom-modal" style={customModalStyles}>
+        <div className="custom-modal-content">
+          <div className="modal-header">
+            <h2 className="modal-title">Add Food</h2>
+          </div>
+          <div className="modal-body">
+            <form className="modal-form">
+              <div className="input-group input-food-type">
+                <label>
+                  Type of Food:
+                  <select
+                    name="foodType"
+                    value={foodData.foodType}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select option ...</option>
+                    <option value="Main Dish">Main Dish</option>
+                    <option value="Kakanin">Kakanin</option>
+                    <option value="Snacks">Snacks</option>  
+                    <option value="Drinks">Drinks</option>
+                  </select>
+                </label>
+              </div>
+              <div className="input-group input-name">
+                <label>
+                  Food Name:
+                  <input
+                    type="text"
+                    name="foodName"
+                    value={foodData.foodName}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="input-group input-price">
+                <label>
+                  Price:
+                  <input
+                    type="number"
+                    name="price"
+                    value={foodData.price}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="input-group input-price">
+                <label>
+                  Quantity:
+                  <input
+                    type="number"
+                    name="quantity"
+                    value={foodData.quantity}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className=" input-available">
+                <label>
+                  <div className="parent-available">
+                    <span>Is it Available?</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    name="isAvailable"
+                    checked={foodData.isAvailable}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className=" input-img">
+                <label>
+                  Image:
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="image"
+                    onChange={handleImageChange}
+                    required
+                  />
+                </label>
+              </div>
+            </form>
+          </div>
+          <div className="modal-footer">
+            <button onClick={handleCloseModal}>Close</button>
+            <button onClick={handleSubmit}>Add Food</button>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
