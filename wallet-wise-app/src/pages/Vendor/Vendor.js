@@ -145,19 +145,22 @@ function Vendor() {
       const user = auth.currentUser;
       if (user) {
         const userId = user.uid;
-
+  
         // Reference to the specific item in the cart
         const vendorFoodRef = doc(db, "vendors", userId, "foods", itemId);
-
+  
         const vendorRefSnapshot = await getDoc(vendorFoodRef);
-
+  
         if (vendorRefSnapshot.exists()) {
-          await updateDoc(vendorFoodRef, { Quantity: newQuantity });
-
+          // Ensure newQuantity is parsed as an integer
+          const updatedQuantity = parseInt(newQuantity);
+  
+          await updateDoc(vendorFoodRef, { Quantity: updatedQuantity });
+  
           // Update the quantity in the local state
           const updatedFoods = foods.map((food) => {
             if (food.id === itemId) {
-              return { ...food, Quantity: newQuantity };
+              return { ...food, Quantity: updatedQuantity };
             } else {
               return food;
             }
@@ -212,7 +215,7 @@ function Vendor() {
                   <td className="flex items-center justify-center">
                     <img src={food.ImageUrl} alt={food.Name} />
                   </td>
-                  <td>{food.Quantity}</td>
+                  <td>{parseInt(food.Quantity)}</td>
                   <td>
                     <div className="flex flex-col h-full w-full text-[30px]">
                       <button
