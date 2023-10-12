@@ -3,7 +3,7 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
 import { auth, db } from "../../utils/firebase";
-import "./Vendor.css";
+import "./Vendor.scss";
 import { doc, getDoc, updateDoc } from "@firebase/firestore";
 
 function Vendor() {
@@ -170,6 +170,10 @@ function Vendor() {
     }
   };
 
+  const customModalStyles = {
+    display: showModal ? "block" : "none",
+  };
+
   return (
     <div className="main-page">
       <h2 className="title">
@@ -220,119 +224,101 @@ function Vendor() {
         )}
       </div>
       <div className="my-button">
-        <Button onClick={handleNewFoodClick}>ADD FOOD</Button>
+        <button onClick={handleNewFoodClick}>ADD FOOD</button>
       </div>
-      {showModal && (
-        <div className="flex">
-          <div className="absolute bg-black opacity-[0.2] top-0 left-0 bottom-0 right-0 z-[15]"></div>
-          <div className="flex w-full h-full justify-center items-center">
-            <div className="absolute top-0 left-0 bottom-0 right-0 flex items-center justify-center bg-white z-20 w-[80%]">
-              Your content here
-            </div>
+      <div className="vendor-custom-modal" style={customModalStyles}>
+        <div className="custom-modal-content">
+          <div className="modal-header">
+            <h2 className="modal-title">Add Food</h2>
+          </div>
+          <div className="modal-body">
+            <form className="modal-form">
+              <div className="input-group input-food-type">
+                <label>
+                  Type of Food:
+                  <select
+                    name="foodType"
+                    value={foodData.foodType}
+                    onChange={handleChange}
+                    required
+                  >
+                    <option value="">Select option ...</option>
+                    <option value="Main Dish">Main Dish</option>
+                    <option value="Kakanin">Kakanin</option>
+                    <option value="Snacks">Snacks</option>
+                    <option value="Drinks">Drinks</option>
+                  </select>
+                </label>
+              </div>
+              <div className="input-group input-name">
+                <label>
+                  Food Name:
+                  <input
+                    type="text"
+                    name="foodName"
+                    value={foodData.foodName}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="input-group input-price">
+                <label>
+                  Price:
+                  <input
+                    type="number"
+                    name="price"
+                    value={foodData.price}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className="input-group input-price">
+                <label>
+                  Quantity:
+                  <input
+                    type="number"
+                    name="quantity"
+                    value={foodData.quantity}
+                    onChange={handleChange}
+                    required
+                  />
+                </label>
+              </div>
+              <div className=" input-available">
+                <label>
+                  <div className="parent-available">
+                    <span>Is it Available?</span>
+                  </div>
+                  <input
+                    type="checkbox"
+                    name="isAvailable"
+                    checked={foodData.isAvailable}
+                    onChange={handleChange}
+                  />
+                </label>
+              </div>
+              <div className=" input-img">
+                <label>
+                  Image:
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="image"
+                    onChange={handleImageChange}
+                    required
+                  />
+                </label>
+              </div>
+            </form>
+          </div>
+          <div className="modal-footer">
+            <button onClick={handleCloseModal}>Close</button>
+            <button onClick={handleSubmit}>Add Food</button>
           </div>
         </div>
-      )}
-      {/* <Modal show={showModal}>
-        <Modal.Header>
-          <Modal.Title className="modal-title-centered">Add Food</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <form className="modal-form">
-            <div className="input-group input-food-type">
-              <label>
-                Type of Food:
-                <select
-                  name="foodType"
-                  value={foodData.foodType}
-                  onChange={handleChange}
-                  required
-                >
-                  <option value="">Select option ...</option>
-                  <option value="Main Dish">Main Dish</option>
-                  <option value="Kakanin">Kakanin</option>
-                  <option value="Snacks">Snacks</option>
-                  <option value="Drinks">Drinks</option>
-                </select>
-              </label>
-            </div>
-            <div className="input-group input-name">
-              <label>
-                Food Name:
-                <input
-                  type="text"
-                  name="foodName"
-                  value={foodData.foodName}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-            </div>
-            <div className="input-group input-price">
-              <label>
-                Price:
-                <input
-                  type="number"
-                  name="price"
-                  value={foodData.price}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-            </div>
-            <div className="input-group input-price">
-              <label>
-                Quantity:
-                <input
-                  type="number"
-                  name="quantity"
-                  value={foodData.quantity}
-                  onChange={handleChange}
-                  required
-                />
-              </label>
-            </div>
-            <div className="input-group input-available">
-              <label>
-                <span>Is it Available?</span>
-                <input
-                  type="checkbox"
-                  name="isAvailable"
-                  checked={foodData.isAvailable}
-                  onChange={handleChange}
-                />
-              </label>
-            </div>
-            <div className="input-group input-img">
-              <label>
-                Image:
-                <input
-                  type="file"
-                  accept="image/*"
-                  name="image"
-                  onChange={handleImageChange}
-                  required
-                />
-              </label>
-            </div>
-          </form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            className="modal-button"
-            variant="secondary"
-            onClick={handleCloseModal}
-          >
-            Close
-          </Button>
-          <Button
-            className="modal-button"
-            variant="primary"
-            onClick={handleSubmit}
-          >
-            Add Food
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
+      </div>
     </div>
   );
 }
