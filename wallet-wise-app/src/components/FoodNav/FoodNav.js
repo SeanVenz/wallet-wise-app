@@ -15,7 +15,10 @@ export const FoodNav = ({ setSelectedFoodType }) => {
       />
       <img
         src={mainDish}
-        onClick={() => setSelectedFoodType("Main Dish")}
+        onClick={() => {
+          setSelectedFoodType("Main Dish");
+          console.log("TEST");
+        }}
         alt="mainDish"
       />
       <img

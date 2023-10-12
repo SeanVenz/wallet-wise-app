@@ -1,22 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400&display=swap");
 
 .market-filter {
-  background-color: #f8f4fc;
   padding: 20px;
-  width: 90%;
   border-radius: 20px;
   margin-top: 20px;
   display: flex;
   font-size: 30px;
   font-family: "Source Code Pro", monospace;
   font-weight: 500;
-  position: sticky;
-  top: 0;
   z-index: 1;
 }
 
 .market-parent {
-  background-color: #fff4e4;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -38,7 +33,6 @@
   background-color: #e5e4e2;
   margin-left: 10px;
   font-size: 20px;
-  width: 170px;
   height: 50px;
   display: block;
   outline: none;
@@ -55,15 +49,12 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   padding: 8px 12px;
   padding-left: 10%;
-  font-size: 16px;
   font-family: "Source Code Pro", monospace;
   color: #333;
   background-color: #e5e4e2;
   margin-left: 10px;
-  font-size: 20px;
-  width: 305px;
   height: 50px;
-  display: block;
+  display: flex;
   outline: none;
 }
 
@@ -89,7 +80,6 @@
 
 .php-logo {
   position: absolute;
-  left: 150px;
   top: 60%;
   transform: translateY(-50%);
   z-index: 2;
@@ -99,7 +89,6 @@
   display: flex;
   align-items: center;
   position: relative;
-  margin-left: 120px;
 }
 
 .food-filter {
@@ -118,8 +107,6 @@
 }
 
 .foods {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* Add this line */
   row-gap: 30px;
   justify-items: center; /* This will center the items horizontally */
   width: 100%;
@@ -127,4 +114,3 @@
   justify-content: center;
   margin-bottom: 100px;
 }
-
