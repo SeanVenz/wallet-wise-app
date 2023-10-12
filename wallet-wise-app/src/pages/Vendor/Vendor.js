@@ -5,8 +5,10 @@ import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
 import { auth, db } from "../../utils/firebase";
 import "./Vendor.scss";
 import { doc, getDoc, updateDoc } from "@firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 function Vendor() {
+  const navigate = useNavigate();
   const [storeName, setStoreName] = useState("No Shop Name");
   const [createdFood, setCreatedFood] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
@@ -174,8 +176,20 @@ function Vendor() {
     display: showModal ? "block" : "none",
   };
 
+  const handleLogOut = async () => {
+    await auth.signOut();
+    navigate("/");
+  };
+
   return (
     <div className="main-page">
+      
+      <div className="logout-vendor">
+        <div className="logout-button">
+          <button onClick={handleLogOut}>Log Out</button>
+        </div>
+      </div>
+
       <h2 className="title">
         <strong>{storeName}</strong>
       </h2>
