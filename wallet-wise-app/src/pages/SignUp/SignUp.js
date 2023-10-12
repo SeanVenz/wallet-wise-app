@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../utils/auth";
-import "./SignUp.css";
+import "./SignUp.scss";
+import MapboxMap from "components/Mapbox/Mapbox";
+import candyPotato from "../../images/candy-potato.png";
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
@@ -9,104 +11,176 @@ const SignUp = () => {
   const [fullName, setFullName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [role, setRole] = useState("student"); // Default role is student
-  const [idNumber, setIdNumber] = useState(""); // Add idNumber state
-  const [storeName, setStoreName] = useState(""); // New state for store name
+  const [idNumber, setIdNumber] = useState("");
+  const [storeName, setStoreName] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showMap, setShowMap] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
+
   const handleSignUp = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Start loading effect
+    setIsSubmitting(true);
 
     try {
-      // Determine whether to store ID number or store name based on the role
       const idOrStoreName = role === "vendor" ? storeName : idNumber;
 
-      // Sign up the user and set their role or store name as part of the account creation
-      await authService.signUp(
-        email,
-        password,
-        fullName,
-        idOrStoreName,
-        phoneNumber,
-        role
-      );
-      setIsSubmitting(false); // Stop loading effect
+      const roleSpecificData = role === "vendor" ? { latitude, longitude } : {};
+
+      role === "vendor"
+        ? await authService.signUpVendor(
+            email,
+            password,
+            fullName,
+            idOrStoreName,
+            phoneNumber,
+            role,
+            roleSpecificData.latitude,
+            roleSpecificData.longitude
+          )
+        : await authService.signUp(
+            email,
+            password,
+            fullName,
+            idOrStoreName,
+            phoneNumber,
+            role
+          );
+
+      setIsSubmitting(false);
       navigate("/verify-email");
     } catch (err) {
-      setIsSubmitting(false); // Stop loading effect on error
-      setError(err.message);
+      setIsSubmitting(false);
+      const slicedMessage = err.message.slice(9);
+      setError(slicedMessage);
     }
+  };
+
+  const handleMapClose = (e) => {
+    e.stopPropagation(); // Prevent click event propagation
+    setShowMap(false); // Close the map
+  };
+
+  const handleOpenMap = () => {
+    setShowMap(true); // Show the map modal
+  };
+
+  const handleCloseMap = () => {
+    setShowMap(false); // Hide the map modal
   };
 
   return (
     <div className="signup-parent">
-      <form onSubmit={handleSignUp} className="signup-form">
-        <div className="text-box">
-          <div className="text-box1">Welcome to</div>
-          <div className="text-box2">WALLET</div>
-          <div className="text-box3">WISE</div>
+      <div className="potato-box">
+        <img src={candyPotato} alt="Potato" />
+      </div>
+      <div className="bg-holder">
+        <div className="signup-txtbox">
+          <div className="signup-txtbox2">WALLET</div>
+          <div className="signup-txtbox3">WISE</div>
         </div>
-        <input
-          className="signup-text"
-          type="text"
-          placeholder="Full Name"
-          value={fullName}
-          onChange={(e) => setFullName(e.target.value)}
-        />
-        {role === "student" ? (
-          <input
-            className="signup-text"
-            type="text"
-            placeholder="ID Number"
-            value={idNumber}
-            onChange={(e) => setIdNumber(e.target.value)}
-          />
-        ) : (
-          <input
-            className="signup-text"
-            type="text"
-            placeholder="Store Name"
-            value={storeName}
-            onChange={(e) => setStoreName(e.target.value)}
-          />
-        )}
-        <input
-          className="signup-text"
-          type="text"
-          placeholder="Phone Number"
-          value={phoneNumber}
-          onChange={(e) => setPhoneNumber(e.target.value)}
-        />
-        <input
-          className="signup-text"
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          className="signup-text"
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <div>
-          <label>
-            Role:
-            <select value={role} onChange={(e) => setRole(e.target.value)}>
-              <option value="student">Student</option>
-              <option value="vendor">Vendor</option>
-            </select>
-          </label>
+        <div className="signup-form">
+          <form onSubmit={handleSignUp}>
+            <input
+              className="signup-text"
+              type="text"
+              placeholder="Full Name"
+              value={fullName}
+              onChange={(e) => setFullName(e.target.value)}
+            />
+            {role === "student" ? (
+              <input
+                className="signup-text"
+                type="text"
+                placeholder="ID Number"
+                value={idNumber}
+                onChange={(e) => setIdNumber(e.target.value)}
+              />
+            ) : (
+              <input
+                className="signup-text"
+                type="text"
+                placeholder="Store Name"
+                value={storeName}
+                onChange={(e) => setStoreName(e.target.value)}
+              />
+            )}
+            <input
+              className="signup-text"
+              type="text"
+              placeholder="Phone Number"
+              value={phoneNumber}
+              onChange={(e) => setPhoneNumber(e.target.value)}
+            />
+            <input
+              className="signup-text"
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <input
+              className="signup-text"
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <div>
+              <label>
+                Role:
+                <select value={role} onChange={(e) => setRole(e.target.value)}>
+                  <option value="student">Student</option>
+                  <option value="vendor">Vendor</option>
+                </select>
+              </label>
+            </div>
+            <div className="signup-submit"></div>
+            
+            <div className="error-message">{error && <p>{error}</p>}</div>
+            {isSubmitting ? (
+              <div className="success-message">
+                <h3>Signing up... </h3>
+              </div>
+            ) : (
+              <div className="signup-button">
+              <button
+                style={{ top: "0px", padding: "15px 32px", zIndex: "4" }}
+                type="signup-submit"
+              >
+                Sign up
+              </button></div>
+            )}
+          </form>
+          <div className="signup-map">
+            {role === "vendor" && (
+              <div>
+                {/* Toggle the map visibility */}
+                <button className="open-map" onClick={handleOpenMap}>
+                  Open Map
+                </button>
+                {/* Show the Map Modal */}
+                {showMap && (
+                  <div className="signup-modal">
+                    <div className="signup-modal-content">
+                      <MapboxMap
+                        setLatitude={setLatitude}
+                        setLongitude={setLongitude}
+                      />
+                      <button className="close-modal" onClick={handleCloseMap}>
+                        Close Map
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
         </div>
-        <div className="signup-submit"></div>
-        {isSubmitting ? <><div className="success-message"><h3>"Signing up..." </h3></div></>: <button type="signup-submit">Sign up</button>}
-        <div className="error-message">{error && <p>{error}</p>}</div>
-      </form>
-      <div className="potato-box"></div>
+      </div>
     </div>
   );
 };

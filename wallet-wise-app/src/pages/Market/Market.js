@@ -15,6 +15,7 @@ const StudentMarket = () => {
   const [storeNames, setStoreNames] = useState([]);
 
   useEffect(() => {
+    console.log(foods);
     const unsubscribe = auth.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser(user);
@@ -25,10 +26,6 @@ const StudentMarket = () => {
 
     return () => unsubscribe();
   }, []);
-
-  useEffect(() => {
-    console.log(selectedFoodType);
-  }, [selectedFoodType]);
 
   useEffect(() => {
     const fetchFoods = async () => {
@@ -50,15 +47,16 @@ const StudentMarket = () => {
 
   return (
     <div className="market-parent">
-      <div className="market-filter">
-        <div className="budget-filter">
-          <div className="php-logo">
+      {/* MARKET FILTER */}
+      <div className="market-filter flex-wrap w-[80%] lg:w-[90%] gap-2 md:bg-[#eae2f3] top-10 md:top-0 md:sticky">
+        <div className="budget-filter text-[20px] md:text-25[px] lg:text-[30px]">
+          <div className="php-logo left-[100px] md:left-[150px]">
             <img src={PHP} alt="php" className="php" />
           </div>
           BUDGET:
           <input
             type="number"
-            className="custom-input"
+            className="custom-input w-[130px] md:w-[120px] lg:w-[170px]"
             defaultValue={0}
             onChange={(e) =>
               e.target.value
@@ -67,10 +65,10 @@ const StudentMarket = () => {
             }
           />
         </div>
-        <div className="shop-filter">
+        <div className="shop-filter text-[20px] md:text-25[px] lg:text-[30px]">
           SHOP:
           <select
-            className="custom-input-shop"
+            className="custom-input-shop w-[155px] md:w-[250px] lg:w-[305px] text-[15px] flex-wrap"
             defaultValue={"All"}
             onChange={(e) => setStoreName(e.target.value)}
           >
@@ -83,12 +81,19 @@ const StudentMarket = () => {
           </select>
         </div>
       </div>
-      <div className="foods">
+
+      {/* FOOD CHOICES */}
+      <div className="foods flex flex-wrap gap-[60px] p-10">
         {foods &&
           foods
             .filter((food) => food.Price <= maxPrice)
             .filter((food) => food.isAvailable === true)
             .filter((food) => food.Quantity > 0)
+            .filter((food) => {
+              return selectedFoodType === ""
+                ? true
+                : food.FoodType === selectedFoodType;
+            })
             .filter(
               (food) =>
                 storeName === "All" ||
@@ -103,9 +108,13 @@ const StudentMarket = () => {
                 number={food.Quantity}
                 storeName={food.StoreName}
                 id={food.id}
+                longitude={food.Longitude}
+                latitude={food.Latitude}
               />
             ))}
       </div>
+
+      {/* FOOD TYPES */}
       <div className="food-filter">
         <FoodNav setSelectedFoodType={setSelectedFoodType} />
       </div>

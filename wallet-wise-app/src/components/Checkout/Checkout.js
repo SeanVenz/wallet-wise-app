@@ -11,6 +11,9 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import authService from "../../utils/auth";
+import { calculatePerPersonTotal } from "utils/utils";
+import "./Checkout.scss";
+import bottomLogo from "../../images/bottom-logo.png";
 
 function Checkout({
   cartItems,
@@ -24,9 +27,40 @@ function Checkout({
   const [showModal, setShowModal] = useState(false);
   const [hasOrder, setHasOrder] = useState(false);
   const [hasDelivery, setHasDelivery] = useState(false);
+  const [locationPermissionGranted, setLocationPermissionGranted] =
+    useState(false);
+  const [latitude, setLatitude] = useState(null);
+  const [longitude, setLongitude] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGetting, setIsGetting] = useState(false);
+  const [total, setTotal] = useState();
 
   const handleOpenModal = () => {
     setShowModal(true);
+  };
+
+  const handleUseCurrentLocation = () => {
+    setIsGetting(true);
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // Permission granted, update the state with latitude and longitude
+          setLatitude(position.coords.latitude);
+          setLongitude(position.coords.longitude);
+          setLocationPermissionGranted(true);
+          setIsGetting(false);
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+          setLocationPermissionGranted(false);
+          setIsGetting(false);
+        }
+      );
+    } else {
+      console.error("Geolocation is not available in this browser.");
+      setLocationPermissionGranted(false);
+      setIsGetting(false);
+    }
   };
 
   const handleCloseModal = () => {
@@ -59,15 +93,14 @@ function Checkout({
   };
 
   const checkHasCurrentDelivery = async (uid) => {
-    try{
+    try {
       const userInfoRef = doc(db, "users", uid);
       const userInfoSnapshot = await getDoc(userInfoRef);
       return userInfoSnapshot.data().hasPendingDelivery === true;
-    }
-    catch(error){
+    } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   const deleteCartItems = async (userId) => {
     try {
@@ -88,7 +121,7 @@ function Checkout({
 
   const addHasCurrentOrder = async (uid) => {
     try {
-      const userInfoRef = doc(db, "users", uid); // Get a reference to the document 
+      const userInfoRef = doc(db, "users", uid); // Get a reference to the document
       await updateDoc(userInfoRef, {
         hasPendingOrder: true,
       });
@@ -108,6 +141,10 @@ function Checkout({
     }
   };
 
+  useEffect(() => {
+    setTotal(calculatePerPersonTotal(cartItems).toFixed(2));
+  });
+
   const handleCheckout = async () => {
     try {
       const user = authService.getCurrentUser();
@@ -119,7 +156,6 @@ function Checkout({
         const userId = user.uid;
 
         const deliveryCollectionRef = collection(db, "orders");
-        const deliveryHistoryCollectionRef = collection(db, "orders-history");
 
         const itemsToCheckout = cartItems.map((item) => ({
           itemName: item.name,
@@ -136,15 +172,8 @@ function Checkout({
           phoneNumber: phoneNumber,
           items: itemsToCheckout,
           timestamp: Date.now(),
-        });
-
-        await addDoc(deliveryHistoryCollectionRef, {
-          userId: userId,
-          userName: fullName,
-          idNumber: idNumber,
-          phoneNumber: phoneNumber,
-          items: itemsToCheckout,
-          timestamp: Date.now(),
+          latitude: latitude,
+          longitude: longitude,
         });
 
         addHasCurrentOrder(userId);
@@ -163,18 +192,61 @@ function Checkout({
   };
 
   return (
-    <div>
-      <h2>Checkout</h2>
-      <button onClick={handleOpenModal}>Checkout</button>
+    <div className="checkout">
+      <div className="img-holder">
+        <img src={bottomLogo} alt="logo" />
+      </div>
+      <div className="checkout-button">
+        <div className="total">
+          {cartItems && cartItems.length > 0 ? (
+            <>
+              <p>Total : ₱{total}</p>
+              <button
+                onClick={handleOpenModal}
+                disabled={hasOrder || hasDelivery}
+              >
+                {isLoading ? "Loading..." : "Check Out"}
+              </button>
+            </>
+          ) : (
+            <p>No Orders Yet</p>
+          )}
+        </div>
+      </div>
+
       {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <h2>Confirm Checkout</h2>
-            {hasOrder === true || hasDelivery === true ? (
-              <p>Finish your current transaction first</p>
-            ) : null}
-            <button onClick={handleCheckout}>Confirm</button>
-            <button onClick={handleCloseModal}>Cancel</button>
+        <div className="checkout-modal">
+          <div className="checkout-modal-content">
+            {!locationPermissionGranted ? (
+              <>
+                <p className="confirmation">
+                  Do you want to use your current location as the delivery
+                  destination?
+                </p>
+                <div className="first-questions">
+                  {isGetting ? (
+                    "Getting Current Location"
+                  ) : (
+                    <button onClick={handleUseCurrentLocation}>Confirm</button>
+                  )}
+
+                  <button onClick={handleCloseModal}>No</button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2>Confirm Checkout</h2>
+                {hasOrder || hasDelivery ? (
+                  <p className="error">Finish your current transaction first</p>
+                ) : null}
+                <div className="first-questions">
+                  <button onClick={handleCheckout} disabled={isLoading}>
+                    {isLoading ? "Loading..." : "Confirm"}
+                  </button>
+                  <button onClick={handleCloseModal}>Cancel</button>
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

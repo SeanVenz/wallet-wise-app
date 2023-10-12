@@ -17,9 +17,10 @@ const ForgotPassword = () => {
       await authService.sendResetPasswordEmail(email);
       setMessage("Password reset email has been sent.");
     } catch (err) {
-      setError(err.message);
+      const slicedMessage = err.message.slice(9);
+      setError(slicedMessage);
     } finally {
-      setIsSendingEmail(false);
+      setIsSendingEmail(false); 
     }
   };
 
@@ -32,7 +33,7 @@ const ForgotPassword = () => {
         <div className="pass-wallet"><h3>WALLET</h3></div>
         <div className="pass-wise">WISE</div>
         <div className="pass-message">
-          We will send a verification code to the email below
+          We will send password reset email below
         </div>
         <div className="form-control">
           <form onSubmit={handleForgotPassword}>

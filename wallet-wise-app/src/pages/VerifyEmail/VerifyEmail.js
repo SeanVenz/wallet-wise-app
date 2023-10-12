@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import authService from "../../utils/auth";
 import "./Verify.scss";
+import potatoImg from '../../images/potato-support.png'
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -32,14 +33,17 @@ const VerifyEmail = () => {
         setEmailSent(true); // Set emailSent to true
       }
     } catch (error) {
-      console.error(error);
-      setError(error.message);
+      const slicedMessage = error.message.slice(9);
+      setError(slicedMessage);
       setIsSubmitting(false); // Ensure that isSubmitting is set to false in case of an error
     }
   };
 
-  return (
+  return ( 
     <div id="verify" className="verify-parent">
+      <div className="potato-box">
+        <img src={potatoImg} alt="Potato Logo" />
+      </div>
       <div className="verify-right">
         <div className="verify-words">
           <div className="verify-wallet">WALLET</div>
@@ -68,7 +72,7 @@ const VerifyEmail = () => {
         </div>
         <div className="error-message-verify">{error && <p>{error}</p>}</div>
       </div>
-      <div className="potato-box"></div>
+      
     </div>
   );
 };

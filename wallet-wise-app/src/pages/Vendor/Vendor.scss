@@ -1,0 +1,237 @@
+@import url("https://fonts.cdnfonts.com/css/source-code-pro");
+
+.main-page {
+  background-color: rgb(249, 242, 226);
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  width: 100%;
+}
+
+.title {
+  padding: 2rem;
+  font-family: "Source Code Pro";
+}
+
+.main-page button {
+  background-color: #fafafa !important;
+  color: black;
+  width: 60%;
+}
+
+.my-button {
+  display: flex;
+  justify-content: center;
+  margin-top: 5%;
+}
+
+.main-page button:hover {
+  color: black;
+}
+
+.my-table {
+  width: 80%;
+  margin: 0 auto;
+  background-color: #dadeff;
+  text-decoration: none;
+}
+
+table {
+  width: 100%;
+}
+
+.my-table th {
+  padding: 15px;
+  text-decoration: none;
+  text-align: center;
+  color: #000;
+  font-family: Source Code Pro;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 20px; /* 83.333% */
+}
+
+.my-table tbody {
+  padding: 15px;
+  text-decoration: none;
+  text-align: center;
+}
+
+.my-table img {
+  width: 150px;
+  height: auto;
+  padding: 1rem;
+}
+
+.main-page Button {
+  background-color: #4caf50;
+  border: none;
+  /* color: white; */
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+  transition-duration: 0.4s;
+  border-radius: 10px !important;
+}
+
+.vendor-custom-modal {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+
+  .custom-modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .modal-header {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .modal-title {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .input-img{
+    padding: 10px;
+    input {
+      width: 100%;
+      align-self: center;
+      height: 100%;
+      font-family: Source Code Pro;
+      font-size: 20px;
+      &::placeholder {
+        text-align: center;
+        font-family: Source Code Pro;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        letter-spacing: 2px;
+      }
+    }
+    label {
+      display: flex;
+      flex-direction: column;
+      font-family: Source Code Pro;
+      font-weight: 800;
+    }
+  }
+
+  .input-group input {
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    align-self: center;
+    height: 60px;
+    font-family: Source Code Pro;
+    font-size: 20px;
+    margin-bottom: 2%;
+    &::placeholder {
+      text-align: center;
+      font-family: Source Code Pro;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      letter-spacing: 2px;
+    }
+  }
+  .input-group label {
+    display: flex;
+    flex-direction: column;
+    font-family: Source Code Pro;
+    font-weight: 800;
+  }
+
+  .input-available {
+    padding: 10px;
+    input {
+      width: 100%;
+      align-self: center;
+      height: 100%;
+      font-family: Source Code Pro;
+      font-size: 20px;
+      &::placeholder {
+        text-align: center;
+        font-family: Source Code Pro;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        letter-spacing: 2px;
+      }
+    }
+
+    display: flex;
+    justify-content: flex-start;
+    label {
+      display: flex;
+      flex-direction: row-reverse;
+      justify-content: flex-start;
+      width: 50%;
+      font-family: Source Code Pro;
+      font-weight: 800;
+    }
+    span {
+      text-align: center;
+      width: 100%;
+    }
+  }
+
+  select {
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    width: 100%;
+    align-self: center;
+    height: 60px;
+    font-family: Source Code Pro;
+    font-size: 20px;
+    margin-bottom: 2%;
+    &::placeholder {
+      text-align: center;
+      font-family: Source Code Pro;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      letter-spacing: 2px;
+    }
+  }
+
+  .input-group {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modal-footer {
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  button {
+    background-color: #ff93ad !important;
+    color: black;
+    border: 1px solid black;
+    box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    border: 1px solid #ff93ad;
+    font-family: Source Code Pro;
+    font-weight: 800;
+    font-size: 20px;
+    padding: 10px 26px;
+    border-radius: 10px;
+    &:hover {
+      background-color: transparent;
+      border: 1px solid #f9f2e2;
+    }
+  }
+
+  .modal-button {
+    margin: 0 10px;
+  }
+}
