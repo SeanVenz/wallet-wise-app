@@ -20,7 +20,6 @@ const VerifyEmail = () => {
       }
       // If the email is not verified, you can handle it as needed.
     };
-
     checkAuthAndNavigate();
   }, [navigate]);
 
@@ -77,7 +76,7 @@ const VerifyEmail = () => {
         
         <Link to="/login">
           <div className="login-btn-forgot">
-            <button>LOGIN</button>
+            <button onClick={authService.logOut}>LOGIN</button>
           </div>
         </Link>
         <div className="error-message-verify">{error && <p>{error}</p>}</div>
