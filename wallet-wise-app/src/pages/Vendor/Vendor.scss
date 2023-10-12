@@ -4,8 +4,44 @@
   background-color: rgb(249, 242, 226);
   flex-direction: column;
   align-items: center;
-  height: auto;
   width: 100%;
+  .logout-vendor {
+    display: flex;
+    width: 100%;
+    justify-content: end;
+    padding-top: 1%;
+    padding-right: 1%;
+    button {
+      background-color: transparent;
+      width: 100%;
+      color: black;
+      border: 1px solid black;
+      box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+      border: 1px solid #ff93ad;
+      font-family: Source Code Pro;
+      font-weight: 800;
+      font-size: 20px;
+      padding: 10px 26px;
+      border-radius: 10px;
+      &:hover {
+        background-color: #ff93ad;
+        border: 1px solid #f9f2e2;
+      }
+    }
+  }
+  p {
+    font-family: Source Code Pro;
+    font-weight: 800;
+    font-size: 20px;
+  }
+  h2 {
+    font-family: Source Code Pro;
+    font-weight: 800;
+    font-size: 20px;
+  }
+  strong {
+    font-family: Source Code Pro;
+  }
 }
 
 .title {
@@ -110,7 +146,7 @@ table {
     margin: 0;
   }
 
-  .input-img{
+  .input-img {
     padding: 10px;
     input {
       width: 100%;
@@ -233,5 +269,73 @@ table {
 
   .modal-button {
     margin: 0 10px;
+  }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .main-page {
+    .title-add-button {
+      margin-top: 1% !important;
+      align-items: center;
+      padding-top: 1%;
+    }
+    .details {
+      width: 100%;
+    }
+    .deets {
+      width: 55% !important;
+    }
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .main-page {
+    .title-add-button {
+      margin-top: 1% !important;
+      align-items: center;
+      padding-top: 0.001%;
+    }
+    .logout-button {
+      padding-top: 2%;
+    }
+    .details {
+      width: 100%;
+      flex-direction: column;
+    }
+    .deets {
+      width: 90% !important;
+    }
+    .logout-button {
+      padding-bottom: 8%;
+    }
+
+    .info{
+      align-items: center !important;
+      margin-top: 2% !important;
+      p {
+        font-size: 18px;
+      }
+    }
+
+    h3 {
+      font-size: 20px;
+    }
+    button {
+      font-size: 16px !important;
+    }
+
+    form{
+      width: 80% !important;
+    }
+
+    img{
+      width: 50% !important;
+    }
+    .order-heading{
+      width: 100% !important;
+      display: flex;
+      justify-content: center;
+      padding-left: 0 !important;
+    }
   }
 }
