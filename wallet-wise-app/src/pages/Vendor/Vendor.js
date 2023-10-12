@@ -93,7 +93,7 @@ function Vendor() {
         storeName: storeName,
         userId: userId,
         longitude: longitude,
-      latitude: latitude,
+        latitude: latitude,
       });
 
       // Fetch the updated list of foods again
@@ -143,15 +143,15 @@ function Vendor() {
       const user = auth.currentUser;
       if (user) {
         const userId = user.uid;
-  
+
         // Reference to the specific item in the cart
-        const vendorFoodRef = doc(db, 'vendors', userId, 'foods', itemId);
-  
+        const vendorFoodRef = doc(db, "vendors", userId, "foods", itemId);
+
         const vendorRefSnapshot = await getDoc(vendorFoodRef);
-  
+
         if (vendorRefSnapshot.exists()) {
           await updateDoc(vendorFoodRef, { Quantity: newQuantity });
-          
+
           // Update the quantity in the local state
           const updatedFoods = foods.map((food) => {
             if (food.id === itemId) {
@@ -163,10 +163,10 @@ function Vendor() {
           setFoods(updatedFoods);
         }
       } else {
-        console.error('User is not authenticated.');
+        console.error("User is not authenticated.");
       }
     } catch (error) {
-      console.error('Error updating item quantity:', error);
+      console.error("Error updating item quantity:", error);
     }
   };
 
@@ -197,8 +197,20 @@ function Vendor() {
                     <img src={food.ImageUrl} alt={food.Name} />
                   </td>
                   <td>{food.Quantity}</td>
-                  <button onClick={() => updateItemQuantity(food.id, food.Quantity - 1)}>-</button>
-                 <button onClick={() => updateItemQuantity(food.id, food.Quantity + 1)}>+</button>
+                  <button
+                    onClick={() =>
+                      updateItemQuantity(food.id, food.Quantity - 1)
+                    }
+                  >
+                    -
+                  </button>
+                  <button
+                    onClick={() =>
+                      updateItemQuantity(food.id, food.Quantity + 1)
+                    }
+                  >
+                    +
+                  </button>
                 </tr>
               ))}
             </tbody>
@@ -210,7 +222,17 @@ function Vendor() {
       <div className="my-button">
         <Button onClick={handleNewFoodClick}>ADD FOOD</Button>
       </div>
-      <Modal show={showModal}>
+      {showModal && (
+        <div className="flex">
+          <div className="absolute bg-black opacity-[0.2] top-0 left-0 bottom-0 right-0 z-[15]"></div>
+          <div className="flex w-full h-full justify-center items-center">
+            <div className="absolute top-0 left-0 bottom-0 right-0 flex items-center justify-center bg-white z-20 w-[80%]">
+              Your content here
+            </div>
+          </div>
+        </div>
+      )}
+      {/* <Modal show={showModal}>
         <Modal.Header>
           <Modal.Title className="modal-title-centered">Add Food</Modal.Title>
         </Modal.Header>
@@ -310,7 +332,7 @@ function Vendor() {
             Add Food
           </Button>
         </Modal.Footer>
-      </Modal>
+      </Modal> */}
     </div>
   );
 }

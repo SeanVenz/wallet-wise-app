@@ -104,7 +104,7 @@ function App() {
           path="/vendor/*"
           element={
             user && user.emailVerified ? (
-              <div style={{ display: "flex" }}>
+              <div style={{ display: "flex", background: "#fff4e4" }}>
                 <VendorSidebar />
                 <Routes>
                   <Route index={true} element={<Vendor />} />

@@ -57,7 +57,7 @@ const LogIn = () => {
 
         <form
           onSubmit={handleLogIn}
-          className="flex flex-col w-full h-full justify-start"
+          className="flex flex-col w-full h-full justify-center"
         >
           <div className="text-box2 flex justify-center w-full text-[junge] item-center lg:-mt-7 text-[50px] md:text-[100px] lg:text-[120px]">
             WALLET
