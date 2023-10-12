@@ -115,7 +115,7 @@ const StudentMarket = () => {
       </div>
 
       {/* FOOD TYPES */}
-      <div className="food-filter">
+      <div className="food-filter sticky">
         <FoodNav setSelectedFoodType={setSelectedFoodType} />
       </div>
     </div>
