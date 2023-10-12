@@ -183,7 +183,7 @@ function Vendor() {
 
   return (
     <div className="h-screen w-screen gap-10 flex flex-col main-page justify-between">
-      <div className="w-full px-[60px] lg:px-10 flex flex-row justify-between items-end lg:items-center">
+      <div className="w-full px-[60px] lg:px-10 flex flex-row justify-between items-end lg:items-center title-add-button">
         <strong className="w-full text-[25px]">{storeName}</strong>
         <div className="logout-vendor flex items-center">
           <div className="logout-button">
