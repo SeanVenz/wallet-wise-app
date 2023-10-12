@@ -246,8 +246,11 @@ function Vendor() {
           <button onClick={handleNewFoodClick}>ADD FOOD</button>
         </div>
       </div>
-      <div className="vendor-custom-modal" style={customModalStyles}>
-        <div className="custom-modal-content">
+      <div
+        className="vendor-custom-modal  overflow-auto"
+        style={customModalStyles}
+      >
+        <div className="custom-modal-content w-full md:w-auto">
           <div className="modal-header">
             <h2 className="modal-title">Add Food</h2>
           </div>
