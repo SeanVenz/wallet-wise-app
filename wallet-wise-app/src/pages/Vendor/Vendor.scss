@@ -4,7 +4,6 @@
   background-color: rgb(249, 242, 226);
   flex-direction: column;
   align-items: center;
-  height: auto;
   width: 100%;
   .logout-vendor {
     display: flex;
@@ -144,7 +143,7 @@ table {
     margin: 0;
   }
 
-  .input-img{
+  .input-img {
     padding: 10px;
     input {
       width: 100%;
@@ -268,6 +267,4 @@ table {
   .modal-button {
     margin: 0 10px;
   }
-
-  
 }

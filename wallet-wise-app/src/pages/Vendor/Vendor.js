@@ -182,19 +182,15 @@ function Vendor() {
   };
 
   return (
-
-    <div className="h-screen w-screen justify-between flex flex-col main-page">
-
-    <div className="logout-vendor">
-        <div className="logout-button">
-          <button onClick={handleLogOut}>Log Out</button>
+    <div className="h-screen w-screen gap-10 flex flex-col main-page justify-between">
+      <div className="w-full px-[60px] lg:px-10 flex flex-row justify-between items-end lg:items-center">
+        <strong className="w-full text-[25px]">{storeName}</strong>
+        <div className="logout-vendor flex items-center">
+          <div className="logout-button">
+            <button onClick={handleLogOut}>Log Out</button>
+          </div>
         </div>
       </div>
-
-      <h2 className="title ">
-        <strong className="lg:pl-0 pl-[70px]">{storeName}</strong>
-
-      </h2>
       <div className="my-table overflow-auto rounded-lg">
         {foods.length > 0 ? (
           <table>
