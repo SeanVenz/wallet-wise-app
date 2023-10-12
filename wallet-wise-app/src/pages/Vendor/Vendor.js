@@ -182,18 +182,20 @@ function Vendor() {
   };
 
   return (
-    <div className="main-page">
-      
-      <div className="logout-vendor">
+
+    <div className="h-screen w-screen justify-between flex flex-col main-page">
+
+    <div className="logout-vendor">
         <div className="logout-button">
           <button onClick={handleLogOut}>Log Out</button>
         </div>
       </div>
 
-      <h2 className="title">
-        <strong>{storeName}</strong>
+      <h2 className="title ">
+        <strong className="lg:pl-0 pl-[70px]">{storeName}</strong>
+
       </h2>
-      <div className="my-table">
+      <div className="my-table overflow-auto rounded-lg">
         {foods.length > 0 ? (
           <table>
             <thead>
@@ -211,24 +213,30 @@ function Vendor() {
                   <td>{food.Name}</td>
                   <td>{food.Price}</td>
                   <td>{food.isAvailable ? "Yes" : "No"}</td>
-                  <td>
+                  <td className="flex items-center justify-center">
                     <img src={food.ImageUrl} alt={food.Name} />
                   </td>
                   <td>{food.Quantity}</td>
-                  <button
-                    onClick={() =>
-                      updateItemQuantity(food.id, food.Quantity - 1)
-                    }
-                  >
-                    -
-                  </button>
-                  <button
-                    onClick={() =>
-                      updateItemQuantity(food.id, food.Quantity + 1)
-                    }
-                  >
-                    +
-                  </button>
+                  <td>
+                    <div className="flex flex-col h-full w-full text-[30px]">
+                      <button
+                        onClick={() =>
+                          updateItemQuantity(food.id, food.Quantity - 1)
+                        }
+                        className="bg-white px-5 rounded-lg"
+                      >
+                        -
+                      </button>
+                      <button
+                        onClick={() =>
+                          updateItemQuantity(food.id, food.Quantity + 1)
+                        }
+                        className="bg-white px-5 rounded-lg"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -237,8 +245,10 @@ function Vendor() {
           <p>No foods available.</p>
         )}
       </div>
-      <div className="my-button">
-        <button onClick={handleNewFoodClick}>ADD FOOD</button>
+      <div className="w-full flex justify-center p-5 sticky">
+        <div className="my-button w-[80%]">
+          <button onClick={handleNewFoodClick}>ADD FOOD</button>
+        </div>
       </div>
       <div className="vendor-custom-modal" style={customModalStyles}>
         <div className="custom-modal-content">
@@ -259,7 +269,7 @@ function Vendor() {
                     <option value="">Select option ...</option>
                     <option value="Main Dish">Main Dish</option>
                     <option value="Kakanin">Kakanin</option>
-                    <option value="Snacks">Snacks</option>  
+                    <option value="Snacks">Snacks</option>
                     <option value="Drinks">Drinks</option>
                   </select>
                 </label>
