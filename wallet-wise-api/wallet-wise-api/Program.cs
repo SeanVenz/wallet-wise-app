@@ -72,5 +72,14 @@ void ConfigureServices(IServiceCollection services)
     services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
     services.AddSingleton<FirestoreContext>();
     services.AddScoped<IFoodService, FoodService>();
+    services.AddScoped<ICartService, CartService>();
+    //services.AddScoped<IUserLocationService, UserLocationService>();
+    services.AddScoped<IChatService, ChatService>();
+    services.AddScoped<IFoodService, FoodService>();
+
     services.AddScoped<IFoodRepository, FoodRepository>();
+    services.AddScoped<ICartRepository, CartRepository>();
+    //services.AddScoped<IUserLocationRepository, UserLocationRepository>();
+    services.AddScoped<IChatRepository, ChatRepository>();
+    services.AddScoped<IUserRepository, UserRepository>();
 }

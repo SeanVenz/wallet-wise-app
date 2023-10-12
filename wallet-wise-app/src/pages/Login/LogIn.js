@@ -14,10 +14,9 @@ const LogIn = () => {
   const navigate = useNavigate();
   const [isSubmittingLogin, setIsSubmittingLogin] = useState(false);
 
-
   const handleLogIn = async (e) => {
     e.preventDefault();
-    setIsSubmittingLogin(true); // Start loading effect
+    setIsSubmittingLogin(true);
     try {
       await authService.logIn(email, password);
       const user = authService.getCurrentUser();
@@ -32,7 +31,6 @@ const LogIn = () => {
 
         role === "vendor" ? navigate("/vendor") : navigate("/student");
       }
-
     } catch (err) {
       setIsSubmittingLogin(false); // Stop loading effect on error
       setError(err.message);
@@ -41,12 +39,14 @@ const LogIn = () => {
 
   return (
     <div className="flex bg-gray-100 w-screen h-screen items-center lg:justify-between lg:px-20">
-      <Image
-        src={PotatoMagni}
-        alt="Magnifying glass"
-        className="w-[500px] h-[500px] hidden lg:block"
-      />
-      <div className="login-form flex flex-col bg-[#F9F2E2] p-5 shadow-md rounded-lg border w-full h-full lg:h-[90%] lg:w-[60%]">
+      <div className=" w-full hidden lg:flex justify-center">
+        <Image
+          src={PotatoMagni}
+          alt="Magnifying glass"
+          className="w-[500px] h-[500px] hidden lg:block"
+        />
+      </div>
+      <div className="login-form flex flex-col bg-[#F9F2E2] p-5 shadow-md rounded-lg border w-full h-full lg:h-[80%]">
         <div className="lg:hidden flex w-full items-center justify-center">
           <Image
             src={PotatoMagni}
@@ -57,19 +57,18 @@ const LogIn = () => {
 
         <form
           onSubmit={handleLogIn}
-          className="flex flex-col w-full h-full justify-start lg:justify-center"
+          className="flex flex-col w-full h-full justify-start"
         >
-          <div className="text-box1 flex lg:ml-[18%]">Welcome to</div>
-          <div className="text-box2 flex justify-center w-full item-center -mt-7 font-bold">
+          <div className="text-box2 flex justify-center w-full text-[junge] item-center lg:-mt-7 text-[50px] md:text-[100px] lg:text-[120px]">
             WALLET
           </div>
-          <div className="text-box3 w-full flex justify-center -mt-10">
+          <div className="text-box3 w-full flex justify-center lg:-mt-10 text-[40px] lg:text-[100px] md:text-[70px]">
             WISE
           </div>
           <div className="flex flex-col gap-5">
             <div className="flex w-full justify-center">
               <input
-                className="login-email flex w-[70%] h-[50px] pl-2"
+                className="login-email flex w-[70%] h-[40px] md:h-[50px] text-[15px] md:text-[30px] pl-2"
                 type="email"
                 placeholder="Enter Username or Email Adress"
                 value={email}
@@ -79,7 +78,7 @@ const LogIn = () => {
             </div>
             <div className="flex w-full justify-center">
               <input
-                className="login-password flex w-[70%] h-[50px] pl-2"
+                className="login-password flex w-[70%] md:h-[50px] text-[15px] md:text-[30px] pl-2"
                 type="password"
                 placeholder="Enter Password"
                 value={password}
@@ -92,20 +91,28 @@ const LogIn = () => {
           </div>
 
           <div className="w-full flex flex-col justify-center items-center">
+            {isSubmittingLogin ? (
+              <>
+                <div className="success-message-login">
+                  <h3>"Logging in..." </h3>
+                </div>
+              </>
+            ) : (
+              <button
+                type="login-submit"
+                className="bg-[#f9f2e2] text-black shadow-md rounded-lg border-[10px] border-black flex items-center w-auto px-10 text-[20px] md:text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 mt-6 md:h-[50px] text-[source-code-pro] font-semibold"
+              >
+                LOGIN
+              </button>
+            )}
 
-          {isSubmittingLogin ? <><div className="success-message-login"><h3>"Logging in..." </h3></div></>:
-          <button
-              type="login-submit"
-              className="bg-[#f9f2e2] text-black shadow-md rounded-lg border-[10px] border-black flex items-center w-auto px-10 text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 mt-6 h-[50px] text-[source-code-pro] font-semibold"
-            >
-              LOGIN
-
-            </button>}
-
-            <div className="flex w-full items-center justify-start -ml-[180px]">
-              <Link to="/forgot-password" className="login-forgot-password">
+            <div className="flex w-full items-center justify-center">
+              <button
+                onClick={() => navigate("/forgot-password")}
+                className="login-forgot-password text-[15px] md:text-2xl"
+              >
                 Forgot password?
-              </Link>
+              </button>
             </div>
           </div>
         </form>

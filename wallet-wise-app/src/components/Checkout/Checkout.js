@@ -156,7 +156,6 @@ function Checkout({
         const userId = user.uid;
 
         const deliveryCollectionRef = collection(db, "orders");
-        const deliveryHistoryCollectionRef = collection(db, "orders-history");
 
         const itemsToCheckout = cartItems.map((item) => ({
           itemName: item.name,
@@ -173,15 +172,8 @@ function Checkout({
           phoneNumber: phoneNumber,
           items: itemsToCheckout,
           timestamp: Date.now(),
-        });
-
-        await addDoc(deliveryHistoryCollectionRef, {
-          userId: userId,
-          userName: fullName,
-          idNumber: idNumber,
-          phoneNumber: phoneNumber,
-          items: itemsToCheckout,
-          timestamp: Date.now(),
+          latitude: latitude,
+          longitude: longitude,
         });
 
         addHasCurrentOrder(userId);
@@ -201,14 +193,25 @@ function Checkout({
 
   return (
     <div className="checkout">
-      <img src={bottomLogo} alt="logo" />
+      <div className="img-holder">
+        <img src={bottomLogo} alt="logo" />
+      </div>
       <div className="checkout-button">
         <div className="total">
-          <p>Total : ₱ {total}</p>
+          {cartItems && cartItems.length > 0 ? (
+            <>
+              <p>Total : ₱{total}</p>
+              <button
+                onClick={handleOpenModal}
+                disabled={hasOrder || hasDelivery}
+              >
+                {isLoading ? "Loading..." : "Check Out"}
+              </button>
+            </>
+          ) : (
+            <p>No Orders Yet</p>
+          )}
         </div>
-        <button onClick={handleOpenModal} disabled={hasOrder || hasDelivery}>
-          {isLoading ? "Loading..." : "Check Out"}
-        </button>
       </div>
 
       {showModal && (
