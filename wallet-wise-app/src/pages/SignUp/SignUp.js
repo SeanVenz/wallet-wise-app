@@ -20,6 +20,7 @@ const SignUp = () => {
 
   const [latitude, setLatitude] = useState("");
   const [longitude, setLongitude] = useState("");
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -36,10 +37,11 @@ const SignUp = () => {
             password,
             fullName,
             idOrStoreName,
+            selectedImage,
             phoneNumber,
             role,
             roleSpecificData.latitude,
-            roleSpecificData.longitude
+            roleSpecificData.longitude,
           )
         : await authService.signUp(
             email,
@@ -60,16 +62,21 @@ const SignUp = () => {
   };
 
   const handleMapClose = (e) => {
-    e.stopPropagation(); // Prevent click event propagation
-    setShowMap(false); // Close the map
+    e.stopPropagation(); 
+    setShowMap(false); 
   };
 
   const handleOpenMap = () => {
-    setShowMap(true); // Show the map modal
+    setShowMap(true); 
   };
 
   const handleCloseMap = () => {
-    setShowMap(false); // Hide the map modal
+    setShowMap(false); 
+  };
+
+  const handleImageChange = (event) => {
+    const imageFile = event.target.files[0];
+    setSelectedImage(imageFile); 
   };
 
   return (
@@ -129,6 +136,20 @@ const SignUp = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
+            {role === "vendor" && (
+              <div className="input-img">
+                <label>
+                  Store Image:
+                  <input
+                    type="file"
+                    accept="image/*"
+                    name="image"
+                    onChange={handleImageChange}
+                    required
+                  />
+                </label>
+              </div>
+            )}
             <div>
               <label>
                 Role:
