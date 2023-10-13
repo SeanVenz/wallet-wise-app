@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getFoods } from "../../service/FoodService";
+import { getAllFoods, getFoods } from "../../service/FoodService";
 import PHP from "../../images/php.png";
 import "./Market.css";
 import { FoodNav } from "../../components/FoodNav/FoodNav";
@@ -30,7 +30,7 @@ const StudentMarket = () => {
   useEffect(() => {
     const fetchFoods = async () => {
       try {
-        const foodsData = await getFoods();
+        const foodsData = await getAllFoods ();
         setFoods(foodsData);
 
         const uniqueStoreNames = [
