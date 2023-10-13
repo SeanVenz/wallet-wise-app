@@ -2,8 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../../utils/auth";
 import "./Verify.scss";
-import potatoImg from '../../images/potato-support.png';
-
+import potatoImg from "../../images/potato-support.png";
 
 const VerifyEmail = () => {
   const navigate = useNavigate();
@@ -40,7 +39,7 @@ const VerifyEmail = () => {
     }
   };
 
-  return ( 
+  return (
     <div id="verify" className="verify-parent">
       <div className="potato-box">
         <img src={potatoImg} alt="Potato Logo" />
@@ -56,24 +55,30 @@ const VerifyEmail = () => {
           ) : (
             <p>We've sent a verification code to your email</p>
           )}
-          
         </div>
-        
+        <div className="verify-message-parent">
+          <div className="message-verify">
+            <p>
+              After verifying your email, admins will still check your data
+              before you can fully use our app. We will send another email if
+              your details are all valid.
+            </p>
+          </div>
+        </div>
         <div className="button">
           {isSubmitting ? (
             <div className="submitting-message">
               <h3>Sending Verification Email...</h3>
             </div>
           ) : emailSent ? (
-            <div className="success-message-verify">
-            </div>
+            <div className="success-message-verify"></div>
           ) : (
             <button className="verify-message" onClick={resendEmail}>
               Resend Verification Email
             </button>
           )}
         </div>
-        
+
         <Link to="/login">
           <div className="login-btn-forgot">
             <button onClick={authService.logOut}>LOGIN</button>
