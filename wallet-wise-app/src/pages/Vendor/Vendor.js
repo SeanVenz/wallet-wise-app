@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
 import { auth, db } from "../../utils/firebase";
 import "./Vendor.scss";
-import { doc, getDoc, updateDoc } from "@firebase/firestore";
+import { deleteDoc, doc, getDoc, updateDoc } from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
 
 function Vendor() {
@@ -145,18 +145,18 @@ function Vendor() {
       const user = auth.currentUser;
       if (user) {
         const userId = user.uid;
-  
+
         // Reference to the specific item in the cart
         const vendorFoodRef = doc(db, "vendors", userId, "foods", itemId);
-  
+
         const vendorRefSnapshot = await getDoc(vendorFoodRef);
-  
+
         if (vendorRefSnapshot.exists()) {
           // Ensure newQuantity is parsed as an integer
           const updatedQuantity = parseInt(newQuantity);
-  
+
           await updateDoc(vendorFoodRef, { Quantity: updatedQuantity });
-  
+
           // Update the quantity in the local state
           const updatedFoods = foods.map((food) => {
             if (food.id === itemId) {
@@ -182,6 +182,27 @@ function Vendor() {
   const handleLogOut = async () => {
     await auth.signOut();
     navigate("/");
+  };
+
+  const removeItemVendor = async (foodName) => {
+    try {
+      const user = auth.currentUser;
+      if (user) {
+        const userId = user.uid;
+        const foodId = `${userId}-${foodName}`;
+
+        const cartItemRef = doc(db, "vendors", userId, "foods", foodId);
+
+        await deleteDoc(cartItemRef);
+
+        const vendorFood = await getVendorFoods(userId);
+        setFoods(vendorFood);
+      } else {
+        console.error("User is not authenticated.");
+      }
+    } catch (error) {
+      console.error("Error removing item from cart:", error);
+    }
   };
 
   return (
@@ -233,6 +254,12 @@ function Vendor() {
                         className="bg-white px-5 rounded-lg"
                       >
                         +
+                      </button>
+                      <button
+                        className="minus"
+                        onClick={() => removeItemVendor(food.Name)}
+                      >
+                        Remove
                       </button>
                     </div>
                   </td>

@@ -1,5 +1,12 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { doc, setDoc, collection, getDocs, query, addDoc } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  collection,
+  getDocs,
+  query,
+  addDoc,
+} from "firebase/firestore";
 import { db, storage } from "../utils/firebase";
 
 export const getFoods = async () => {
@@ -9,7 +16,7 @@ export const getFoods = async () => {
 
   vendorSnapshot.forEach((vendorDoc) => {
     const vendorId = vendorDoc.id;
-    const foodsCollection = collection(vendorDoc.ref, "foods"); 
+    const foodsCollection = collection(vendorDoc.ref, "foods");
     const foodsSnapshot = getDocs(foodsCollection);
 
     foodsSnapshot.forEach((foodDoc) => {
@@ -42,7 +49,7 @@ export const addFood = async ({
   quantity,
   userId,
   longitude,
-  latitude
+  latitude,
 }) => {
   try {
     const storageRef = ref(storage, `foodImages/${image.name}`);
@@ -50,7 +57,7 @@ export const addFood = async ({
     const imageUrl = await getDownloadURL(storageRef);
 
     // Create a unique identifier for the food item
-    const foodId = `${userId}-${foodName}-${Date.now()}`;
+    const foodId = `${userId}-${foodName}`;
 
     // Reference to the vendor-specific food collection
     const foodDocRef = doc(db, "vendors", userId, "foods", foodId);
@@ -63,7 +70,7 @@ export const addFood = async ({
       FoodType: foodType,
       Quantity: quantity,
       Longitude: longitude,
-      Latitude: latitude
+      Latitude: latitude,
     });
 
     console.log("Food item added with ID:", foodId);
@@ -73,7 +80,6 @@ export const addFood = async ({
   }
 };
 
-
 export const getAllFoods = async () => {
   const foodCollection = collection(db, "food");
   const foodSnapshot = await getDocs(foodCollection);
@@ -82,9 +88,18 @@ export const getAllFoods = async () => {
     id: doc.id,
   }));
 };
- 
-export const addAllFood = async ({ foodName, price, isAvailable, image, foodType, quantity, storeName, latitude, longitude }) => {
 
+export const addAllFood = async ({
+  foodName,
+  price,
+  isAvailable,
+  image,
+  foodType,
+  quantity,
+  storeName,
+  latitude,
+  longitude,
+}) => {
   const storageRef = ref(storage, `images/${image.name}`);
   await uploadBytes(storageRef, image);
   const imageUrl = await getDownloadURL(storageRef);
@@ -100,6 +115,6 @@ export const addAllFood = async ({ foodName, price, isAvailable, image, foodType
     Quantity: quantity,
     StoreName: storeName,
     Latitude: latitude,
-    Longitude: longitude
+    Longitude: longitude,
   });
 };

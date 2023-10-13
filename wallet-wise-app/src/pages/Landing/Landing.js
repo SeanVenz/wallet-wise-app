@@ -64,35 +64,35 @@ function Landing() {
             <Image
               src={Lumpia}
               alt="Lumpia"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
           <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Adobo}
               alt="Adobo"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
           <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Ginabot}
               alt="Ginabot"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
           <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Siomai}
               alt="Siomai"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
           <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Chicken}
               alt="Chicken"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
         </div>
