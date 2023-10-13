@@ -1,0 +1,140 @@
+.admin-vendors {
+  background-color: #f9f2e2;
+  width: 100%;
+
+  .header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+
+  .card-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .card-header {
+      background-color: #f5f5f5;
+      padding: 1rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      margin: 0;
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin: 0;
+    }
+
+    img{
+      margin-top: 0;
+    }
+
+    .vendor-card {
+      box-shadow: rgba(40, 40, 40, 0.4) 0px 2px 4px,
+        rgba(0, 0, 0, 0.2) 0px -3px 0px inset;
+      background-color: white;
+      width: 320px;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-bottom: 2rem;
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    button {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: #d32f2f;
+      }
+    }
+  }
+
+  .vendor-map {
+    width: 100%;
+    padding: 20px;
+    // button {
+    //   background-color: transparent;
+    //   color: black;
+    //   border: 1px solid black;
+    //   box-shadow: 0px 4px 8px 0px rgba(0, 0, 0, 0.2);
+    //   border: 1px solid #ff93ad;
+    //   font-family: Source Code Pro;
+    //   font-weight: 800;
+    //   font-size: 25px;
+    //   padding: 15px 32px;
+    //   border-radius: 10px;
+    //   &:hover {
+    //     background-color: #ff93ad;
+    //     border: 1px solid #f9f2e2;
+    //   }
+    // }
+    .signup-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(
+        0,
+        0,
+        0,
+        0.5
+      ); /* Semi-transparent background overlay */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000; /* Ensure the modal is on top of other elements */
+    }
+
+    /* Modal content */
+    .signup-modal-content {
+      display: flex;
+      flex-direction: column;
+      font-family: "Source Code Pro", sans-serif;
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .close-modal {
+      margin-top: 2%;
+    }
+  }
+}
