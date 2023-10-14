@@ -178,8 +178,6 @@ function Checkout({
 
         addHasCurrentOrder(userId);
 
-        updateFoodQuantity();
-
         // Delete cart items
         deleteCartItems(userId);
 
