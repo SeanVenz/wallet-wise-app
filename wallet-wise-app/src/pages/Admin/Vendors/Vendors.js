@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { approveVendor, getAllUnverifiedVendors } from "utils/utils";
+import { approveVendor, deleteDocRef, getAllUnverifiedVendors } from "utils/utils";
 import { sendEmail } from "utils/email";
 import "./Vendors.scss";
-import { auth } from "utils/firebase";
+import { auth, db } from "utils/firebase";
 import { useNavigate } from "react-router-dom";
 import MapboxMarker from "components/Mapbox/MapBoxMarker";
+import { deleteDoc, doc, getDoc } from "@firebase/firestore";
 
 function Vendors() {
   const [unverifiedVendors, setUnverifiedVendors] = useState([]);
@@ -46,6 +47,8 @@ function Vendors() {
     try {
       // Send the rejection email
       sendEmail(vendor, rejectionTemplate);
+
+      deleteDocRef(vendor);
 
       // Remove the rejected vendor from the unverified vendors list
       setUnverifiedVendors((prevVendors) =>

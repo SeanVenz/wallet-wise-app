@@ -1,9 +1,17 @@
 .admin-vendors {
+  @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
   background-color: #f9f2e2;
   width: 100%;
-  @import url("https://fonts.googleapis.com/css2?family=Julius+Sans+One&family=Junge&family=Monoton&family=Source+Code+Pro&display=swap");
+  
   font-family: Source Code Pro;
   height: 100vh;
+
+  h1{
+    text-align: center;
+    font-size: 40px;
+    font-weight: 600;
+  }
+
   .header {
     display: flex;
     justify-content: space-around;
