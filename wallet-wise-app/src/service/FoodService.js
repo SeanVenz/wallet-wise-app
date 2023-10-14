@@ -102,15 +102,6 @@ export const addFood = async ({
   }
 };
 
-export const getAllFoods = async () => {
-  const foodCollection = collection(db, "food");
-  const foodSnapshot = await getDocs(foodCollection);
-  return foodSnapshot.docs.map((doc) => ({
-    ...doc.data(),
-    id: doc.id,
-  }));
-};
-
 export const addAllFood = async ({
   foodName,
   price,
@@ -121,14 +112,17 @@ export const addAllFood = async ({
   storeName,
   latitude,
   longitude,
+  userId
 }) => {
   const storageRef = ref(storage, `images/${image.name}`);
   await uploadBytes(storageRef, image);
   const imageUrl = await getDownloadURL(storageRef);
 
+  const foodId = `${userId}-${foodName}`;
+
   // Get a reference to the "food" collection and use addDoc to create a new document with a random ID
-  const foodCollectionRef = collection(db, "food");
-  await addDoc(foodCollectionRef, {
+  const foodCollectionRef = doc(db, "food", foodId);
+  await setDoc(foodCollectionRef, {
     Name: foodName,
     Price: price,
     isAvailable: isAvailable,
@@ -139,4 +133,13 @@ export const addAllFood = async ({
     Latitude: latitude,
     Longitude: longitude,
   });
+};
+
+export const getAllFoods = async () => {
+  const foodCollection = collection(db, "food");
+  const foodSnapshot = await getDocs(foodCollection);
+  return foodSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
 };

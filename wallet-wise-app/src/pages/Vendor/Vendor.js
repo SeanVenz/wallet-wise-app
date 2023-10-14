@@ -89,7 +89,7 @@ function Vendor() {
 
     try {
       const userId = auth.currentUser.uid;
-      await addAllFood(foodData);
+      await addAllFood({...foodData, userId: userId});
       await addFood({
         ...foodData,
         storeName: storeName,
@@ -148,6 +148,7 @@ function Vendor() {
 
         // Reference to the specific item in the cart
         const vendorFoodRef = doc(db, "vendors", userId, "foods", itemId);
+        const foodRef = doc(db, "food", itemId);
 
         const vendorRefSnapshot = await getDoc(vendorFoodRef);
 
@@ -156,6 +157,7 @@ function Vendor() {
           const updatedQuantity = parseInt(newQuantity);
 
           await updateDoc(vendorFoodRef, { Quantity: updatedQuantity });
+          await updateDoc(foodRef, { Quantity: updatedQuantity });
 
           // Update the quantity in the local state
           const updatedFoods = foods.map((food) => {
@@ -192,8 +194,10 @@ function Vendor() {
         const foodId = `${userId}-${foodName}`;
 
         const cartItemRef = doc(db, "vendors", userId, "foods", foodId);
+        const foodRef = doc(db, "food", foodId);
 
         await deleteDoc(cartItemRef);
+        await deleteDoc(foodRef);
 
         const vendorFood = await getVendorFoods(userId);
         setFoods(vendorFood);
