@@ -90,7 +90,7 @@ function Vendors() {
                 <p>Store Name: {vendor.idNumber}</p>
                 <p>Phone Number: {vendor.phoneNumber}</p>
                 <p>Store Image:</p>
-                <img src={vendor.imageUrl} alt="Location" />
+                <img src={vendor.imageUrl} alt="Location" /> 
                 <div>
                   <div className="vendor-map">
                     <button className="open-map" onClick={handleOpenMap}>
