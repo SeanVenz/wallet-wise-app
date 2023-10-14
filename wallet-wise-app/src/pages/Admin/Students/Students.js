@@ -1,5 +1,9 @@
 import React, { useEffect, useState } from "react";
-import { approveStudent, getAllUnverifiedStudents } from "utils/utils";
+import {
+  approveStudent,
+  deleteDocRef,
+  getAllUnverifiedStudents,
+} from "utils/utils";
 import { sendEmail } from "utils/email";
 import "./Students.scss";
 import { auth } from "utils/firebase";
@@ -20,23 +24,20 @@ function Students() {
   }, []);
 
   const handleApprovalAndEmail = (student) => {
-    // First, send the approval email
     sendEmail(student, approvalTemplate);
 
-    // Then, approve the student
     approveStudent(student.id);
 
-    // Optionally, you can reload the list of unverified students if needed
     setUnverifiedStudents((prevStudents) =>
-    prevStudents.filter((v) => v.id !== student.id)
+      prevStudents.filter((v) => v.id !== student.id)
     );
   };
 
   const handleRejectionEmail = (student) => {
     sendEmail(student, rejectionTemplate);
-
+    deleteDocRef(student);
     setUnverifiedStudents((prevStudents) =>
-    prevStudents.filter((v) => v.id !== student.id)
+      prevStudents.filter((v) => v.id !== student.id)
     );
   };
 
@@ -61,12 +62,14 @@ function Students() {
               <div className="card-body">
                 <p>ID Number: {student.idNumber}</p>
                 <p>Phone Number: {student.phoneNumber}</p>
-                <button onClick={() => handleApprovalAndEmail(student)}>
-                  Approve
-                </button>
-                <button onClick={() => handleRejectionEmail(student)}>
-                  Reject
-                </button>
+                <div className="decision-buttons">
+                  <button onClick={() => handleRejectionEmail(student)}>
+                    Reject
+                  </button>
+                  <button onClick={() => handleApprovalAndEmail(student)}>
+                    Approve
+                  </button>
+                </div>
               </div>
             </div>
           ))}
