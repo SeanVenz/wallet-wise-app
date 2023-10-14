@@ -28,6 +28,7 @@ import PageNotFound from "./pages/NotFound/PageNotFound";
 import NoInternetError from "pages/NoInternetError/NoInternetError";
 import AdminSidebar from "pages/Admin/AdminSidebar";
 import Vendors from "pages/Admin/Vendors/Vendors";
+import OrdersHistory from "pages/Admin/OrdersHistory/ordersHistory";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -106,6 +107,7 @@ function App() {
                   <Route index={true} element={<Students />} />
                   <Route path="students" element={<Students />} />
                   <Route path="vendors" element={<Vendors />} />
+                  <Route path="history" element={<OrdersHistory/>} />
                 </Routes>
               </div>
             ) : (
