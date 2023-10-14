@@ -1,6 +1,6 @@
 import emailjs from 'emailjs-com';
 
-emailjs.init('EUnpkVzwYrJ66l5sU');
+emailjs.init('PHfqcFObIRZdMxJDw');
 
 export const sendEmail = (student, template) => {
     const templateParams = {
