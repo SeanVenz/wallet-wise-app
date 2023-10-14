@@ -92,6 +92,7 @@ export const addFood = async ({
       Quantity: quantity,
       Longitude: longitude,
       Latitude: latitude,
+      foodId: foodId,
     });
 
     console.log("Food item added with ID:", foodId);
