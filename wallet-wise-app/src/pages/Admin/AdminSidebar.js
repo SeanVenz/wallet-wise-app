@@ -160,6 +160,7 @@ const AdminSidebar = () => {
                   textDecoration: "none",
                   color: "black",
                   width: "100%",
+                  textAlign: "center"
                 }}
               >
                 <div className="student-side-category font-semibold">
