@@ -89,6 +89,12 @@
           }
         }
 
+        .input-img {
+          input{
+            box-shadow: none;
+          }
+        }
+
         label {
           font-family: Source Code Pro;
           font-weight: 800;
