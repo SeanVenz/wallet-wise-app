@@ -157,7 +157,6 @@ export const FoodCard = (props) => {
       {showMapModal && (
         <div className="modal">
           <div className="mapModal justify-center bg-red-500">
-            <h2>MAP</h2>
             <div className="map-container">
               <MapboxMarker latitude={latitude} longitude={longitude} />
             </div>
