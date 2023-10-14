@@ -8,6 +8,7 @@ import { sendEmail } from "utils/email";
 import "./Students.scss";
 import { auth } from "utils/firebase";
 import { useNavigate } from "react-router-dom";
+import { emailDecision } from "utils/contact";
 
 function Students() {
   const [unverifiedStudents, setUnverifiedStudents] = useState([]);
@@ -24,7 +25,9 @@ function Students() {
   }, []);
 
   const handleApprovalAndEmail = (student) => {
-    sendEmail(student, approvalTemplate);
+    const decisionMessage =
+      "Your Wallet Wise application has been approved. You may now use our application. Thank you for signing up.";
+    emailDecision(student, decisionMessage);
 
     approveStudent(student.id);
 
@@ -34,7 +37,9 @@ function Students() {
   };
 
   const handleRejectionEmail = (student) => {
-    sendEmail(student, rejectionTemplate);
+    const decisionMessage =
+      "Your Wallet Wise application has been denied. Data that you entered may be incorrect. Please try signing up again.";
+    emailDecision(student, decisionMessage);
     deleteDocRef(student);
     setUnverifiedStudents((prevStudents) =>
       prevStudents.filter((v) => v.id !== student.id)
