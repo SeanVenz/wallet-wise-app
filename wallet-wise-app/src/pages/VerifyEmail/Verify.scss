@@ -3,7 +3,7 @@
 .verify-parent {
   display: flex;
   flex-direction: row;
-  height: 80%;
+  height: 70%;
   justify-content: center;
   align-items: center;
   padding-top: 5%;
@@ -26,7 +26,6 @@
     background-color: #f9f2e2;
     width: 50%;
     padding-top: 5%;
-    padding-bottom: 10%;
   }
   .verify-wallet {
     display: flex;
@@ -77,6 +76,25 @@
     font-size: 30px;
     align-items: center;
     text-align: center;
+  }
+
+  .verify-message-parent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .message-verify {
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    font-family: Junge;
+    padding-bottom: 2%;
+    font-size: 16px;
+    align-items: center;
+    text-align: center;
+    color: red;
   }
 
   .button {

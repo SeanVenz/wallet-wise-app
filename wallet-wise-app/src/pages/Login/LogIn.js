@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import "../Login/LogIn.css";
 
 import PotatoMagni from "images/potato-magnifying-glass.png";
+import { auth, db } from "utils/firebase";
+import { doc, getDoc } from "@firebase/firestore";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -21,21 +23,40 @@ const LogIn = () => {
       await authService.logIn(email, password);
       const user = authService.getCurrentUser();
       setIsSubmittingLogin(false);
-
-      if (!user.emailVerified) {
-        setError("Please verify your email first.");
-        authService.logOut();
+  
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const docSnap = await getDoc(userRef);
+  
+      if (docSnap.exists()) {
+        if (docSnap.data().isVerified === false) {
+          authService.logOut();
+          setError("Admins will verify your information first.");
+        } else {
+          if (user.emailVerified) {
+            // Retrieve the user's role from Firestore
+            const role = await authService.getUserRoleFromFirestore(user.uid);
+  
+            if (role === "vendor") {
+              navigate("/vendor");
+            } else if (role === "student") {
+              navigate("/student");
+            } else {
+              navigate("/admin");
+            }
+          } else {
+            setError("Please verify your email first.");
+          }
+        }
       } else {
-        // Retrieve the user's role from Firestore
-        const role = await authService.getUserRoleFromFirestore(user.uid);
-
-        role === "vendor" ? navigate("/vendor") : navigate("/student");
+        setError("User data not found.");
+        authService.logOut();
       }
     } catch (err) {
       setIsSubmittingLogin(false); // Stop loading effect on error
       setError(err.message);
     }
   };
+  
 
   return (
     <div className="flex bg-gray-100 w-screen h-screen items-center lg:justify-between lg:px-20">

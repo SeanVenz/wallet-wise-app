@@ -9,25 +9,46 @@ import {
 } from "firebase/firestore";
 import { db, storage } from "../utils/firebase";
 
+// export const getFoods = async () => {
+//   try {
+//     const vendorsCollection = collection(db, "vendors");
+//     const vendorFoodQuery = query(vendorsCollection);
+//     const vendorSnapshot = await getDocs(vendorFoodQuery);
+//     console.log(vendorSnapshot.docs);
+
+//     const vendorFoods = [];
+
+//     for (const vendorDoc of vendorSnapshot.docs) {
+//       const vendorId = vendorDoc.id;
+//       const foodsCollection = collection(vendorDoc.ref, "foods");
+//       const foodsSnapshot = await getDocs(foodsCollection);
+
+//       foodsSnapshot.forEach((foodDoc) => {
+//         vendorFoods.push({
+//           ...foodDoc.data(),
+//           id: foodDoc.id,
+//           vendorId: vendorId,
+//         });
+//       });
+//     }
+
+//     return vendorFoods;
+//   } catch (error) {
+//     console.error("Error fetching data from Firestore:", error);
+//     return [];
+//   }
+// };
+
 export const getFoods = async () => {
-  const vendorsCollection = collection(db, "vendors");
-  const vendorSnapshot = await getDocs(vendorsCollection);
-  const vendorFoods = [];
-
-  vendorSnapshot.forEach((vendorDoc) => {
-    const vendorId = vendorDoc.id;
-    const foodsCollection = collection(vendorDoc.ref, "foods");
-    const foodsSnapshot = getDocs(foodsCollection);
-
-    foodsSnapshot.forEach((foodDoc) => {
-      vendorFoods.push({
-        ...foodDoc.data(),
-        id: foodDoc.id,
-        vendorId: vendorId,
-      });
-    });
-  });
-  return vendorFoods;
+  const vendorFoodCollection = collection(db, "vendors");
+  const vendorFoodQuery = query(vendorFoodCollection);
+  const vendorFoodSnapshot = await getDocs(vendorFoodQuery);
+  
+  console.log(vendorFoodSnapshot.docs);
+  return vendorFoodSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
 };
 
 export const getVendorFoods = async (userId) => {
@@ -71,6 +92,7 @@ export const addFood = async ({
       Quantity: quantity,
       Longitude: longitude,
       Latitude: latitude,
+      foodId: foodId,
     });
 
     console.log("Food item added with ID:", foodId);
@@ -78,15 +100,6 @@ export const addFood = async ({
     console.error("Error adding food item:", error);
     throw error;
   }
-};
-
-export const getAllFoods = async () => {
-  const foodCollection = collection(db, "food");
-  const foodSnapshot = await getDocs(foodCollection);
-  return foodSnapshot.docs.map((doc) => ({
-    ...doc.data(),
-    id: doc.id,
-  }));
 };
 
 export const addAllFood = async ({
@@ -99,14 +112,17 @@ export const addAllFood = async ({
   storeName,
   latitude,
   longitude,
+  userId
 }) => {
   const storageRef = ref(storage, `images/${image.name}`);
   await uploadBytes(storageRef, image);
   const imageUrl = await getDownloadURL(storageRef);
 
+  const foodId = `${userId}-${foodName}`;
+
   // Get a reference to the "food" collection and use addDoc to create a new document with a random ID
-  const foodCollectionRef = collection(db, "food");
-  await addDoc(foodCollectionRef, {
+  const foodCollectionRef = doc(db, "food", foodId);
+  await setDoc(foodCollectionRef, {
     Name: foodName,
     Price: price,
     isAvailable: isAvailable,
@@ -117,4 +133,13 @@ export const addAllFood = async ({
     Latitude: latitude,
     Longitude: longitude,
   });
+};
+
+export const getAllFoods = async () => {
+  const foodCollection = collection(db, "food");
+  const foodSnapshot = await getDocs(foodCollection);
+  return foodSnapshot.docs.map((doc) => ({
+    ...doc.data(),
+    id: doc.id,
+  }));
 };

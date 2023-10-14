@@ -1,5 +1,5 @@
-import { deleteDoc, doc, getDoc, updateDoc } from "@firebase/firestore";
-import { db } from "./firebase";
+import { collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc } from "@firebase/firestore";
+import { auth, db } from "./firebase";
 
 export function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
@@ -49,3 +49,73 @@ export const handleCancelOrder = async (ordererId, orderId) => {
     await deleteDoc(orderRef);
   }
 };
+
+export const getAllUnverifiedStudents = async () => {
+  const studentCollection = collection(db, "users");
+  const studentCollectionQuery = query(studentCollection);
+  const studentSnapshot = await getDocs(studentCollectionQuery);
+
+  const unverifiedStudents = studentSnapshot.docs
+    .filter((doc) => {
+      const data = doc.data();
+      return data.role === "student" && data.isVerified === false;
+    })
+    .map((doc) => {
+      const data = doc.data();
+      return { id: doc.id, ...data };
+    });
+    return unverifiedStudents;
+}
+
+export const approveStudent = async (uid) => {
+  const studentRef = doc(db, "users", uid);
+  const snap = await getDoc(studentRef);
+  if(snap.exists()){
+    await updateDoc(studentRef, {isVerified:true})
+    await getAllUnverifiedStudents();
+  }
+}
+
+export const getAllUnverifiedVendors = async () => {
+  const vendorCollection = collection(db, "users");
+  const vendorCollectionQuery = query(vendorCollection);
+  const vendorSnapshot = await getDocs(vendorCollectionQuery);
+
+  const unverifiedVendors = vendorSnapshot.docs
+    .filter((doc) => {
+      const data = doc.data();
+      return data.role === "vendor" && data.isVerified === false;
+    })
+    .map((doc) => {
+      const data = doc.data();
+      return { id: doc.id, ...data };
+    });
+    return unverifiedVendors;
+}
+
+export const approveVendor = async (uid) => {
+  const vendorRef = doc(db, "users", uid);
+  const snap = await getDoc(vendorRef);
+  if(snap.exists()){
+    await updateDoc(vendorRef, {isVerified:true})
+    await getAllUnverifiedVendors();
+  }
+}
+
+export const deleteDocRef = async(user) => {
+  const userRef = doc(db, "users", user.id);
+  await deleteDoc(userRef);
+  console.log("successfully deleted")
+}
+
+export const getAllOrdersHistory = async () => {
+  const orderRef = collection(db, "orders-history");
+  const orderSnapshot = await getDocs(orderRef);
+
+  const ordersArray = orderSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  
+  return ordersArray;
+}

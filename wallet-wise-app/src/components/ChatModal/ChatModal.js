@@ -273,7 +273,8 @@ function ChatModal({ isOpen, onClose }) {
           courierName: courierName,
           courierId: currentUser,
           courierIdNumber: senderIdNumber,
-          recipientIdNumber: recipientIdNumber 
+          recipientIdNumber: recipientIdNumber,
+          courierPhoneNumber: senderPhoneNumber 
         });
   
         addDeliveryHistory(currentUser, orderId);

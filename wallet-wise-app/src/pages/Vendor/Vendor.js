@@ -6,6 +6,8 @@ import { auth, db } from "../../utils/firebase";
 import "./Vendor.scss";
 import { deleteDoc, doc, getDoc, updateDoc } from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import closeButton from "../../images/close.png"; 
+import { sendEmail } from "utils/contact";
 
 function Vendor() {
   const navigate = useNavigate();
@@ -16,6 +18,13 @@ function Vendor() {
   const [foods, setFoods] = useState([]);
   const [longitude, setLongitude] = useState();
   const [latitude, setLatitude] = useState();
+  const [showSupport, setShowSupport] = useState(false);
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [textarea, setTextarea] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionMessage, setSubmissionMessage] = useState("");
+  const [fullName, setFullName] = useState("")
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -27,6 +36,8 @@ function Vendor() {
         setStoreName(docSnap.data().idNumber);
         setLongitude(docSnap.data().longitude);
         setLatitude(docSnap.data().latitude);
+        setEmail(docSnap.data().email);
+        setFullName(docSnap.data().displayName);
       } else {
         console.log("No such document!");
       }
@@ -89,7 +100,7 @@ function Vendor() {
 
     try {
       const userId = auth.currentUser.uid;
-      await addAllFood(foodData);
+      await addAllFood({ ...foodData, userId: userId });
       await addFood({
         ...foodData,
         storeName: storeName,
@@ -148,6 +159,7 @@ function Vendor() {
 
         // Reference to the specific item in the cart
         const vendorFoodRef = doc(db, "vendors", userId, "foods", itemId);
+        const foodRef = doc(db, "food", itemId);
 
         const vendorRefSnapshot = await getDoc(vendorFoodRef);
 
@@ -156,6 +168,7 @@ function Vendor() {
           const updatedQuantity = parseInt(newQuantity);
 
           await updateDoc(vendorFoodRef, { Quantity: updatedQuantity });
+          await updateDoc(foodRef, { Quantity: updatedQuantity });
 
           // Update the quantity in the local state
           const updatedFoods = foods.map((food) => {
@@ -192,8 +205,10 @@ function Vendor() {
         const foodId = `${userId}-${foodName}`;
 
         const cartItemRef = doc(db, "vendors", userId, "foods", foodId);
+        const foodRef = doc(db, "food", foodId);
 
         await deleteDoc(cartItemRef);
+        await deleteDoc(foodRef);
 
         const vendorFood = await getVendorFoods(userId);
         setFoods(vendorFood);
@@ -205,12 +220,90 @@ function Vendor() {
     }
   };
 
+  const handleOpenSupport = () => {
+    setShowSupport(true);
+  };
+
+  const handleCloseSupport = () => {
+    setSubject("");
+    setTextarea("");
+    setShowSupport(false);
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    try {
+      await sendEmail(textarea, subject, fullName, email);
+      setSubject("");
+      setTextarea("");
+      setTimeout(() => {
+        setSubmissionMessage("Your form has been submitted");
+        setIsSubmitting(false);
+      }, 2000);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setSubmissionMessage("An error occurred during submission");
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="h-screen w-screen gap-10 flex flex-col main-page justify-between">
       <div className="w-full px-[60px] lg:px-10 flex flex-row justify-between items-end lg:items-center title-add-button">
         <strong className="w-full text-[25px]">{storeName}</strong>
         <div className="logout-vendor flex items-center">
           <div className="logout-button">
+            <p className="message" onClick={handleOpenSupport}>
+              Contact Customer Support
+            </p>
+            {showSupport && (
+              <div className="customer-modal">
+                <div className="customer-modal-content">
+                  <div className="close">
+                    <img
+                      className="close-chat"
+                      onClick={handleCloseSupport}
+                      alt="close"
+                      src={closeButton}
+                    ></img>
+                  </div>
+                  <p>
+                    Please indicate in the message your Facebook or Messenger
+                    account so we can contact you immediately
+                  </p>
+                  <form onSubmit={handleFormSubmit}>
+                    {isSubmitting ? (
+                      <p>Submitting...</p>
+                    ) : submissionMessage ? (
+                      <p>{submissionMessage}</p>
+                    ) : (
+                      <>
+                        <div className="form-group">
+                          <label htmlFor="subject">Subject:</label>
+                          <input
+                            type="text"
+                            id="subject"
+                            value={subject}
+                            onChange={(e) => setSubject(e.target.value)}
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="textarea">Message:</label>
+                          <textarea
+                            id="textarea"
+                            value={textarea}
+                            onChange={(e) => setTextarea(e.target.value)}
+                          />
+                        </div>
+                        <button type="submit">Submit</button>
+                      </>
+                    )}
+                  </form>
+                </div>
+              </div>
+            )}
             <button onClick={handleLogOut}>Log Out</button>
           </div>
         </div>

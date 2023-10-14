@@ -80,7 +80,7 @@ function Cart() {
         removeItemFromCart(itemId);
         return false;
       }
-      const user = auth.currentUser;
+      const user = auth.currentUser; 
       var unitPrice = 0;
       var newTotalPrice = 0;
       if (user) {
