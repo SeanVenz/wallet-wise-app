@@ -107,3 +107,15 @@ export const deleteDocRef = async(user) => {
   await deleteDoc(userRef);
   console.log("successfully deleted")
 }
+
+export const getAllOrdersHistory = async () => {
+  const orderRef = collection(db, "orders-history");
+  const orderSnapshot = await getDocs(orderRef);
+
+  const ordersArray = orderSnapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  }));
+  
+  return ordersArray;
+}
