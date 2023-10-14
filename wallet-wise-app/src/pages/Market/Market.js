@@ -125,9 +125,6 @@ const StudentMarket = () => {
                 return true; // Include all items if the checkbox is not checked
               }
             })
-            
-            
-            
             .map((food, index) => (
               <FoodCard
                 key={index}
