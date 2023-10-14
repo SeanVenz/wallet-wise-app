@@ -1,11 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { approveVendor, deleteDocRef, getAllUnverifiedVendors } from "utils/utils";
+import {
+  approveVendor,
+  deleteDocRef,
+  getAllUnverifiedVendors,
+} from "utils/utils";
 import { sendEmail } from "utils/email";
 import "./Vendors.scss";
 import { auth, db } from "utils/firebase";
 import { useNavigate } from "react-router-dom";
 import MapboxMarker from "components/Mapbox/MapBoxMarker";
 import { deleteDoc, doc, getDoc } from "@firebase/firestore";
+import { emailDecision } from "utils/contact";
 
 function Vendors() {
   const [unverifiedVendors, setUnverifiedVendors] = useState([]);
@@ -28,8 +33,9 @@ function Vendors() {
 
   const handleApprovalAndEmail = async (vendor) => {
     try {
-      // First, send the approval email
-      sendEmail(vendor, approvalTemplate);
+      const decisionMessage =
+        "Your Wallet Wise application has been approved. You may now use our application. Thank you for signing up.";
+      emailDecision(vendor, decisionMessage);
 
       // Then, approve the vendor
       await approveVendor(vendor.id);
@@ -37,7 +43,7 @@ function Vendors() {
       // Remove the approved vendor from the unverified vendors list
       setUnverifiedVendors((prevVendors) =>
         prevVendors.filter((v) => v.id !== vendor.id)
-      );
+      );  
     } catch (error) {
       console.error("Error approving and sending email:", error);
     }
@@ -46,7 +52,9 @@ function Vendors() {
   const handleRejectionEmail = async (vendor) => {
     try {
       // Send the rejection email
-      sendEmail(vendor, rejectionTemplate);
+      const decisionMessage =
+        "Your Wallet Wise application has been denied. Data that you entered may be incorrect. Please try signing up again.";
+      emailDecision(vendor, decisionMessage);
 
       deleteDocRef(vendor);
 
@@ -91,9 +99,9 @@ function Vendors() {
               </div>
               <div className="card-body">
                 <div className="details">
-                <p>Store Name: {vendor.idNumber}</p>
-                <p>Phone Number: {vendor.phoneNumber}</p>
-                <p>Store Image:</p>
+                  <p>Store Name: {vendor.idNumber}</p>
+                  <p>Phone Number: {vendor.phoneNumber}</p>
+                  <p>Store Image:</p>
                 </div>
                 <img src={vendor.imageUrl} alt="Location" />
                 <div>
