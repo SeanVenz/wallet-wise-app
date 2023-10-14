@@ -60,6 +60,19 @@ const AdminSidebar = () => {
               <div className="student-side-category font-semibold">Vendors</div>
             </div>
           </li>
+          <li>
+            <div
+              onClick={() => navigate("/admin/history")}
+              activeStyle={{
+                fontWeight: "bold",
+                backgroundColor: "white", // Background color on click
+                color: "black", // Text color on click
+              }}
+              style={{ textDecoration: "none", color: "black", width: "100%", textAlign: "center" }}
+            >
+              <div className="student-side-category font-semibold">Orders History</div>
+            </div>
+          </li>
         </ul>
         <Outlet />
       </div>
@@ -132,6 +145,25 @@ const AdminSidebar = () => {
               >
                 <div className="student-side-category font-semibold">
                   Vendors
+                </div>
+              </div>
+            </li>
+            <li>
+              <div
+                onClick={() => navigate("/admin/history")}
+                activeStyle={{
+                  fontWeight: "bold",
+                  backgroundColor: "white", // Background color on click
+                  color: "black", // Text color on click
+                }}
+                style={{
+                  textDecoration: "none",
+                  color: "black",
+                  width: "100%",
+                }}
+              >
+                <div className="student-side-category font-semibold">
+                  Orders History
                 </div>
               </div>
             </li>
