@@ -87,10 +87,12 @@ function Vendors() {
                 <h2>{vendor.displayName}</h2>
               </div>
               <div className="card-body">
+                <div className="details">
                 <p>Store Name: {vendor.idNumber}</p>
                 <p>Phone Number: {vendor.phoneNumber}</p>
                 <p>Store Image:</p>
-                <img src={vendor.imageUrl} alt="Location" /> 
+                </div>
+                <img src={vendor.imageUrl} alt="Location" />
                 <div>
                   <div className="vendor-map">
                     <button className="open-map" onClick={handleOpenMap}>
@@ -114,13 +116,14 @@ function Vendors() {
                     )}
                   </div>
                 </div>
-
-                <button onClick={() => handleApprovalAndEmail(vendor)}>
-                  Approve
-                </button>
-                <button onClick={() => handleRejectionEmail(vendor)}>
-                  Reject
-                </button>
+                <div className="decision-buttons">
+                  <button onClick={() => handleRejectionEmail(vendor)}>
+                    Reject
+                  </button>
+                  <button onClick={() => handleApprovalAndEmail(vendor)}>
+                    Approve
+                  </button>
+                </div>
               </div>
             </div>
           ))}
