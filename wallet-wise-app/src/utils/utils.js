@@ -101,3 +101,9 @@ export const approveVendor = async (uid) => {
     await getAllUnverifiedVendors();
   }
 }
+
+export const deleteDocRef = async(user) => {
+  const userRef = doc(db, "users", user.id);
+  await deleteDoc(userRef);
+  console.log("successfully deleted")
+}
