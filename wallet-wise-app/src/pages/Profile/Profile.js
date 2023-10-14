@@ -13,6 +13,8 @@ import { updateProfile } from "firebase/auth";
 import profile from "../../images/profile.png";
 import "./Profile.scss";
 import OrderModal from "components/OrderModal/OrderModal";
+import { sendEmail } from "utils/contact";
+import closeButton from "../../images/close.png";
 
 const StudentProfile = () => {
   const navigate = useNavigate();
@@ -24,6 +26,12 @@ const StudentProfile = () => {
   const [orders, setOrders] = useState([]);
   const [orderData, setOrderData] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showSupport, setShowSupport] = useState(false);
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [textarea, setTextarea] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submissionMessage, setSubmissionMessage] = useState("");
 
   const getProfilePicture = async (uid) => {
     const profile = await doc(db, "users", uid);
@@ -127,6 +135,7 @@ const StudentProfile = () => {
       if (docSnap.exists()) {
         setPhoneNumber(docSnap.data().phoneNumber);
         setIdNumber(docSnap.data().idNumber);
+        setEmail(docSnap.data().email);
       } else {
         console.log("No such document!");
       }
@@ -164,9 +173,88 @@ const StudentProfile = () => {
     setIsModalOpen(false); // Close the modal
   };
 
+  const handleOpenSupport = () => {
+    setShowSupport(true);
+  };
+
+  const handleCloseSupport = () => {
+    setSubject("");
+    setTextarea("");
+    setShowSupport(false);
+  };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+  
+    try {
+      await sendEmail(textarea, subject, fullName, email);
+      setSubject("");
+      setTextarea("");
+      setTimeout(() => {
+        setSubmissionMessage("Your form has been submitted");
+        setIsSubmitting(false); 
+      }, 2000);
+    } catch (error) {
+      console.error("Form submission error:", error);
+      setSubmissionMessage("An error occurred during submission");
+      setIsSubmitting(false);
+    }
+  };
+  
+
   return (
     <div className="profile">
       <div className="logout-button">
+        <p className="message" onClick={handleOpenSupport}>
+          Contact Customer Support
+        </p>
+        {showSupport && (
+          <div className="customer-modal">
+            <div className="customer-modal-content">
+              <div className="close">
+                <img
+                  className="close-chat"
+                  onClick={handleCloseSupport}
+                  alt="close"
+                  src={closeButton}
+                ></img>
+              </div>
+              <p>
+                Please indicate in the message your Facebook or Messenger
+                account so we can contact you immediately
+              </p>
+              <form onSubmit={handleFormSubmit}>
+                {isSubmitting ? (
+                  <p>Submitting...</p>
+                ) : submissionMessage ? (
+                  <p>{submissionMessage}</p>
+                ) : (
+                  <>
+                    <div className="form-group">
+                      <label htmlFor="subject">Subject:</label>
+                      <input
+                        type="text"
+                        id="subject"
+                        value={subject}
+                        onChange={(e) => setSubject(e.target.value)}
+                      />
+                    </div>
+                    <div className="form-group">
+                      <label htmlFor="textarea">Message:</label>
+                      <textarea
+                        id="textarea"
+                        value={textarea}
+                        onChange={(e) => setTextarea(e.target.value)}
+                      />
+                    </div>
+                    <button type="submit">Submit</button>
+                  </>
+                )}
+              </form>
+            </div>
+          </div>
+        )}
         <button onClick={handleLogOut}>Log Out</button>
       </div>
       <div className="details">
@@ -248,8 +336,8 @@ const StudentProfile = () => {
           </>
         )}
         {isModalOpen && (
-        <OrderModal orderData={orderData} onClose={handleCloseModal} />
-      )}
+          <OrderModal orderData={orderData} onClose={handleCloseModal} />
+        )}
       </div>
     </div>
   );
