@@ -4,20 +4,16 @@ import {
   deleteDocRef,
   getAllUnverifiedVendors,
 } from "utils/utils";
-import { sendEmail } from "utils/email";
 import "./Vendors.scss";
-import { auth, db } from "utils/firebase";
+import { auth } from "utils/firebase";
 import { useNavigate } from "react-router-dom";
 import MapboxMarker from "components/Mapbox/MapBoxMarker";
-import { deleteDoc, doc, getDoc } from "@firebase/firestore";
 import { emailDecision } from "utils/contact";
 
 function Vendors() {
   const [unverifiedVendors, setUnverifiedVendors] = useState([]);
   const navigate = useNavigate();
   const [showMap, setShowMap] = useState(false);
-  const approvalTemplate = "template_85u4049";
-  const rejectionTemplate = "template_31g6itq";
 
   useEffect(() => {
     const fetchUnverifiedVendors = async () => {

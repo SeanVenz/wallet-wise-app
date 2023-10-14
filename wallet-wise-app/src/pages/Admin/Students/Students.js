@@ -4,7 +4,6 @@ import {
   deleteDocRef,
   getAllUnverifiedStudents,
 } from "utils/utils";
-import { sendEmail } from "utils/email";
 import "./Students.scss";
 import { auth } from "utils/firebase";
 import { useNavigate } from "react-router-dom";
@@ -13,8 +12,6 @@ import { emailDecision } from "utils/contact";
 function Students() {
   const [unverifiedStudents, setUnverifiedStudents] = useState([]);
   const navigate = useNavigate();
-  const approvalTemplate = "template_85u4049";
-  const rejectionTemplate = "template_31g6itq";
 
   useEffect(() => {
     const getAllStudents = async () => {
