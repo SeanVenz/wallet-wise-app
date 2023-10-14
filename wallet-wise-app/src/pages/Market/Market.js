@@ -108,23 +108,23 @@ const StudentMarket = () => {
                 storeName === "All" ||
                 food.StoreName.toLowerCase().includes(storeName.toLowerCase())
             )
-            .filter((food) => {
-              if (isFullCourseMeal && food.FoodType === "Main Dish") {
-                const mainDishItems = foods.filter((item) => item.FoodType === "Main Dish");
-                if (mainDishItems.length > 0) {
-                  const filteredMainDishes = mainDishItems.filter(item => parseFloat(item.Price) <= maxPrice);
-                  if (filteredMainDishes.length > 0) {
-                    const mostExpensiveMainDish = filteredMainDishes.reduce((max, item) =>
-                      parseFloat(item.Price) > parseFloat(max.Price) ? item : max
-                    );
-                    return mostExpensiveMainDish === food;
-                  }
-                }
-                return false; // Exclude non-main dish items
-              } else {
-                return true; // Include all items if the checkbox is not checked
-              }
-            })
+            // .filter((food) => {
+            //   if (isFullCourseMeal && food.FoodType === "Main Dish") {
+            //     const mainDishItems = foods.filter((item) => item.FoodType === "Main Dish");
+            //     if (mainDishItems.length > 0) {
+            //       const filteredMainDishes = mainDishItems.filter(item => parseFloat(item.Price) <= maxPrice);
+            //       if (filteredMainDishes.length > 0) {
+            //         const mostExpensiveMainDish = filteredMainDishes.reduce((max, item) =>
+            //           parseFloat(item.Price) > parseFloat(max.Price) ? item : max
+            //         );
+            //         return mostExpensiveMainDish === food;
+            //       }
+            //     }
+            //     return false; // Exclude non-main dish items
+            //   } else {
+            //     return true; // Include all items if the checkbox is not checked
+            //   }
+            // })
             .map((food, index) => (
               <FoodCard
                 key={index}
