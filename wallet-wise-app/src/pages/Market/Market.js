@@ -14,6 +14,8 @@ const StudentMarket = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [storeNames, setStoreNames] = useState([]);
   const [isFullCourseMeal, setIsFullCourseMeal] = useState(false);
+  const [hasSelectedDrink, setHasSelectedDrink] = useState(false);
+  const [hasRice, setHasRice] = useState(false);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -44,6 +46,37 @@ const StudentMarket = () => {
 
     fetchFoods();
   }, []);
+
+  const filterFullCourse = (food) => {
+    if (isFullCourseMeal) {
+      if (food.FoodType === "Main Dish") {
+        const mainDishItems = foods.filter(
+          (item) => item.FoodType === "Main Dish"
+        );
+        if (mainDishItems.length > 0) {
+          const filteredMainDishes = mainDishItems.filter(
+            (item) => parseFloat(item.Price) < maxPrice
+          );
+          if (filteredMainDishes.length > 0) {
+            const mostExpensiveMainDish = filteredMainDishes.reduce(
+              (max, item) =>
+                parseFloat(item.Price) > parseFloat(max.Price) ? item : max
+            );
+            return mostExpensiveMainDish === food;
+          }
+        }
+        return false; // Exclude non-main dish items
+      } else if (food.Name === "Rice" && !hasRice) {
+        setHasRice(true);
+        return true; // Include "Rice" items
+      } else if (food.FoodType === "Drinks") {
+        return true; // Include "Drinks" items
+      }
+    } else {
+      return true; // Include all items if the checkbox is not checked
+    }
+    return false;
+  };
 
   return (
     <div className="market-parent">
@@ -108,23 +141,7 @@ const StudentMarket = () => {
                 storeName === "All" ||
                 food.StoreName.toLowerCase().includes(storeName.toLowerCase())
             )
-            // .filter((food) => {
-            //   if (isFullCourseMeal && food.FoodType === "Main Dish") {
-            //     const mainDishItems = foods.filter((item) => item.FoodType === "Main Dish");
-            //     if (mainDishItems.length > 0) {
-            //       const filteredMainDishes = mainDishItems.filter(item => parseFloat(item.Price) <= maxPrice);
-            //       if (filteredMainDishes.length > 0) {
-            //         const mostExpensiveMainDish = filteredMainDishes.reduce((max, item) =>
-            //           parseFloat(item.Price) > parseFloat(max.Price) ? item : max
-            //         );
-            //         return mostExpensiveMainDish === food;
-            //       }
-            //     }
-            //     return false; // Exclude non-main dish items
-            //   } else {
-            //     return true; // Include all items if the checkbox is not checked
-            //   }
-            // })
+            .filter((food) => filterFullCourse(food))
             .map((food, index) => (
               <FoodCard
                 key={index}
