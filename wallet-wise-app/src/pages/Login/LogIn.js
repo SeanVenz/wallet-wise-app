@@ -106,7 +106,7 @@ const LogIn = () => {
               />
             </div>
           </div>
-          <div className="flex w-full justify-center text-[Source Code Pro] text-[20px] font-bold text-[#ff0000]">
+          <div className="flex w-full justify-center text-[Source Code Pro] text-[12px] md:text-[20px] font-bold text-[#ff0000]">
             {error && <p>{error}</p>}
           </div>
 
