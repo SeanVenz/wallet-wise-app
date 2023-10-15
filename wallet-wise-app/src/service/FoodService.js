@@ -83,7 +83,7 @@ export const addFood = async ({
     // Reference to the vendor-specific food collection
     const foodDocRef = doc(db, "vendors", userId, "foods", foodId);
 
-    await setDoc(foodDocRef, {
+    await setDoc(foodDocRef, { 
       Name: foodName,
       Price: price,
       isAvailable: isAvailable,
