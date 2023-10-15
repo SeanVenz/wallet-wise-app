@@ -51,8 +51,10 @@ function About() {
           </div>
           <ul className="image-ul w-full h-auto mt-10 mb-10 flex justify-end p-10">
             <li
-              className="image-li diamond1 w-[150px] h-[150px]"
-              onClick={() => navigate("")}
+              className="image-li diamond1 w-[150px] h-[150px] cursor-pointer"
+              onClick={() =>
+                window.open("https://www.facebook.com/kentstephen.sumalinog/")
+              }
             >
               <div className="image"></div>
             </li>
