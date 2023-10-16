@@ -14,8 +14,8 @@ const StudentMarket = () => {
   const [currentUser, setCurrentUser] = useState(null);
   const [storeNames, setStoreNames] = useState([]);
   const [isFullCourseMeal, setIsFullCourseMeal] = useState(false);
-  const [hasSelectedDrink, setHasSelectedDrink] = useState(false);
-  const [hasRice, setHasRice] = useState(false);
+  const [budget, setBudget] = useState(0);
+  const [totalBudget, setTotalBudget] = useState(0);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -49,34 +49,43 @@ const StudentMarket = () => {
 
   const filterFullCourse = (food) => {
     if (isFullCourseMeal) {
+      let remainingBudget = budget;
+  
+      if (food.Name === "Rice" && parseFloat(food.Price) <= remainingBudget) {
+        remainingBudget = remainingBudget - parseFloat(food.Price);
+        console.log(remainingBudget)
+        return true; // Include rice and update the remaining budget
+      }
+      console.log(remainingBudget)
       if (food.FoodType === "Main Dish") {
-        const mainDishItems = foods.filter(
-          (item) => item.FoodType === "Main Dish"
-        );
+        console.log(remainingBudget)
+        const mainDishItems = foods.filter((item) => item.FoodType === "Main Dish");
         if (mainDishItems.length > 0) {
-          const filteredMainDishes = mainDishItems.filter(
-            (item) => parseFloat(item.Price) < maxPrice
-          );
-          if (filteredMainDishes.length > 0) {
-            const mostExpensiveMainDish = filteredMainDishes.reduce(
-              (max, item) =>
-                parseFloat(item.Price) > parseFloat(max.Price) ? item : max
-            );
-            return mostExpensiveMainDish === food;
+          // Sort main dishes by price in descending order (most expensive first)
+          mainDishItems.sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
+  
+          for (const mainDish of mainDishItems) {
+            if (parseFloat(mainDish.Price) <= remainingBudget) {
+              remainingBudget -= parseFloat(mainDish.Price);
+              console.log(remainingBudget)
+              return food === mainDish; // Include the most expensive main dish within the remaining budget
+            }
           }
         }
         return false; // Exclude non-main dish items
-      } else if (food.Name === "Rice" && !hasRice) {
-        setHasRice(true);
-        return true; // Include "Rice" items
-      } else if (food.FoodType === "Drinks") {
-        return true; // Include "Drinks" items
       }
+  
+      if (food.FoodType === "Drinks" && parseFloat(food.Price) <= remainingBudget) {
+        remainingBudget -= parseFloat(food.Price);
+        return true; // Include drinks within the remaining budget
+      }
+  
+      return false; // Exclude any other items if they don't fit the budget
     } else {
       return true; // Include all items if the checkbox is not checked
     }
-    return false;
   };
+  
 
   return (
     <div className="market-parent">
@@ -93,7 +102,7 @@ const StudentMarket = () => {
             defaultValue={0}
             onChange={(e) =>
               e.target.value
-                ? setMaxPrice(Number(e.target.value))
+                ? (setMaxPrice(Number(e.target.value)), setBudget(Number(e.target.value)))
                 : setMaxPrice(Number.MAX_SAFE_INTEGER)
             }
           />
