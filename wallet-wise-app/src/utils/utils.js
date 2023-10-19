@@ -1,5 +1,5 @@
 import { collection, deleteDoc, doc, getDoc, getDocs, query, updateDoc } from "@firebase/firestore";
-import { auth, db } from "./firebase";
+import { db } from "./firebase";
 
 export function formatTimestamp(timestamp) {
   const date = new Date(timestamp);
