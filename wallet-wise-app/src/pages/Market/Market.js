@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { getAllFoods, getFoods } from "../../service/FoodService";
+import { getAllFoods } from "../../service/FoodService";
 import PHP from "../../images/php.png";
 import "./Market.css";
 import { FoodNav } from "../../components/FoodNav/FoodNav";
 import { FoodCard } from "../../components/FoodCard/FoodCard";
-import { auth } from "../../utils/firebase";
 
 const StudentMarket = () => {
   const [foods, setFoods] = useState([]);
@@ -14,8 +13,6 @@ const StudentMarket = () => {
   const [storeNames, setStoreNames] = useState([]);
   const [isFullCourseMeal, setIsFullCourseMeal] = useState(false);
   const [budget, setBudget] = useState(0);
-  const [totalBudget, setTotalBudget] = useState(0);
-  const [noFoodMessage, setNoFoodMessage] = useState("")
 
   useEffect(() => {
     const fetchFoods = async () => {
