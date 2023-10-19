@@ -305,7 +305,7 @@ export const FoodCard = (props) => {
                       type="text"
                       value={userComment}
                       onChange={(e) => setUserComment(e.target.value)}
-                      className="flex w-full h-full overflow-auto shadow-inner"
+                      className="flex w-full h-full overflow-auto shadow-inner border-2 border-gray-300"
                       style={{
                         maxWidth: "100%",
                         wordWrap: "break-word",
