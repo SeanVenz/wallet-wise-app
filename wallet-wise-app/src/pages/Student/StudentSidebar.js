@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Logo from "../../images/logo.png";
 import { BsList } from "react-icons/bs";
@@ -10,6 +10,22 @@ import "./index.css";
 const StudentSidebar = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
+  const [states, setStates] = useState({
+    scrollY: 0,
+  });
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setStates((prev) => ({ ...prev, scrollY: window.scrollY }));
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <div>
       <div
@@ -97,7 +113,11 @@ const StudentSidebar = () => {
       </div>
 
       {/* MOBILE */}
-      <div className="lg:hidden absolute p-5 mt-4 bg-transparent h-10">
+      <div
+        className={`lg:hidden w-full absolute p-5 mt-4 z-10 h-10 ${
+          states.scrollY !== 0 ? "bg-[#f8b4b4] !important" : "bg-transparent"
+        }`}
+      >
         <button className="flex text-[30px]" onClick={() => setIsVisible(true)}>
           <BsList />
         </button>

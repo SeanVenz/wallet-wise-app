@@ -29,7 +29,13 @@ export const FoodCard = (props) => {
   const [showMapModal, setShowMapModal] = useState(false);
   const [showCommentModal, setShowCommentModal] = useState(false);
   const [userComments, setUserComments] = useState([]);
-  const [userComment, setUserComment] = useState();
+  const [userComment, setUserComment] = useState("");
+  const [visibleComments, setVisibleComments] = useState(-5);
+  const numberOfLines = (userComment.match(/\n/g) || []).length + 1;
+
+  const handleSeeMore = () => {
+    setVisibleComments(() => visibleComments - 5);
+  };
 
   const handleOpenMapModal = () => {
     setShowMapModal(true);
@@ -40,19 +46,12 @@ export const FoodCard = (props) => {
   };
 
   const handleCloseCommentModal = () => {
+    setVisibleComments(-5);
     setShowCommentModal(false);
   };
 
   const handleCloseMapModal = () => {
     setShowMapModal(false);
-  };
-
-  const handleOpenMap = () => {
-    setShowMap(true);
-  };
-
-  const handleCloseMap = () => {
-    setShowMap(false);
   };
 
   const handleOpenModal = () => {
@@ -121,6 +120,7 @@ export const FoodCard = (props) => {
   };
 
   const addComment = async () => {
+    console.log(userComment);
     if (!userComment || userComment.trim() === "") {
       return;
     }
@@ -152,28 +152,27 @@ export const FoodCard = (props) => {
   const fetchComments = async () => {
     const foodId = id;
     const commentsRef = collection(db, "food", foodId, "comments");
-  
+
     // Query the comments collection and order by timestamp in ascending order
     const commentQuery = query(commentsRef, orderBy("timeStamp"));
-  
+
     const querySnapshot = await getDocs(commentQuery);
     const commentsData = querySnapshot.docs.map((doc) => doc.data());
-  
+
     setUserComments(commentsData);
   };
-  
 
   useEffect(() => {
     const fetchComments = async () => {
       const foodId = id;
       const commentsRef = collection(db, "food", foodId, "comments");
-    
+
       // Query the comments collection and order by timestamp in ascending order
       const commentQuery = query(commentsRef, orderBy("timeStamp"));
-    
+
       const querySnapshot = await getDocs(commentQuery);
       const commentsData = querySnapshot.docs.map((doc) => doc.data());
-    
+
       setUserComments(commentsData);
     };
 
@@ -183,39 +182,7 @@ export const FoodCard = (props) => {
   return (
     <div>
       <div className="card flex justify-between items-center flex-col flex-grow overflow-auto">
-        <div className="comments">
-          <img src={comments} alt="Comment" onClick={handleOpenCommentModal} />
-          {showCommentModal && (
-            <div className="comment-modal">
-              <div className="comment-modal-content">
-                <div className="close-button">
-                  <img
-                    src={close}
-                    alt="close"
-                    onClick={handleCloseCommentModal}
-                  />
-                  <div>
-                    <h2>Comments:</h2>
-                    <ul>
-                      {userComments.map((comment, index) => (
-                        <li key={index}>
-                          <strong>{comment.userName}:</strong> {comment.comment}
-                        </li>
-                      ))}
-                    </ul>
-                    <input
-                      type="text"
-                      value={userComment}
-                      onChange={(e) => setUserComment(e.target.value)}
-                    />
-                    <button onClick={addComment}>Add Comment</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-        <div className="foodname flex flex-col items-center justify-between h-full pt-10">
+        <div className="foodname flex flex-col items-center justify-between h-full pt-5">
           <img src={img} alt="Food" className="market-food-image flex" />
 
           <div className="detailsFood flex flex-col">
@@ -230,8 +197,9 @@ export const FoodCard = (props) => {
           </div>
         </div>
 
-        <div className="bottom">
+        <div className="bottom mt-10">
           <img src={cart} alt="cart" onClick={handleOpenModal} />
+          <img src={comments} alt="Comment" onClick={handleOpenCommentModal} />
           <img src={map} alt="map" onClick={handleOpenMapModal} />
         </div>
       </div>
@@ -274,6 +242,78 @@ export const FoodCard = (props) => {
           </div>
         </div>
       )}
+      <div className="comments">
+        {showCommentModal && (
+          <div className="comment-modal">
+            <div className="comment-modal-content w-[70%] md:w-[50%] lg:w-[30%]">
+              <div className=" flex flex-col h-full">
+                <div className="close-button flex w-full justify-end">
+                  <img
+                    src={close}
+                    alt="close"
+                    onClick={handleCloseCommentModal}
+                    className="pt-2"
+                  />
+                </div>
+                <div className="flex flex-col h-full">
+                  <h2 className=" font-[source-code-pro] text-[20px]">
+                    Comments:
+                  </h2>
+                  <ul
+                    className="overflow-y-auto custom-inner-shadow rounded-3xl p-3 shadow-inner w-[100%] h-full"
+                    style={{
+                      scrollbarWidth: "thin",
+                      scrollbarColor: "transparent transparent",
+                    }}
+                  >
+                    {userComments
+                      .slice(visibleComments)
+                      .reverse()
+                      .map((comment, index) => (
+                        <li key={index} className="flex flex-col py-1">
+                          <div className="flex flex-col w-full px-5 bg-blue-200 rounded-full py-2">
+                            <strong className="w-full flex">
+                              {comment.userName}
+                            </strong>
+                            <div className=" w-full px-4 whitespace-normal flex flex-wrap">
+                              {comment.comment}
+                            </div>
+                          </div>
+                          <span className="flex w-full justify-end pr-4">
+                            {new Date(comment.timeStamp).toLocaleString()}
+                          </span>
+                        </li>
+                      ))}
+                    {Math.abs(visibleComments) <= userComments.length && (
+                      <button
+                        onClick={handleSeeMore}
+                        className="my-2 mx-auto text-blue-500"
+                      >
+                        See More
+                      </button>
+                    )}
+                  </ul>
+                  <div className="flex pb-2">
+                    <textarea
+                      type="text"
+                      value={userComment}
+                      onChange={(e) => setUserComment(e.target.value)}
+                      className="flex w-full h-auto"
+                      rows={numberOfLines}
+                    />
+                    <button
+                      onClick={addComment}
+                      className="flex w-full bg-green-300 flex-grow-0"
+                    >
+                      Add Comment
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
