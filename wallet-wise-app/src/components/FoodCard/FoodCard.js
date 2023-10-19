@@ -260,7 +260,7 @@ export const FoodCard = (props) => {
                     Comments:
                   </h2>
                   <ul
-                    className="overflow-y-auto custom-inner-shadow rounded-3xl p-3 shadow-inner w-[100%] h-full"
+                    className="overflow-y-auto custom-inner-shadow rounded-3xl p-3  w-[100%] h-full"
                     style={{
                       scrollbarWidth: "thin",
                       scrollbarColor: "transparent transparent",
@@ -271,11 +271,18 @@ export const FoodCard = (props) => {
                       .reverse()
                       .map((comment, index) => (
                         <li key={index} className="flex flex-col py-1">
-                          <div className="flex flex-col w-full px-5 bg-blue-200 rounded-full py-2">
+                          <div className="flex flex-col w-full px-5 bg-blue-200 rounded-lg shadow-inner py-2">
                             <strong className="w-full flex">
                               {comment.userName}
                             </strong>
-                            <div className=" w-full px-4 whitespace-normal flex flex-wrap">
+                            <div
+                              className="px-4 w-full text-justify"
+                              style={{
+                                maxWidth: "100%",
+                                wordWrap: "break-word",
+                                alignItems: "start",
+                              }}
+                            >
                               {comment.comment}
                             </div>
                           </div>
@@ -287,23 +294,26 @@ export const FoodCard = (props) => {
                     {Math.abs(visibleComments) <= userComments.length && (
                       <button
                         onClick={handleSeeMore}
-                        className="my-2 mx-auto text-blue-500"
+                        className="my-2 mx-auto text-blue-500 h-fit"
                       >
                         See More
                       </button>
                     )}
                   </ul>
-                  <div className="flex pb-2">
+                  <div className="flex py-2 justify-center gap-5">
                     <textarea
                       type="text"
                       value={userComment}
                       onChange={(e) => setUserComment(e.target.value)}
-                      className="flex w-full h-auto"
-                      rows={numberOfLines}
+                      className="flex w-full h-full overflow-auto shadow-inner"
+                      style={{
+                        maxWidth: "100%",
+                        wordWrap: "break-word",
+                      }}
                     />
                     <button
+                      className="flex justify-center items-center w-[150px] hover:bg-red-300 hover:border-1 hover:border-black rounded-lg border-2 border-[#e94e7399]"
                       onClick={addComment}
-                      className="flex w-full bg-green-300 flex-grow-0"
                     >
                       Add Comment
                     </button>
