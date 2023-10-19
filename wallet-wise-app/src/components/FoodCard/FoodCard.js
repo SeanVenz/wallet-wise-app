@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from "react";
-import "./FoodCard.css";
+import "./FoodCard.scss";
 import cart from "../../images/cart.png";
 import map from "../../images/location.png";
 import { db } from "../../utils/firebase";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
   getDocs,
+  orderBy,
+  query,
   setDoc,
   updateDoc,
 } from "firebase/firestore";
 import authService from "../../utils/auth";
 import MapboxMarker from "components/Mapbox/MapBoxMarker";
+import comments from "../../images/comments.png";
+import close from "../../images/close.png";
 
 export const FoodCard = (props) => {
   const { img, name, price, number, storeName, id, latitude, longitude } =
@@ -22,9 +27,20 @@ export const FoodCard = (props) => {
   const [errorMsg, setErrorMsg] = useState("");
   const [showMap, setShowMap] = useState(false);
   const [showMapModal, setShowMapModal] = useState(false);
+  const [showCommentModal, setShowCommentModal] = useState(false);
+  const [userComments, setUserComments] = useState([]);
+  const [userComment, setUserComment] = useState();
 
   const handleOpenMapModal = () => {
     setShowMapModal(true);
+  };
+
+  const handleOpenCommentModal = () => {
+    setShowCommentModal(true);
+  };
+
+  const handleCloseCommentModal = () => {
+    setShowCommentModal(false);
   };
 
   const handleCloseMapModal = () => {
@@ -104,9 +120,101 @@ export const FoodCard = (props) => {
     }
   };
 
+  const addComment = async () => {
+    if (!userComment || userComment.trim() === "") {
+      return;
+    }
+
+    try {
+      const user = authService.getCurrentUser();
+
+      if (user) {
+        const userId = user.uid;
+        const foodId = id;
+        const commentRef = collection(db, "food", foodId, "comments");
+
+        await addDoc(commentRef, {
+          userId: userId,
+          userName: user.displayName,
+          comment: userComment,
+          timeStamp: Date.now(),
+        });
+
+        setUserComment("");
+        fetchComments();
+      } else {
+        console.error("User is not authenticated.");
+      }
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
+  const fetchComments = async () => {
+    const foodId = id;
+    const commentsRef = collection(db, "food", foodId, "comments");
+  
+    // Query the comments collection and order by timestamp in ascending order
+    const commentQuery = query(commentsRef, orderBy("timeStamp"));
+  
+    const querySnapshot = await getDocs(commentQuery);
+    const commentsData = querySnapshot.docs.map((doc) => doc.data());
+  
+    setUserComments(commentsData);
+  };
+  
+
+  useEffect(() => {
+    const fetchComments = async () => {
+      const foodId = id;
+      const commentsRef = collection(db, "food", foodId, "comments");
+    
+      // Query the comments collection and order by timestamp in ascending order
+      const commentQuery = query(commentsRef, orderBy("timeStamp"));
+    
+      const querySnapshot = await getDocs(commentQuery);
+      const commentsData = querySnapshot.docs.map((doc) => doc.data());
+    
+      setUserComments(commentsData);
+    };
+
+    fetchComments();
+  }, []);
+
   return (
     <div>
       <div className="card flex justify-between items-center flex-col flex-grow overflow-auto">
+        <div className="comments">
+          <img src={comments} alt="Comment" onClick={handleOpenCommentModal} />
+          {showCommentModal && (
+            <div className="comment-modal">
+              <div className="comment-modal-content">
+                <div className="close-button">
+                  <img
+                    src={close}
+                    alt="close"
+                    onClick={handleCloseCommentModal}
+                  />
+                  <div>
+                    <h2>Comments:</h2>
+                    <ul>
+                      {userComments.map((comment, index) => (
+                        <li key={index}>
+                          <strong>{comment.userName}:</strong> {comment.comment}
+                        </li>
+                      ))}
+                    </ul>
+                    <input
+                      type="text"
+                      value={userComment}
+                      onChange={(e) => setUserComment(e.target.value)}
+                    />
+                    <button onClick={addComment}>Add Comment</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
         <div className="foodname flex flex-col items-center justify-between h-full pt-10">
           <img src={img} alt="Food" className="market-food-image flex" />
 
