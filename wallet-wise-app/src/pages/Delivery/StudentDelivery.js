@@ -28,13 +28,23 @@ function StudentDelivery() {
   const [ordererName, setOrdererName] = useState();
   const [hasCurrentDelivery, setHasCurrentDelivery] = useState(false);
   const [hasCurrentOrder, setHasCurrentOrder] = useState(false);
+  const [isLocationWithinCIT, setIsLocationWithinCIT] = useState(true); // New state variable for location check
+
+  // Define CIT square coordinates
+  const upperLeftLongitude = 123.87584793126894;
+  const upperLeftLatitude = 10.29833910570575;
+  const lowerLeftLongitude = 123.87776249843915;
+  const lowerLeftLatitude = 10.290490158405248;
+  const upperRightLongitude = 123.88281891942336;
+  const upperRightLatitude = 10.299401717404876;
+  const lowerRightLongitude = 123.8838989316709;
+  const lowerRightLatitude = 10.294112773733147;
 
   const openChat = async () => {
     setChatOpen(true);
   };
 
   useEffect(() => {
-    console.log(deliveries);
     // Reference to the "deliveries" collection
     const deliveryCollectionRef = collection(db, "orders");
 
@@ -55,7 +65,7 @@ function StudentDelivery() {
 
   const checkHasCurrentOrder = async (uid) => {
     try {
-      const userInfoRef = doc(db, "users", uid); // Get a reference to the document
+      const userInfoRef = doc(db, "users", uid);
       const userInfoSnapshot = await getDoc(userInfoRef);
       return userInfoSnapshot.data().hasPendingOrder === true;
     } catch (error) {
@@ -94,7 +104,7 @@ function StudentDelivery() {
     }));
   };
 
-  //when handlebutton clicked
+  // when handlebutton clicked
   const fetchRoomData = async () => {
     try {
       const user = auth.currentUser.uid;
@@ -111,7 +121,7 @@ function StudentDelivery() {
     }
   };
 
-  //check if their convo is already existing
+  // check if their convo is already existing
   useEffect(() => {
     const fetchRoomData = async () => {
       try {
@@ -149,6 +159,37 @@ function StudentDelivery() {
     return doc(db, "chatrooms", chatRoomID);
   };
 
+  const handleUseCurrentLocation = () => {
+    if ("geolocation" in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          // Permission granted, update the state with latitude and longitude
+          const latitude = position.coords.latitude;
+          const longitude = position.coords.longitude;
+
+          // Check if the location is within CIT square
+          const isWithinCIT =
+            longitude >= lowerLeftLongitude &&
+            longitude <= lowerRightLongitude &&
+            latitude >= lowerLeftLatitude &&
+            latitude <= upperLeftLatitude;
+
+          setIsLocationWithinCIT(isWithinCIT);
+        },
+        (error) => {
+          console.error("Error getting user location:", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not available in this browser.");
+    }
+  };
+
+  const clickOrderAccept = async (orderId, recipientId, ordererName) => {
+    handleUseCurrentLocation();
+    handleOrderAccepted(orderId, recipientId, ordererName);
+  };
+
   const handleOrderAccepted = async (orderId, recipientId, ordererName) => {
     try {
       const user = authService.getCurrentUser();
@@ -183,6 +224,80 @@ function StudentDelivery() {
     }
   };
 
+  // Render the "Accept Order" button based on location and other conditions
+  const renderAcceptOrderButton = (delivery) => {
+    if (isLocationWithinCIT) {
+      if (currentUser === delivery.userId) {
+        if (delivery.isOrderAccepted) {
+          return (
+            <div className="chat-container">
+              <button
+                className="chat"
+                onClick={() => openChat(delivery.userId)}
+              >
+                Chat
+              </button>
+            </div>
+          );
+        } else {
+          return (
+            <div className="order-not-accepted">
+              <button
+                className="cancel-order"
+                onClick={() => handleCancelOrder(delivery.userId, delivery.id)}
+              >
+                Cancel Order
+              </button>
+            </div>
+          );
+        }
+      } else {
+        if (!delivery.isOrderAccepted) {
+          if (hasCurrentDelivery || hasCurrentOrder) {
+            return (
+              <p className="order-not-accepted">
+                Finish your current transaction first
+              </p>
+            );
+          } else {
+            return (
+              <div className="accept-order-parent">
+                <button
+                  className="accept-order"
+                  onClick={() =>
+                    clickOrderAccept(
+                      delivery.id,
+                      delivery.userId,
+                      delivery.userName
+                    )
+                  }
+                >
+                  Accept Order
+                </button>
+              </div>
+            );
+          }
+        } else {
+          if (currentUser === sender) {
+            return (
+              <div className="chat-container">
+                <button className="chat" onClick={() => openChat(delivery.userId)}>
+                  Chat
+                </button>
+              </div>
+            );
+          } else {
+            return (
+              <p className="order-not-accepted">Order is already accepted</p>
+            );
+          }
+        }
+      }
+    } else {
+      return <p className="order-not-accepted">Location is not within CIT</p>;
+    }
+  };
+
   return (
     <div className="orders-student-delivery">
       <h2 className="orders-header">Orders</h2>
@@ -201,8 +316,8 @@ function StudentDelivery() {
                     <p className="store-name">{storeName}</p>
                     <ul>
                       {storeItems.map((item, itemIndex) => (
-                        <div className="order-list">
-                          <li key={itemIndex}>
+                        <div className="order-list" key={itemIndex}>
+                          <li>
                             {item.itemName} ({item.quantity}) ₱
                             {item.totalPrice.toFixed(2)}
                           </li>
@@ -216,89 +331,7 @@ function StudentDelivery() {
             <p className="total">
               Total: ₱{calculatePerPersonTotal(delivery.items).toFixed(2)}
             </p>
-            {
-              // this is the view of the orderer, mag agad if na accept naba iyang order or wala pa
-            }
-            {currentUser === delivery.userId ? (
-              <>
-                {delivery.isOrderAccepted ? (
-                  <>
-                    <div className="chat-container">
-                      <button
-                        className="chat"
-                        onClick={() => openChat(delivery.userId)}
-                      >
-                        Chat
-                      </button>
-                    </div>
-                  </>
-                ) : (
-                  <>
-                    <div className="order-not-accepted">
-                      <button
-                        className="cancel-order"
-                        onClick={() => handleCancelOrder(delivery.userId, delivery.id)}
-                      >
-                        Cancel Order
-                      </button>
-                    </div>
-                  </>
-                )}
-              </>
-            ) : (
-              <>
-                {
-                  // mao ni ang view sa mga tao na pwede maka deliver (d ka ka deliver sa imo own order)
-                  // if wala na accept, accept order na button imo makita
-                  // if na accept, mag agad pa if ang user kay ang nag click sa accept order or di
-                  // if ang user nag click sa accept order iya makita kay chat
-                  // if dili kay order accepted ra
-                }
-                {!delivery.isOrderAccepted ? (
-                  hasCurrentDelivery || hasCurrentOrder ? (
-                    <p className="order-not-accepted">
-                      Finish your current transaction first
-                    </p>
-                  ) : (
-                    <>
-                      <div className="accept-order-parent">
-                        <button
-                          className="accept-order"
-                          onClick={() =>
-                            handleOrderAccepted(
-                              delivery.id,
-                              delivery.userId,
-                              delivery.userName
-                            )
-                          }
-                        >
-                          Accept Order
-                        </button>
-                      </div>
-                    </>
-                  )
-                ) : (
-                  <>
-                    {currentUser === sender ? (
-                      <>
-                        <div className="chat-container">
-                          <button
-                            className="chat"
-                            onClick={() => openChat(delivery.userId)}
-                          >
-                            Chat
-                          </button>
-                        </div>
-                      </>
-                    ) : (
-                      <p className="order-not-accepted">
-                        Order is already accepted
-                      </p>
-                    )}
-                  </>
-                )}
-              </>
-            )}
+            {renderAcceptOrderButton(delivery, currentUser, delivery.userId)}
           </li>
         ))}
       </ul>
@@ -306,7 +339,7 @@ function StudentDelivery() {
         <ChatModal isOpen={isChatOpen} onClose={() => setChatOpen(false)} />
       )}
     </div>
-  );
+  );  
 }
 
 export default StudentDelivery;
