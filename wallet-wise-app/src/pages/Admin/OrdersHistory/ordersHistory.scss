@@ -26,11 +26,12 @@
     flex-direction: row;
     flex-wrap: wrap;
     gap: 20px;
+    height: auto;
 
     .order-card {
       list-style: none;
       width: 350px;
-      height: 100%;
+      height: 50%;
       display: flex;
       flex-direction: column;
       flex-wrap: wrap;
