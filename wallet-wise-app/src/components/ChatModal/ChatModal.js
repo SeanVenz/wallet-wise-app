@@ -267,16 +267,16 @@ function ChatModal({ isOpen, onClose }) {
         docData.orderIsDelivered === true
       ) {
         const deliveryHistoryCollectionRef = doc(db, "orders-history", orderId);
-        
+
         await setDoc(deliveryHistoryCollectionRef, {
-          ...data, 
+          ...data,
           courierName: courierName,
           courierId: currentUser,
           courierIdNumber: senderIdNumber,
           recipientIdNumber: recipientIdNumber,
-          courierPhoneNumber: senderPhoneNumber 
+          courierPhoneNumber: senderPhoneNumber,
         });
-  
+
         addDeliveryHistory(currentUser, orderId);
         addOrderHistory(recipient, orderId);
         await deleteDoc(orderInfo);
@@ -288,7 +288,6 @@ function ChatModal({ isOpen, onClose }) {
       console.log(error);
     }
   };
-  
 
   const handleOrderAccepted = async () => {
     checkReceivedAndDelivered();
@@ -387,6 +386,11 @@ function ChatModal({ isOpen, onClose }) {
                   >
                     ID Number: {senderIdNumber}
                   </h3>
+                  {deliveryReceived === true ? (
+                    <p className="chat-received">
+                      Courier confirmed its delivered
+                    </p>
+                  ) : null}
                 </>
               ) : (
                 <>
@@ -431,6 +435,13 @@ function ChatModal({ isOpen, onClose }) {
                     >
                       Open Orderer Location
                     </button>
+                    <div className="chat-received-parent">
+                      {orderReceived === true ? (
+                        <p className="chat-received">
+                          Buyer confirmed order is received
+                        </p>
+                      ) : null}
+                    </div>
                   </div>
 
                   {showMapModal && (

@@ -113,7 +113,7 @@ public class FoodController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
-            return StatusCode(500, "Something went wrong");
+            return StatusCode(500, ex.Message);
         }
     }
 }

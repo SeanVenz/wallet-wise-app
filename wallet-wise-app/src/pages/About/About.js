@@ -75,13 +75,13 @@ function About() {
         {/* WALLET WISE */}
         <div className="w-full bg-gray-200 h-[500px] flex">
           <div className="flex flex-1 justify-end items-center pr-5 font-[junge] text-[30px]">
-            "WE TAGLINE HERE"
+            WALLET WISE
           </div>
           <div className="flex flex-1 pl-5 justify-start ">
             <div className="w-full h-full bg-gray-300 font-[junge] text-[30px] pl-5">
               <div className="w-[70%] h-full flex justify-center items-center">
                 Wallet Wise is an online platform for students at Cebu Institute
-                of Technology - University to insert more texts here
+                of Technology - University for Food Delivery and Market Application
               </div>
             </div>
           </div>

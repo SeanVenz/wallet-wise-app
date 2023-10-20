@@ -153,10 +153,26 @@ img {
   margin-top: 10px;
 }
 
+.chat-received{
+  font-size: 1.2rem;
+  color: red;
+  padding: 2% 0;
+}
+
 .addToCart-Modal {
   font-family: Source Code Pro;
   display: inline-block;
   align-items: center;
+
+  .quantity{
+    display: flex;
+    flex-direction: column;
+    
+    strong{
+      color: red;
+      font-size: 1.2rem;
+    }
+  }
 }
 
 hr {

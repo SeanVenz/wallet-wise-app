@@ -50,10 +50,10 @@ public class CartService : ICartService
         return await _repository.CheckHasCurrentOrder(userId);
     }
 
-    public async Task Checkout(string userId)
-    {
-        _repository.Checkout(userId);
-    }
+    //public async Task Checkout(string userId)
+    //{
+    //    _repository.Checkout(userId);
+    //}
 
     public async Task UpdateFoodQuantity(string userId, string foodId, int newQuantity)
     {

@@ -209,15 +209,16 @@ export const FoodCard = (props) => {
             <h2 className="add-to-cart-label">ADD TO CART</h2>
             <h2 className="item-name-label">Item Name:</h2>
             <h2 className="item-name">{name}</h2>
-            <h2 className="quantity-label">Quantity:</h2>
-            <input
-              type="number"
-              min={1}
-              value={quantity}
-              onChange={(e) => setQuantity(parseInt(e.target.value))}
-            />
-            <strong>{errorMsg}</strong>
-
+            <div className="quantity">
+              <h2 className="quantity-label">Quantity:</h2>
+              <input
+                type="number"
+                min={1}
+                value={quantity}
+                onChange={(e) => setQuantity(parseInt(e.target.value))}
+              />
+              <strong>{errorMsg}</strong>
+            </div>
             <hr></hr>
             <div>
               <button className="add-btn" onClick={handleAddToCart}>
