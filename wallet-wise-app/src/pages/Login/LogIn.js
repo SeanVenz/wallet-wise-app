@@ -23,10 +23,10 @@ const LogIn = () => {
       await authService.logIn(email, password);
       const user = authService.getCurrentUser();
       setIsSubmittingLogin(false);
-  
+
       const userRef = doc(db, "users", auth.currentUser.uid);
       const docSnap = await getDoc(userRef);
-  
+
       if (docSnap.exists()) {
         if (docSnap.data().isVerified === false) {
           authService.logOut();
@@ -35,7 +35,7 @@ const LogIn = () => {
           if (user.emailVerified) {
             // Retrieve the user's role from Firestore
             const role = await authService.getUserRoleFromFirestore(user.uid);
-  
+
             if (role === "vendor") {
               navigate("/vendor");
             } else if (role === "student") {
@@ -56,7 +56,6 @@ const LogIn = () => {
       setError(err.message);
     }
   };
-  
 
   return (
     <div className="flex bg-gray-100 w-screen h-screen items-center lg:justify-between lg:px-20">
@@ -78,7 +77,7 @@ const LogIn = () => {
 
         <form
           onSubmit={handleLogIn}
-          className="flex flex-col w-full h-full justify-start"
+          className="flex flex-col w-full h-full justify-center"
         >
           <div className="text-box2 flex justify-center w-full text-[junge] item-center lg:-mt-7 text-[50px] md:text-[100px] lg:text-[120px]">
             WALLET
@@ -107,7 +106,7 @@ const LogIn = () => {
               />
             </div>
           </div>
-          <div className="flex w-full justify-center text-red-600">
+          <div className="flex w-full justify-center text-[Source Code Pro] text-[12px] md:text-[20px] font-bold text-[#ff0000]">
             {error && <p>{error}</p>}
           </div>
 

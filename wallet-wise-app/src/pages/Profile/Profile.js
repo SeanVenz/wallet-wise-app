@@ -186,14 +186,14 @@ const StudentProfile = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-  
+
     try {
       await sendEmail(textarea, subject, fullName, email);
       setSubject("");
       setTextarea("");
       setTimeout(() => {
         setSubmissionMessage("Your form has been submitted");
-        setIsSubmitting(false); 
+        setIsSubmitting(false);
       }, 2000);
     } catch (error) {
       console.error("Form submission error:", error);
@@ -201,7 +201,6 @@ const StudentProfile = () => {
       setIsSubmitting(false);
     }
   };
-  
 
   return (
     <div className="profile">

@@ -29,6 +29,7 @@ import NoInternetError from "pages/NoInternetError/NoInternetError";
 import AdminSidebar from "pages/Admin/AdminSidebar";
 import Vendors from "pages/Admin/Vendors/Vendors";
 import OrdersHistory from "pages/Admin/OrdersHistory/ordersHistory";
+import About from "pages/About/About";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -77,6 +78,7 @@ function App() {
             user && user.emailVerified ? <Navigate to="/login" /> : <SignUp />
           }
         />
+        <Route path="/about" element={<About />} />
         <Route
           path="/verify-email"
           element={
@@ -107,7 +109,7 @@ function App() {
                   <Route index={true} element={<Students />} />
                   <Route path="students" element={<Students />} />
                   <Route path="vendors" element={<Vendors />} />
-                  <Route path="history" element={<OrdersHistory/>} />
+                  <Route path="history" element={<OrdersHistory />} />
                 </Routes>
               </div>
             ) : (
