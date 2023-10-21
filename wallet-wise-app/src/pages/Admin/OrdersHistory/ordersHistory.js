@@ -11,7 +11,6 @@ function OrdersHistory() {
       setOrders(orders);
     };
     getHistory();
-    console.log(orders);
   }, []);
 
   return (

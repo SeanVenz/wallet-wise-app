@@ -83,7 +83,6 @@ function Vendor() {
         const userId = auth.currentUser.uid;
         const foodsData = await getVendorFoods(userId);
         setFoods(foodsData);
-        console.log(foodsData);
       } catch (error) {
         console.error("Error fetching vendor foods:", error);
       }

@@ -156,7 +156,6 @@ function ChatModal({ isOpen, onClose }) {
       docData.orderIsDelivered === true
         ? setDeliveryReceived(true)
         : setDeliveryReceived(false);
-      console.log(orderReceived);
     } catch (error) {
       console.log(error);
     }

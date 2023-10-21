@@ -14,7 +14,6 @@ export const sendEmail = (textarea, subject, name, email) => {
       .send('service_7kzxz87', 'template_jt4nl7j', templateParams)
       .then(
         function (response) {
-          console.log('Approval email sent successfully!', response);
           // Now, you can also call your approveStudent function
         },
         function (error) {
@@ -34,7 +33,6 @@ export const sendEmail = (textarea, subject, name, email) => {
       .send('service_7kzxz87', 'template_qy0n03u', templateParams)
       .then(
         function (response) {
-          console.log('Approval email sent successfully!', response);
         },
         function (error) {
           console.error('Approval email delivery failed', error);

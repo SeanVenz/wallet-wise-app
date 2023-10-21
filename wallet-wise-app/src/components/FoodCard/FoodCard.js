@@ -107,8 +107,6 @@ export const FoodCard = (props) => {
           });
         }
 
-        console.log("Item added to cart with ID:", itemId);
-
         setQuantity(1);
         setShowModal(false);
       } else {
@@ -120,7 +118,6 @@ export const FoodCard = (props) => {
   };
 
   const addComment = async () => {
-    console.log(userComment);
     if (!userComment || userComment.trim() === "") {
       return;
     }
