@@ -17,7 +17,6 @@ export const FoodNav = ({ setSelectedFoodType }) => {
         src={mainDish}
         onClick={() => {
           setSelectedFoodType("Main Dish");
-          console.log("TEST");
         }}
         alt="mainDish"
       />

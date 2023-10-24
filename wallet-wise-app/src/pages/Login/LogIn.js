@@ -6,6 +6,8 @@ import { Link } from "react-router-dom";
 import "../Login/LogIn.css";
 
 import PotatoMagni from "images/potato-magnifying-glass.png";
+import { auth, db } from "utils/firebase";
+import { doc, getDoc } from "@firebase/firestore";
 
 const LogIn = () => {
   const [email, setEmail] = useState("");
@@ -22,14 +24,32 @@ const LogIn = () => {
       const user = authService.getCurrentUser();
       setIsSubmittingLogin(false);
 
-      if (!user.emailVerified) {
-        setError("Please verify your email first.");
-        authService.logOut();
-      } else {
-        // Retrieve the user's role from Firestore
-        const role = await authService.getUserRoleFromFirestore(user.uid);
+      const userRef = doc(db, "users", auth.currentUser.uid);
+      const docSnap = await getDoc(userRef);
 
-        role === "vendor" ? navigate("/vendor") : navigate("/student");
+      if (docSnap.exists()) {
+        if (docSnap.data().isVerified === false) {
+          authService.logOut();
+          setError("Admins will verify your information first.");
+        } else {
+          if (user.emailVerified) {
+            // Retrieve the user's role from Firestore
+            const role = await authService.getUserRoleFromFirestore(user.uid);
+
+            if (role === "vendor") {
+              navigate("/vendor");
+            } else if (role === "student") {
+              navigate("/student");
+            } else {
+              navigate("/admin");
+            }
+          } else {
+            setError("Please verify your email first.");
+          }
+        }
+      } else {
+        setError("User data not found.");
+        authService.logOut();
       }
     } catch (err) {
       setIsSubmittingLogin(false); // Stop loading effect on error
@@ -57,7 +77,7 @@ const LogIn = () => {
 
         <form
           onSubmit={handleLogIn}
-          className="flex flex-col w-full h-full justify-start"
+          className="flex flex-col w-full h-full justify-center"
         >
           <div className="text-box2 flex justify-center w-full text-[junge] item-center lg:-mt-7 text-[50px] md:text-[100px] lg:text-[120px]">
             WALLET
@@ -86,7 +106,7 @@ const LogIn = () => {
               />
             </div>
           </div>
-          <div className="flex w-full justify-center text-red-600">
+          <div className="flex w-full justify-center text-[Source Code Pro] text-[12px] md:text-[20px] font-bold text-[#ff0000]">
             {error && <p>{error}</p>}
           </div>
 

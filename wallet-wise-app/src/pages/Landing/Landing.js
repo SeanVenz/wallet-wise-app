@@ -15,20 +15,29 @@ function Landing() {
     <div className="flex flex-col bg-[#F9F2E2] w-screen h-screen">
       {/* TOP NAV */}
       <div className="flex flex-row items-center bg-red-400 top-5 h-[80px] justify-between">
-        <div className="w-[90px] h-[90px] flex items-center justify-center">
+        <div
+          className="w-[90px] h-[90px] flex items-center justify-center"
+          onClick={() => navigate("/")}
+        >
           <img src={Logo} alt="Top logo" className="w-full h-full mt-1" />
         </div>
 
-        <div className="flex space-x-4 h-full items-start justify-start -mt-5 mr-5">
+        <div className="flex space-x-4 h-full items-center justify-start mr-5">
+          <button
+            onClick={() => navigate("/about")}
+            className="flex items-center w-auto font-[source-code-pro] h-[50px]"
+          >
+            About Us
+          </button>
           <button
             onClick={() => navigate("/login")}
-            className="bg-[#f9f2e2] shadow-md rounded-lg border border-rose-300 flex items-center w-auto px-5 text-[15px] lg:text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 hover:border-black mt-6 h-[50px] font-[source-code-pro]"
+            className="bg-[#f9f2e2] shadow-md rounded-lg border border-rose-300 flex items-center w-auto px-5 text-[15px] lg:text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 hover:border-black  h-[50px] font-[source-code-pro]"
           >
             Login
           </button>
           <button
             onClick={() => navigate("/signup")}
-            className="bg-[#f9f2e2] shadow-md rounded-lg border border-rose-300 flex items-center w-auto px-5 text-[15px] lg:text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 hover:border-black mt-6 h-[50px] font-[source-code-pro]"
+            className="bg-[#f9f2e2] shadow-md rounded-lg border border-rose-300 flex items-center w-auto px-5 text-[15px] lg:text-[20px] transition-all duration-300 ease-in-out hover:bg-rose-300 hover:border-black h-[50px] font-[source-code-pro]"
           >
             Sign Up
           </button>
@@ -64,35 +73,35 @@ function Landing() {
             <Image
               src={Lumpia}
               alt="Lumpia"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
           <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Adobo}
               alt="Adobo"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
           <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Ginabot}
               alt="Ginabot"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
           <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Siomai}
               alt="Siomai"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
           <div className="w-[90px] h-[90px] md:w-[150px] md:h-[150px] lg:w-[200px] lg:h-[200px]">
             <Image
               src={Chicken}
               alt="Chicken"
-              className="w-full h-full rounded-[50%] border-[2px] border-black"
+              className="w-full h-full rounded-[50%] border-[2px] border-black object-cover"
             />
           </div>
         </div>

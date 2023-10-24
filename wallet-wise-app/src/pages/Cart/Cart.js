@@ -48,7 +48,6 @@ function Cart() {
       setNumber(fetchedNumbers);
       setQuantity(fetchedQuantities);
 
-      console.log(items);
       setCartItems(items);
     } catch (error) {
       console.error("Error fetching cart items:", error);
@@ -80,7 +79,7 @@ function Cart() {
         removeItemFromCart(itemId);
         return false;
       }
-      const user = auth.currentUser;
+      const user = auth.currentUser; 
       var unitPrice = 0;
       var newTotalPrice = 0;
       if (user) {

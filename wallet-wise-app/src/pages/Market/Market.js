@@ -4,28 +4,15 @@ import PHP from "../../images/php.png";
 import "./Market.css";
 import { FoodNav } from "../../components/FoodNav/FoodNav";
 import { FoodCard } from "../../components/FoodCard/FoodCard";
-import { auth } from "../../utils/firebase";
 
 const StudentMarket = () => {
   const [foods, setFoods] = useState([]);
   const [maxPrice, setMaxPrice] = useState(Number.MAX_SAFE_INTEGER);
   const [selectedFoodType, setSelectedFoodType] = useState("");
   const [storeName, setStoreName] = useState("");
-  const [currentUser, setCurrentUser] = useState(null);
   const [storeNames, setStoreNames] = useState([]);
-
-  useEffect(() => {
-    console.log(foods);
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      if (user) {
-        setCurrentUser(user);
-      } else {
-        setCurrentUser(null);
-      }
-    });
-
-    return () => unsubscribe();
-  }, []);
+  const [isFullCourseMeal, setIsFullCourseMeal] = useState(false);
+  const [budget, setBudget] = useState(0);
 
   useEffect(() => {
     const fetchFoods = async () => {
@@ -45,6 +32,55 @@ const StudentMarket = () => {
     fetchFoods();
   }, []);
 
+  const filterFullCourse = (food) => {
+    if (isFullCourseMeal) {
+      let budgetRemaining = budget; // Initialize with the budget value
+      const itemsToInclude = [];
+  
+      // Iterate through the items to build a list of items that fit the budget
+      foods.forEach((item) => {
+        if (item.Name === "Rice" && parseFloat(item.Price) <= budgetRemaining) {
+          budgetRemaining -= parseFloat(item.Price);
+          itemsToInclude.push(item);
+        } else if (
+          item.FoodType === "Main Dish" &&
+          parseFloat(item.Price) <= budgetRemaining
+        ) {
+          const mainDishes = foods
+            .filter(
+              (item) =>
+                item.FoodType === "Main Dish" &&
+                parseFloat(item.Price) <= budgetRemaining
+            )
+            .sort((a, b) => parseFloat(b.Price) - parseFloat(a.Price));
+          if (mainDishes.length > 0) {
+            budgetRemaining -= parseFloat(mainDishes[0].Price); // Deduct the price of the most expensive main dish
+            itemsToInclude.push(mainDishes[0]); // Add the most expensive main dish to the itemsToInclude array
+          }
+        }
+        else if (
+          item.FoodType === "Drinks" &&
+          parseFloat(item.Price) <= budgetRemaining
+        ) {
+          budgetRemaining -= parseFloat(item.Price);
+          itemsToInclude.push(item);
+        }
+      });
+  
+      // Check if the current food item is in the list of items to include
+      const includeCurrentItem = itemsToInclude.some((item) => item === food);
+  
+      if (itemsToInclude.length === 0) {
+        return "No full course options within the budget.";
+      } else {
+        return includeCurrentItem;
+      }
+    } else {
+      return true; // Include all items if the checkbox is not checked
+    }
+  };
+  
+
   return (
     <div className="market-parent">
       {/* MARKET FILTER */}
@@ -60,7 +96,8 @@ const StudentMarket = () => {
             defaultValue={0}
             onChange={(e) =>
               e.target.value
-                ? setMaxPrice(Number(e.target.value))
+                ? (setMaxPrice(Number(e.target.value)),
+                  setBudget(Number(e.target.value)))
                 : setMaxPrice(Number.MAX_SAFE_INTEGER)
             }
           />
@@ -79,6 +116,15 @@ const StudentMarket = () => {
               </option>
             ))}
           </select>
+        </div>
+        <div className="full-course-meal-filter">
+          <label>
+            Full Course Meal
+            <input
+              type="checkbox"
+              onChange={(e) => setIsFullCourseMeal(e.target.checked)}
+            />
+          </label>
         </div>
       </div>
 
@@ -99,6 +145,7 @@ const StudentMarket = () => {
                 storeName === "All" ||
                 food.StoreName.toLowerCase().includes(storeName.toLowerCase())
             )
+            .filter((food) => filterFullCourse(food))
             .map((food, index) => (
               <FoodCard
                 key={index}

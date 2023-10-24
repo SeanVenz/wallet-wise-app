@@ -3,7 +3,7 @@
 .signup-parent {
   display: flex;
   height: 90%;
-  padding-top: 5%;
+  padding-top: 2%;
 
   .potato-box {
     display: flex;
@@ -89,6 +89,12 @@
           }
         }
 
+        .input-img {
+          input {
+            box-shadow: none;
+          }
+        }
+
         label {
           font-family: Source Code Pro;
           font-weight: 800;
@@ -105,7 +111,7 @@
           margin-bottom: 2%;
         }
 
-        .signup-button{
+        .signup-button {
           display: flex;
           justify-content: center;
         }
@@ -140,7 +146,7 @@
     }
 
     .error-message {
-      color: red;
+      color: #ff0000;
       font-family: Source Code Pro;
       margin-bottom: 2%;
       font-weight: 800;
@@ -207,7 +213,7 @@
 }
 
 @media only screen and (min-width: 768px) and (max-width: 1024px) {
-  .signup-parent{
+  .signup-parent {
     display: flex;
     flex-direction: column;
     background-color: #f9f2e2;
@@ -216,52 +222,51 @@
     padding-top: 0;
     height: 100vh;
 
-    .potato-box{
+    .potato-box {
       // height: 25%;
       padding-top: 0;
-      
     }
-  
-    .bg-holder{
+
+    .bg-holder {
       margin-top: -5%;
     }
-  
-    img{
+
+    img {
       margin-top: -7% !important;
       width: 100% !important;
     }
-  
-    .signup-txtbox{
+
+    .signup-txtbox {
       padding-top: 0 !important;
       margin-top: -5%;
     }
 
-    .signup-txtbox1{
+    .signup-txtbox1 {
       display: flex !important;
       justify-content: center !important;
       width: 100% !important;
       padding-bottom: 2%;
     }
 
-    .signup-txtbox2{
+    .signup-txtbox2 {
       font-size: 60px !important  ;
       font-weight: 800 !important;
       letter-spacing: 10px !important;
     }
 
-    .signup-txtbox3{
-      font-size:  60px !important;
+    .signup-txtbox3 {
+      font-size: 60px !important;
       margin-top: 0 !important;
     }
 
-    form{
+    form {
       width: 100% !important;
     }
   }
 }
 
 @media only screen and (max-width: 767px) {
-  .signup-parent{
+  .signup-parent {
     display: flex;
     flex-direction: column;
     background-color: #f9f2e2;
@@ -271,76 +276,76 @@
     height: 100vh;
     overflow: hidden;
 
-    .potato-box{
+    .potato-box {
       padding-top: 0;
-      margin-bottom: -5%;      
+      margin-bottom: -5%;
     }
-  
-    .bg-holder{
+
+    .bg-holder {
       margin-top: -5%;
       width: 70% !important;
     }
-  
-    img{
+
+    img {
       // margin-top: -7% !important;
-      width: 100% !important; 
+      width: 100% !important;
     }
-  
-    .signup-txtbox{
+
+    .signup-txtbox {
       padding-top: 0 !important;
       margin-bottom: 10% !important;
     }
 
-    .signup-form{
+    .signup-form {
       margin-bottom: 40% !important;
     }
 
-    .signup-txtbox1{
+    .signup-txtbox1 {
       display: flex !important;
       justify-content: center !important;
       width: 100% !important;
       padding-bottom: 2%;
     }
 
-    .signup-txtbox2{
+    .signup-txtbox2 {
       font-size: 40px !important  ;
       font-weight: 800 !important;
       letter-spacing: 10px !important;
       margin-bottom: -5%;
     }
 
-    .signup-txtbox3{
-      font-size:  40px !important;
+    .signup-txtbox3 {
+      font-size: 40px !important;
       margin-top: 0 !important;
     }
 
-    form{
+    form {
       width: 100% !important;
     }
 
-    .signup-form{
+    .signup-form {
       margin-bottom: -5%;
     }
 
-    button{
+    button {
       width: 80% !important;
       margin-bottom: 0 !important;
       padding: 10px 20px !important;
     }
 
-    select{
-      width: 50% !important
+    select {
+      width: 50% !important;
     }
-    
-    input{
+
+    input {
       font-size: 16px !important;
       height: 50px !important;
     }
 
-    .signup-map{
+    .signup-map {
       width: 90% !important;
 
-      button{
+      button {
         width: 100% !important;
       }
     }

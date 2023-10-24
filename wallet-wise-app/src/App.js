@@ -10,7 +10,7 @@ import { auth } from "./utils/firebase";
 import Landing from "./pages/Landing/Landing";
 import Login from "./pages/Login/LogIn";
 import SignUp from "./pages/SignUp/SignUp";
-import Admin from "./pages/Admin/Admin";
+import Students from "./pages/Admin/Students/Students";
 import VerifyEmail from "./pages/VerifyEmail/VerifyEmail";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import Vendor from "./pages/Vendor/Vendor";
@@ -26,6 +26,10 @@ import Spinner from "./components/Spinner/Spiner";
 import { useEffect, useState } from "react";
 import PageNotFound from "./pages/NotFound/PageNotFound";
 import NoInternetError from "pages/NoInternetError/NoInternetError";
+import AdminSidebar from "pages/Admin/AdminSidebar";
+import Vendors from "pages/Admin/Vendors/Vendors";
+import OrdersHistory from "pages/Admin/OrdersHistory/ordersHistory";
+import About from "pages/About/About";
 
 function App() {
   const [user, loading, error] = useAuthState(auth);
@@ -74,6 +78,7 @@ function App() {
             user && user.emailVerified ? <Navigate to="/login" /> : <SignUp />
           }
         />
+        <Route path="/about" element={<About />} />
         <Route
           path="/verify-email"
           element={
@@ -95,9 +100,21 @@ function App() {
           }
         />
         <Route
-          path="/admin"
+          path="/admin/*"
           element={
-            user && user.emailVerified ? <Admin /> : <Navigate to="/login" />
+            user && user.emailVerified ? (
+              <div style={{ display: "flex" }}>
+                <AdminSidebar />
+                <Routes>
+                  <Route index={true} element={<Students />} />
+                  <Route path="students" element={<Students />} />
+                  <Route path="vendors" element={<Vendors />} />
+                  <Route path="history" element={<OrdersHistory />} />
+                </Routes>
+              </div>
+            ) : (
+              <Navigate to="/login" />
+            )
           }
         />
         <Route

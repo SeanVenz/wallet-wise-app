@@ -1,31 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Logo from "../../images/logo.png";
 import { BsList } from "react-icons/bs";
 import { AiOutlineClose } from "react-icons/ai";
 import { motion } from "framer-motion";
 
-import "./index.css";
-
-const StudentSidebar = () => {
+const AdminSidebar = () => {
   const navigate = useNavigate();
   const [isVisible, setIsVisible] = useState(false);
-  const [states, setStates] = useState({
-    scrollY: 0,
-  });
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setStates((prev) => ({ ...prev, scrollY: window.scrollY }));
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   return (
     <div>
       <div
@@ -54,24 +36,7 @@ const StudentSidebar = () => {
         <ul className="student-side-ul gap-10">
           <li>
             <div
-              onClick={() => navigate("/student/market")}
-              activeStyle={{
-                fontWeight: "bold",
-                backgroundColor: "white", // Background color on click
-                color: "black", // Text color on click
-              }}
-              style={{
-                textDecoration: "none",
-                color: "black",
-                width: "100%",
-              }}
-            >
-              <div className="student-side-category font-semibold">Market</div>
-            </div>
-          </li>
-          <li>
-            <div
-              onClick={() => navigate("/student/orders")}
+              onClick={() => navigate("/admin/students")}
               activeStyle={{
                 fontWeight: "bold",
                 backgroundColor: "white", // Background color on click
@@ -79,12 +44,12 @@ const StudentSidebar = () => {
               }}
               style={{ textDecoration: "none", color: "black", width: "100%" }}
             >
-              <div className="student-side-category font-semibold">Orders</div>
+              <div className="student-side-category font-semibold">Students</div>
             </div>
           </li>
           <li>
             <div
-              onClick={() => navigate("/student/profile")}
+              onClick={() => navigate("/admin/vendors")}
               activeStyle={{
                 fontWeight: "bold",
                 backgroundColor: "white", // Background color on click
@@ -92,20 +57,20 @@ const StudentSidebar = () => {
               }}
               style={{ textDecoration: "none", color: "black", width: "100%" }}
             >
-              <div className="student-side-category font-semibold">Profile</div>
+              <div className="student-side-category font-semibold">Vendors</div>
             </div>
           </li>
           <li>
             <div
-              onClick={() => navigate("/student/cart")}
+              onClick={() => navigate("/admin/history")}
               activeStyle={{
                 fontWeight: "bold",
                 backgroundColor: "white", // Background color on click
                 color: "black", // Text color on click
               }}
-              style={{ textDecoration: "none", color: "black", width: "100%" }}
+              style={{ textDecoration: "none", color: "black", width: "100%", textAlign: "center" }}
             >
-              <div className="student-side-category font-semibold">Cart</div>
+              <div className="student-side-category font-semibold">Orders History</div>
             </div>
           </li>
         </ul>
@@ -113,11 +78,7 @@ const StudentSidebar = () => {
       </div>
 
       {/* MOBILE */}
-      <div
-        className={`lg:hidden w-full absolute p-5 mt-4 z-10 h-10 ${
-          states.scrollY !== 0 ? "bg-[#f8b4b4] !important" : "bg-transparent"
-        }`}
-      >
+      <div className="lg:hidden absolute p-5 mt-4 bg-transparent h-10">
         <button className="flex text-[30px]" onClick={() => setIsVisible(true)}>
           <BsList />
         </button>
@@ -151,7 +112,7 @@ const StudentSidebar = () => {
           <ul className="student-side-ul gap-10">
             <li>
               <div
-                onClick={() => navigate("/student/market")}
+                onClick={() => navigate("/admin/students")}
                 activeStyle={{
                   fontWeight: "bold",
                   backgroundColor: "white",
@@ -164,13 +125,13 @@ const StudentSidebar = () => {
                 }}
               >
                 <div className="student-side-category font-semibold">
-                  Market
+                  Student
                 </div>
               </div>
             </li>
             <li>
               <div
-                onClick={() => navigate("/student/orders")}
+                onClick={() => navigate("/admin/vendors")}
                 activeStyle={{
                   fontWeight: "bold",
                   backgroundColor: "white", // Background color on click
@@ -183,13 +144,13 @@ const StudentSidebar = () => {
                 }}
               >
                 <div className="student-side-category font-semibold">
-                  Orders
+                  Vendors
                 </div>
               </div>
             </li>
             <li>
               <div
-                onClick={() => navigate("/student/profile")}
+                onClick={() => navigate("/admin/history")}
                 activeStyle={{
                   fontWeight: "bold",
                   backgroundColor: "white", // Background color on click
@@ -199,28 +160,12 @@ const StudentSidebar = () => {
                   textDecoration: "none",
                   color: "black",
                   width: "100%",
+                  textAlign: "center"
                 }}
               >
                 <div className="student-side-category font-semibold">
-                  Profile
+                  Orders History
                 </div>
-              </div>
-            </li>
-            <li>
-              <div
-                onClick={() => navigate("/student/cart")}
-                activeStyle={{
-                  fontWeight: "bold",
-                  backgroundColor: "white", // Background color on click
-                  color: "black", // Text color on click
-                }}
-                style={{
-                  textDecoration: "none",
-                  color: "black",
-                  width: "100%",
-                }}
-              >
-                <div className="student-side-category font-semibold">Cart</div>
               </div>
             </li>
           </ul>
@@ -231,4 +176,4 @@ const StudentSidebar = () => {
   );
 };
 
-export default StudentSidebar;
+export default AdminSidebar;

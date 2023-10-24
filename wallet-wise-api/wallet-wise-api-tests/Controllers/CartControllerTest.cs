@@ -138,23 +138,23 @@ namespace wallet_wise_api_tests.Controllers
             Assert.False((bool)okResult.Value);
         }
 
-        [Fact]
-        public async Task Checkout_ValidUserId_ReturnsNoContent()
-        {
-            // Arrange
-            var userId = "testUserId";
-            var cartServiceMock = new Mock<ICartService>();
-            cartServiceMock.Setup(service => service.Checkout(userId))
-                .Returns(Task.CompletedTask);
+        //[Fact]
+        //public async Task Checkout_ValidUserId_ReturnsNoContent()
+        //{
+        //    // Arrange
+        //    var userId = "testUserId";
+        //    var cartServiceMock = new Mock<ICartService>();
+        //    cartServiceMock.Setup(service => service.Checkout(userId))
+        //        .Returns(Task.CompletedTask);
 
-            var controller = new CartController(cartServiceMock.Object, null);
+        //    var controller = new CartController(cartServiceMock.Object, null);
 
-            // Act
-            var result = await controller.Checkout(userId);
+        //    // Act
+        //    var result = await controller.Checkout(userId);
 
-            // Assert
-            Assert.IsType<NoContentResult>(result);
-        }
+        //    // Assert
+        //    Assert.IsType<NoContentResult>(result);
+        //}
 
         [Fact]
         public async Task UpdateFoodQuantity_ValidUserIdAndFoodId_ReturnsNoContent()

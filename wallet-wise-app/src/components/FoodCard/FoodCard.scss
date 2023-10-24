@@ -28,7 +28,6 @@ img {
   justify-self: end !important;
   justify-content: space-between;
   align-self: stretch;
-  top: 60px;
 }
 
 .bottom img {
@@ -154,10 +153,26 @@ img {
   margin-top: 10px;
 }
 
+.chat-received{
+  font-size: 1.2rem;
+  color: red;
+  padding: 2% 0;
+}
+
 .addToCart-Modal {
   font-family: Source Code Pro;
   display: inline-block;
   align-items: center;
+
+  .quantity{
+    display: flex;
+    flex-direction: column;
+    
+    strong{
+      color: red;
+      font-size: 1.2rem;
+    }
+  }
 }
 
 hr {
@@ -237,4 +252,44 @@ hr {
   font-family: source-code-pro;
   font-style: normal;
   margin-top: 10px;
+}
+
+.comments {
+  img {
+    cursor: pointer;
+  }
+  .custom-inner-shadow {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+  }
+  .comment-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+
+    .comment-modal-content {
+      background-color: white;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      height: 50%;
+
+      .close-button {
+        display: flex;
+        justify-content: flex-end;
+
+        img {
+          width: 5%;
+        }
+      }
+    }
+  }
 }

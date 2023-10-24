@@ -79,34 +79,34 @@ namespace wallet_wise_api.Repository
             return snapshot.Documents.Any();
         }
 
-        public async void Checkout(string userId)
-        {
-            var cartQuery = _cartCollection.WhereEqualTo("UserId", userId);
-            var snapshot = await cartQuery.GetSnapshotAsync();
+        //public async void Checkout(string userId)
+        //{
+        //    var cartQuery = _cartCollection.WhereEqualTo("UserId", userId);
+        //    var snapshot = await cartQuery.GetSnapshotAsync();
 
-            if (snapshot.Documents.Any())
-            {
-                var orderedItems = snapshot.Documents.Select(doc => doc.ConvertTo<Cart>()).ToList();
-                var order = new Order
-                {
-                    UserId = userId,
-                    OrderDate = DateTime.Now,
-                    OrderedItems = orderedItems.Select(item => new Food
-                    {
-                        Id = item.FoodId,
-                        Quantity = item.Quantity,
-                        // Add more ordered item details as needed
-                    }).ToList()
-                };
+        //    if (snapshot.Documents.Any())
+        //    {
+        //        var orderedItems = snapshot.Documents.Select(doc => doc.ConvertTo<Cart>()).ToList();
+        //        var order = new Order
+        //        {
+        //            UserId = userId,
+        //            OrderDate = DateTime.Now,
+        //            OrderedItems = orderedItems.Select(item => new Food
+        //            {
+        //                Id = item.FoodId,
+        //                Quantity = item.Quantity,
+        //                // Add more ordered item details as needed
+        //            }).ToList()
+        //        };
 
-                var orderRef = await _context.Db.Collection("orders").AddAsync(order);
+        //        var orderRef = await _context.Db.Collection("orders").AddAsync(order);
 
-                foreach (var document in snapshot.Documents)
-                {
-                    await document.Reference.DeleteAsync();
-                }
-            }
-        }
+        //        foreach (var document in snapshot.Documents)
+        //        {
+        //            await document.Reference.DeleteAsync();
+        //        }
+        //    }
+        //}
 
         public async void UpdateFoodQuantity(string userId, string foodId, int newQuantity)
         {
