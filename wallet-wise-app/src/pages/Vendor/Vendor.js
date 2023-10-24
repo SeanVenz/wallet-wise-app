@@ -2,9 +2,18 @@ import React, { useState, useEffect } from "react";
 import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
 import { auth, db } from "../../utils/firebase";
 import "./Vendor.scss";
-import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc } from "@firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+} from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import closeButton from "../../images/close.png";
+import closeButton from '../../images/close.png'
 import { sendEmail } from "utils/contact";
 
 function Vendor() {
@@ -349,7 +358,7 @@ function Vendor() {
                   <td>{food.Price}</td>
                   <td>{food.isAvailable ? "Yes" : "No"}</td>
                   <td className="flex items-center justify-center">
-                    <img src={food.ImageUrl} alt={food.Name} />
+                    <img src={food.ImageUrl} alt={food.Name} style={{marginTop: "0"}}/>
                   </td>
                   <td>{parseInt(food.Quantity)}</td>
                   <td>
@@ -377,68 +386,73 @@ function Vendor() {
                         Remove
                       </button>
                     </div>
-                    <p onClick={() => handleOpenCommentModal(food.id)}>Comments</p>
-                    <div className="comments">
-                      {showCommentModal && (
-                        <div className="comment-modal">
-                          <div className="comment-modal-content w-[70%] md:w-[50%] lg:w-[30%]">
-                            <div className=" flex flex-col h-full">
-                              <div className="close-button flex w-full justify-end">
-                                <img
-                                  src={closeButton}
-                                  alt="close"
-                                  onClick={handleCloseCommentModal}
-                                  className="pt-2"
-                                />
-                              </div>
-                              <div className="flex flex-col h-full">
-                                <h2 className=" font-[source-code-pro] text-[20px]">
-                                  Comments:
-                                </h2>
-                                <ul
-                                  className="overflow-y-auto custom-inner-shadow rounded-3xl p-3  w-[100%] h-full"
-                                  style={{
-                                    scrollbarWidth: "thin",
-                                    scrollbarColor: "transparent transparent",
-                                  }}
-                                >
-                                  {userComments
-                                    .reverse()
-                                    .map((comment, index) => (
-                                      <li
-                                        key={index}
-                                        className="flex flex-col py-1"
-                                      >
-                                        <div className="flex flex-col w-full px-5 bg-blue-200 rounded-lg shadow-inner py-2">
-                                          <strong className="w-full flex">
-                                            {comment.userName}
-                                          </strong>
-                                          <div
-                                            className="px-4 w-full text-justify"
-                                            style={{
-                                              maxWidth: "100%",
-                                              wordWrap: "break-word",
-                                              alignItems: "start",
-                                            }}
-                                          >
-                                            {comment.comment}
-                                          </div>
+                  </td>
+                  <td>
+                    <p className="comments-link" onClick={() => handleOpenCommentModal(food.id)}>
+                      Comments
+                    </p>
+                  </td>
+                  <div className="comments">
+                    {showCommentModal && (
+                      <div className="comment-modal">
+                        <div className="comment-modal-content w-[70%] md:w-[50%] lg:w-[30%]">
+                          <div className=" flex flex-col h-full">
+                            <div className="close-button flex w-full justify-end">
+                              <img
+                                src= {closeButton}
+                                alt="close"
+                                onClick={handleCloseCommentModal}
+                                // className="pt-2"
+                                style={{width: "10%"}}
+                              />
+                            </div>
+                            <div className="flex flex-col h-full">
+                              <h2 className=" font-[source-code-pro] text-[20px]">
+                                Comments:
+                              </h2>
+                              <ul
+                                className="overflow-y-auto custom-inner-shadow rounded-3xl p-3  w-[100%] h-full"
+                                style={{
+                                  scrollbarWidth: "thin",
+                                  scrollbarColor: "transparent transparent",
+                                }}
+                              >
+                                {userComments
+                                  .reverse()
+                                  .map((comment, index) => (
+                                    <li
+                                      key={index}
+                                      className="flex flex-col py-1"
+                                    >
+                                      <div className="flex flex-col w-full px-5 bg-blue-200 rounded-lg shadow-inner py-2">
+                                        <strong className="w-full flex">
+                                          {comment.userName}
+                                        </strong>
+                                        <div
+                                          className="px-4 w-full text-justify"
+                                          style={{
+                                            maxWidth: "100%",
+                                            wordWrap: "break-word",
+                                            alignItems: "start",
+                                          }}
+                                        >
+                                          {comment.comment}
                                         </div>
-                                        <span className="flex w-full justify-end pr-4">
-                                          {new Date(
-                                            comment.timeStamp
-                                          ).toLocaleString()}
-                                        </span>
-                                      </li>
-                                    ))}
-                                </ul>
-                              </div>
+                                      </div>
+                                      <span className="flex w-full justify-end pr-4">
+                                        {new Date(
+                                          comment.timeStamp
+                                        ).toLocaleString()}
+                                      </span>
+                                    </li>
+                                  ))}
+                              </ul>
                             </div>
                           </div>
                         </div>
-                      )}
-                    </div>
-                  </td>
+                      </div>
+                    )}
+                  </div>
                 </tr>
               ))}
             </tbody>
