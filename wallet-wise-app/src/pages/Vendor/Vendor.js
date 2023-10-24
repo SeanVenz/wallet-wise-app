@@ -13,7 +13,7 @@ import {
   updateDoc,
 } from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import close from '../../images/close.png'
+import closeButton from '../../images/close.png'
 import { sendEmail } from "utils/contact";
 
 function Vendor() {
@@ -399,7 +399,7 @@ function Vendor() {
                           <div className=" flex flex-col h-full">
                             <div className="close-button flex w-full justify-end">
                               <img
-                                src= {close}
+                                src= {closeButton}
                                 alt="close"
                                 onClick={handleCloseCommentModal}
                                 // className="pt-2"
