@@ -89,7 +89,6 @@ const signUpVendor = async (
 
 const sendVerificationEmail = async (user) => {
   if (user) {
-    console.log("Sending verification email to:", user.email); // Log the email being sent to
     await sendEmailVerification(user);
   } else {
     console.log("No user provided to sendVerificationEmail"); // Log if no user is provided

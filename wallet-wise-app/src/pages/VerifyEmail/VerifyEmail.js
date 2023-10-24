@@ -53,7 +53,7 @@ const VerifyEmail = () => {
           {emailSent ? (
             <p>Verification email sent</p>
           ) : (
-            <p>We've sent a verification code to your email</p>
+            <p>We've sent a verification link to your email</p>
           )}
         </div>
         <div className="verify-message-parent">

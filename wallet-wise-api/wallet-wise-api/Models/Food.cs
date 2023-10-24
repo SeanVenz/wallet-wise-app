@@ -12,9 +12,9 @@ public class Food
     [FirestoreProperty]
     public bool isAvailable { get; set; }
     [FirestoreProperty]
-    public int Price { get; set; }
+    public string? Price { get; set; }
     [FirestoreProperty]
-    public int? Quantity { get; set; }
+    public string? Quantity { get; set; }
     [FirestoreProperty]
     public string? ImageUrl { get; set; }
     public IFormFile? File { get; set; }

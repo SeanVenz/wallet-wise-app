@@ -43,7 +43,6 @@ export const getFoods = async () => {
   const vendorFoodQuery = query(vendorFoodCollection);
   const vendorFoodSnapshot = await getDocs(vendorFoodQuery);
   
-  console.log(vendorFoodSnapshot.docs);
   return vendorFoodSnapshot.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
@@ -94,7 +93,6 @@ export const addFood = async ({
       foodId: foodId,
     });
 
-    console.log("Food item added with ID:", foodId);
   } catch (error) {
     console.error("Error adding food item:", error);
     throw error;

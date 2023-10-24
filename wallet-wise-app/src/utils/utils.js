@@ -105,7 +105,6 @@ export const approveVendor = async (uid) => {
 export const deleteDocRef = async(user) => {
   const userRef = doc(db, "users", user.id);
   await deleteDoc(userRef);
-  console.log("successfully deleted")
 }
 
 export const getAllOrdersHistory = async () => {

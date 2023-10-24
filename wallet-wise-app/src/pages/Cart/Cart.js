@@ -48,7 +48,6 @@ function Cart() {
       setNumber(fetchedNumbers);
       setQuantity(fetchedQuantities);
 
-      console.log(items);
       setCartItems(items);
     } catch (error) {
       console.error("Error fetching cart items:", error);

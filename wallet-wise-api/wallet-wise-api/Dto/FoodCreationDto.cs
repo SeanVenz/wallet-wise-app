@@ -17,10 +17,10 @@ public class FoodCreationDto
     public bool isAvailable { get; set; }
     [FirestoreProperty]
     [Required(ErrorMessage = "Quantity is Required!")]
-    public int Quantity { get; set; }
+    public string Quantity { get; set; }
     [Required(ErrorMessage = "Price is Required!")]
     [FirestoreProperty]
-    public int Price { get; set; }
+    public string Price { get; set; }
 
     [Required(ErrorMessage = "Image is Required!")]
     public IFormFile? File { get; set; }

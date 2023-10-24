@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { addFood, getVendorFoods, addAllFood } from "../../service/FoodService";
 import { auth, db } from "../../utils/firebase";
 import "./Vendor.scss";
-import { deleteDoc, doc, getDoc, updateDoc } from "@firebase/firestore";
+import { collection, deleteDoc, doc, getDoc, getDocs, orderBy, query, updateDoc } from "@firebase/firestore";
 import { useNavigate } from "react-router-dom";
-import closeButton from "../../images/close.png"; 
+import closeButton from "../../images/close.png";
 import { sendEmail } from "utils/contact";
 
 function Vendor() {
@@ -22,7 +22,27 @@ function Vendor() {
   const [textarea, setTextarea] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionMessage, setSubmissionMessage] = useState("");
-  const [fullName, setFullName] = useState("")
+  const [fullName, setFullName] = useState("");
+  const [showCommentModal, setShowCommentModal] = useState(false);
+  const [userComments, setUserComments] = useState([]);
+  const [userComment, setUserComment] = useState("");
+
+  const handleCloseCommentModal = () => {
+    setShowCommentModal(false);
+  };
+
+  const fetchComments = async (id) => {
+    const foodId = id;
+    const commentsRef = collection(db, "food", foodId, "comments");
+
+    // Query the comments collection and order by timestamp in ascending order
+    const commentQuery = query(commentsRef, orderBy("timeStamp"));
+
+    const querySnapshot = await getDocs(commentQuery);
+    const commentsData = querySnapshot.docs.map((doc) => doc.data());
+
+    setUserComments(commentsData);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -63,7 +83,6 @@ function Vendor() {
         const userId = auth.currentUser.uid;
         const foodsData = await getVendorFoods(userId);
         setFoods(foodsData);
-        console.log(foodsData);
       } catch (error) {
         console.error("Error fetching vendor foods:", error);
       }
@@ -247,6 +266,11 @@ function Vendor() {
     }
   };
 
+  const handleOpenCommentModal = (foodId) => {
+    fetchComments(foodId);
+    setShowCommentModal(true);
+  };
+
   return (
     <div className="h-screen w-screen gap-10 flex flex-col main-page justify-between">
       <div className="w-full px-[60px] lg:px-10 flex flex-row justify-between items-end lg:items-center title-add-button">
@@ -352,6 +376,67 @@ function Vendor() {
                       >
                         Remove
                       </button>
+                    </div>
+                    <p onClick={() => handleOpenCommentModal(food.id)}>Comments</p>
+                    <div className="comments">
+                      {showCommentModal && (
+                        <div className="comment-modal">
+                          <div className="comment-modal-content w-[70%] md:w-[50%] lg:w-[30%]">
+                            <div className=" flex flex-col h-full">
+                              <div className="close-button flex w-full justify-end">
+                                <img
+                                  src={closeButton}
+                                  alt="close"
+                                  onClick={handleCloseCommentModal}
+                                  className="pt-2"
+                                />
+                              </div>
+                              <div className="flex flex-col h-full">
+                                <h2 className=" font-[source-code-pro] text-[20px]">
+                                  Comments:
+                                </h2>
+                                <ul
+                                  className="overflow-y-auto custom-inner-shadow rounded-3xl p-3  w-[100%] h-full"
+                                  style={{
+                                    scrollbarWidth: "thin",
+                                    scrollbarColor: "transparent transparent",
+                                  }}
+                                >
+                                  {userComments
+                                    .reverse()
+                                    .map((comment, index) => (
+                                      <li
+                                        key={index}
+                                        className="flex flex-col py-1"
+                                      >
+                                        <div className="flex flex-col w-full px-5 bg-blue-200 rounded-lg shadow-inner py-2">
+                                          <strong className="w-full flex">
+                                            {comment.userName}
+                                          </strong>
+                                          <div
+                                            className="px-4 w-full text-justify"
+                                            style={{
+                                              maxWidth: "100%",
+                                              wordWrap: "break-word",
+                                              alignItems: "start",
+                                            }}
+                                          >
+                                            {comment.comment}
+                                          </div>
+                                        </div>
+                                        <span className="flex w-full justify-end pr-4">
+                                          {new Date(
+                                            comment.timeStamp
+                                          ).toLocaleString()}
+                                        </span>
+                                      </li>
+                                    ))}
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </td>
                 </tr>

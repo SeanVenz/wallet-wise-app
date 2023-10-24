@@ -52,6 +52,13 @@
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
   }
 
+  .chat-received-parent{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   .chat-header-data {
     display: flex;
     flex-direction: row;
@@ -76,6 +83,7 @@
     background-color: white;
     color: black;
     font-family: Source Code Pro;
+    width: 50%;
 
     &:hover {
       background-color: #ff93ad;
@@ -87,6 +95,8 @@
     display: flex;
     justify-content: center;
     padding-bottom: 10px;
+    align-items: center;
+    flex-direction: column;
   }
 
   .order-delivered-parent {

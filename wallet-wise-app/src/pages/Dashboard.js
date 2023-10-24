@@ -38,7 +38,6 @@ const Dashboard = () => {
       try {
         const foodsData = await getFoods();
         setFoods(foodsData);
-        console.log("here: ", foodsData);
       } catch (error) {
         console.error("Error fetching foods:", error);
       }

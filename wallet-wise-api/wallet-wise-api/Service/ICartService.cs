@@ -52,7 +52,7 @@
         /// Completes the checkout process for the user's shopping cart.
         /// </summary>
         /// <param name="userId">The user's unique identifier.</param>
-        public Task Checkout(string userId);
+        //public Task Checkout(string userId);
 
         /// <summary>
         /// Updates the quantity of a food item in the user's shopping cart.

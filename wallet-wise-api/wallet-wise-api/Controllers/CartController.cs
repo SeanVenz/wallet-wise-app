@@ -125,22 +125,22 @@ namespace wallet_wise_api.Controllers
         /// Initiates the checkout process for the user's cart.
         /// </summary>
         /// <param name="userId">The user's unique identifier.</param>
-        [HttpPost("checkout", Name = "Checkout")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Checkout([FromQuery] string userId)
-        {
-            try
-            {
-                await _service.Checkout(userId);
-                return NoContent();
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex.Message);
-                return StatusCode(500, "Something went wrong");
-            }
-        }
+        //[HttpPost("checkout", Name = "Checkout")]
+        //[ProducesResponseType(StatusCodes.Status204NoContent)]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //public async Task<IActionResult> Checkout([FromQuery] string userId)
+        //{
+        //    try
+        //    {
+        //        await _service.Checkout(userId);
+        //        return NoContent();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex.Message);
+        //        return StatusCode(500, "Something went wrong");
+        //    }
+        //}
 
         /// <summary>
         /// Marks that the user has a current order.
