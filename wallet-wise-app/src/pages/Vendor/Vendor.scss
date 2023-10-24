@@ -29,6 +29,13 @@
       }
     }
   }
+
+  .comments-link{
+    &:hover{
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
   p {
     font-family: Source Code Pro;
     font-weight: 800;
