@@ -72,14 +72,14 @@ namespace wallet_wise_api_tests.Service
             //Arrange
             var foodModel = new List<Food>
             {
-                new Food { FoodType = "Type1", Name = "Food1", Price = 10, isAvailable = true, ImageUrl = "image1.png" },
-                new Food { FoodType = "Type2", Name = "Food2", Price = 20, isAvailable = false, ImageUrl = "image2.png" }
+                new Food { FoodType = "Type1", Name = "Food1", Price = "10", isAvailable = true, ImageUrl = "image1.png" },
+                new Food { FoodType = "Type2", Name = "Food2", Price = "20", isAvailable = false, ImageUrl = "image2.png" }
             };
 
             var foodDto = new List<FoodDto>
             {
-                new FoodDto { FoodType = "Type1", Name = "Food1", Price = 10, isAvailable = true, ImageUrl = "image1.png" },
-                new FoodDto { FoodType = "Type2", Name = "Food2", Price = 20, isAvailable = false, ImageUrl = "image2.png" }
+                new FoodDto { FoodType = "Type1", Name = "Food1", Price = "10", isAvailable = true, ImageUrl = "image1.png" },
+                new FoodDto { FoodType = "Type2", Name = "Food2", Price = "20", isAvailable = false, ImageUrl = "image2.png" }
             };
 
             _mockFoodRepository.Setup(repository => repository.GetAllFoods())
