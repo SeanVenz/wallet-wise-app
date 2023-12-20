@@ -1,3 +1,0 @@
-# wallet-wise-app
-
-test
